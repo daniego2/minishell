@@ -60,6 +60,7 @@ int	main(int argc, char **argv, char **env)
 		// WARNING: BE CAREFUL WITH FREEING THE TOKENS AS THEY PARTLY SHARE MEMORY WITH THE COMMANDS.
 		free_tokens(tokens);
 		free_pipeline(pipeline);
+		free(tokenizer->text);
 		tokenizer->text = NULL;
 		text = readline("> ");
 		printf("Text: %s\n", text);

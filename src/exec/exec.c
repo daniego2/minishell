@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/01 14:07:39 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:15:16 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	create_fork(char **argv, t_cmd *token, char *path, t_env *env)
 		ft_error(token, "Error: Fork failed");
 	if (pid == 0)
 	{
-		printf("FILHO\n");
 		if (token->out_fd != -1)
 		{
 			safe_dup2(token, token->out_fd, STDOUT_FILENO, 1);
@@ -48,10 +47,21 @@ void	create_fork(char **argv, t_cmd *token, char *path, t_env *env)
 		}
 		execve(path, token->command, assemble_env(env));
 	}
-	printf("PATER\n");
 	close (fd[1]);
-	printf("fd[1] closed\n");
-	safe_dup2(token, fd[0], STDIN_FILENO, 0);
+	if(token->next != NULL)
+	{
+		printf("antes de safe dup2\n");
+		token->next->in_fd = fd[0];
+		safe_dup2(token, fd[0], STDIN_FILENO, 0);
+	}
+	else
+	{
+		printf("antes de safe dup2 else\n");
+		//safe_dup2(token, fd[0], STDIN_FILENO, 0);
+		close(fd[0]);
+	}
+	waitpid(pid, NULL, 0);
+	//close (fd[1]);
 }
 	
 
