@@ -21,11 +21,11 @@ void print_assembled_env(char **env)
 	}
 }
 
-void init_token(t_token **token)
+void init_cmd(t_cmd **token)
 {
-	t_token *aux = *token;
-	t_token *aux2;
-	t_token *aux3;
+	t_cmd *aux = *token;
+	t_cmd *aux2;
+	t_cmd *aux3;
 	t_redir *redir;
 	t_redir *redir2;
 	char **environment;
@@ -42,7 +42,7 @@ void init_token(t_token **token)
 
 	aux->next = NULL;
 
- 	aux->next = malloc(sizeof(t_token));
+ 	aux->next = malloc(sizeof(t_cmd));
 	aux = aux->next;
 
 	redir = malloc(sizeof(t_redir));
@@ -75,7 +75,7 @@ void init_token(t_token **token)
 	aux->command[0] = "cat\0";
 	aux->command[1] = "hola.txt\0";
 	aux->command[2] = NULL;
-	aux2 = malloc(sizeof(t_token));
+	aux2 = malloc(sizeof(t_cmd));
 	aux->next = aux2;
 
 	aux2->command = malloc(sizeof(char *) * 7);
@@ -100,14 +100,14 @@ void init_token(t_token **token)
 	aux->command[0] = "export\0";
 	aux->command[1] = "CHARIZARD=ennove\0";
 	aux->command[2] = NULL;
-	aux2 = malloc(sizeof(t_token));
+	aux2 = malloc(sizeof(t_cmd));
 	aux->next = aux2;
 
 	aux2->command = malloc(sizeof(char *) * 2);
 	aux2->command[0] = "unset\0";
 	aux2->command[1] = "USER\0";
 	aux2->command[2] = NULL;
-	aux3 = malloc(sizeof(t_token));
+	aux3 = malloc(sizeof(t_cmd));
 	aux2->next = aux3;
 
 	aux3->command = malloc(sizeof(char *) * 2);
@@ -143,7 +143,7 @@ void init_token(t_token **token)
 	aux->command[1] = "-l\0";
 	aux->command[2] = NULL;
 	aux->redir = redir;
-	aux2 = malloc(sizeof(t_token));
+	aux2 = malloc(sizeof(t_cmd));
 	aux->next = aux2;
 
 	redir2 = malloc(sizeof(t_redir));

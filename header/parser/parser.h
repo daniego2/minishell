@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:34:30 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/03/28 14:38:50 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:33:34 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "parser_types.h"
 
-t_command_node	*parse_tokens(t_token *first_token);
+t_cmd	*parse_tokens(t_token *first_token);
 
 #endif

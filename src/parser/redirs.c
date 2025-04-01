@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:15:40 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/03/28 14:53:47 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:33:34 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "utils1.h"
 #include <assert.h> // WARN: Delete.
 
-static t_redir	*append_new_redir(t_command_node *command_node)
+static t_redir	*append_new_redir(t_cmd *command_node)
 {
 	t_redir	*new_redir;
 	t_redir	*redir_cursor;
@@ -29,9 +29,9 @@ static t_redir	*append_new_redir(t_command_node *command_node)
 	else
 	{
 		redir_cursor = command_node->redir;
-		while (redir_cursor->next_redir != NULL)
-			redir_cursor = redir_cursor->next_redir;
-		redir_cursor->next_redir = new_redir;
+		while (redir_cursor->next != NULL)
+			redir_cursor = redir_cursor->next;
+		redir_cursor->next = new_redir;
 	}
 	return (new_redir);
 }
@@ -66,7 +66,7 @@ static void	set_redir_filename(t_redir *redir, t_token *token)
 	}
 }
 
-t_token	*parse_redirections(t_command_node *command_node, t_token *token)
+t_token	*parse_redirections(t_cmd *command_node, t_token *token)
 {
 	t_redir	*redir;
 

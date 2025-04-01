@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:35:13 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/03/28 14:20:04 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:31:54 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "tokenizer_helper.h"
 #include "utils1.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 static t_token	*create_token(void *substr, int len)
 {
@@ -64,7 +65,9 @@ static t_token	*get_next_token(t_tokenizer *t)
 	t_token	*token;
 	int		pair;
 
+
 	skip_whitespace(t);
+
 	substr = &(t->text[t->cursor]);
 	word_len = 0;
 	while (t->text[t->cursor + word_len] != 0 && !ft_isspace(t->text[t->cursor

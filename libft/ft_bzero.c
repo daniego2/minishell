@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 19:28:24 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/01 13:03:13 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:45:02 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // Writes n '\0' to the string s. If n = 0, it does nothing.
 
-void	*ft_bzero(void *str, size_t n)
+void	ft_bzero(void *str, size_t n)
 {
 	char	*a;
 	size_t	i;
@@ -26,5 +26,4 @@ void	*ft_bzero(void *str, size_t n)
 		a[i] = '\0';
 		i++;
 	}
-	return (a);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:25:22 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/03/28 14:26:41 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:33:34 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 # include "parser_types.h"
 
-t_token	*parse_redirections(t_command_node *command_node, t_token *token);
+t_token	*parse_redirections(t_cmd *command_node, t_token *token);
 
 #endif

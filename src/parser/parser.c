@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:13:30 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/03/28 14:40:07 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:33:34 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,24 @@
 #include <assert.h>
 #include <stdio.h>
 
-static t_command_node	*create_pipeline(void)
+static t_cmd	*create_pipeline(void)
 {
-	t_command_node	*command_node;
+	t_cmd	*command_node;
 
-	command_node = ft_calloc(1, sizeof(t_command_node));
+	command_node = ft_calloc(1, sizeof(t_cmd));
 	if (command_node == NULL)
 		return (NULL);
 	return (command_node);
 }
 
-static t_command_node	*append_new_command_node(t_command_node *pipeline)
+static t_cmd	*append_new_command_node(t_cmd *pipeline)
 {
-	t_command_node	*command_node;
+	t_cmd	*command_node;
 
 	command_node = pipeline;
 	while (command_node->next != NULL)
 		command_node = command_node->next;
-	command_node->next = ft_calloc(1, sizeof(t_command_node));
+	command_node->next = ft_calloc(1, sizeof(t_cmd));
 	command_node = command_node->next;
 	if (command_node == NULL)
 	{
@@ -57,15 +57,15 @@ static int	count_word_tokens_in_sequence(t_token *token)
 	return (number_of_word_tokens_in_sequence);
 }
 
-static t_token	*parse_command(t_command_node *command_node, t_token *token)
+static t_token	*parse_command(t_cmd *command_node, t_token *token)
 {
 	int	i;
 	int	word_token_count;
 
 	word_token_count = count_word_tokens_in_sequence(token);
-	command_node->command_str_arr = ft_calloc(word_token_count + 1,
+	command_node->command = ft_calloc(word_token_count + 1,
 			sizeof(char *));
-	if (command_node->command_str_arr == NULL)
+	if (command_node->command == NULL)
 	{
 		// TODO: Handle error.
 		return (NULL);
@@ -74,7 +74,7 @@ static t_token	*parse_command(t_command_node *command_node, t_token *token)
 	while (i < word_token_count)
 	{
 		// WARN: It's a problem if I free the token's memory. Copy instead if need be.
-		command_node->command_str_arr[i] = token->str;
+		command_node->command[i] = token->str;
 		token = token->next;
 		i++;
 	}
@@ -82,10 +82,10 @@ static t_token	*parse_command(t_command_node *command_node, t_token *token)
 }
 
 // TODO: What to do on parse error?
-t_command_node	*parse_tokens(t_token *first_token)
+t_cmd	*parse_tokens(t_token *first_token)
 {
-	t_command_node	*command_node;
-	t_command_node	*pipeline;
+	t_cmd	*command_node;
+	t_cmd	*pipeline;
 	t_token			*token;
 
 	token = first_token;

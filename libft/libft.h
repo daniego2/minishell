@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 21:03:44 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/01 13:11:40 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:44:04 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_list
 
 int		ft_isalnum(int c);
 void	*ft_memmove(void *dest, const void *src, size_t len);
-void	*ft_bzero(void *str, size_t n);
+void	ft_bzero(void *str, size_t n);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);
 int		ft_isdigit(int c);

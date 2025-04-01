@@ -6,13 +6,13 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:27 by daniego2          #+#    #+#             */
-/*   Updated: 2025/02/25 15:34:03 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:36:51 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*path_finder(char **path_batch, char *target, t_token *token)
+char	*path_finder(char **path_batch, char *target, t_cmd *token)
 {
 	int		i;
 	char	*path_cpy;
@@ -37,7 +37,7 @@ char	*path_finder(char **path_batch, char *target, t_token *token)
 	return (path_cpy);
 }
 
-char	**get_path(char **env, t_token *token, char *path)
+char	**get_path(char **env, t_cmd *token, char *path)
 {
 	int		i;
 	char	**path_batch;
@@ -51,7 +51,7 @@ char	**get_path(char **env, t_token *token, char *path)
 	return (path_batch);
 }
 
-void	ft_error(t_token *token, char *message)
+void	ft_error(t_cmd *token, char *message)
 {
 	//close(token->prev_fd);
 	ft_putstr_fd(message, 1);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   parser_types.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:57:39 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/03/28 14:12:13 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:39:56 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,16 @@ typedef struct s_redir
 {
 	char					*filename;
 	enum redir_type			type;
-	struct s_redir			*next_redir;
+	struct s_redir			*next;
 }							t_redir;
 
-typedef struct s_command_node
+typedef struct s_cmd
 {
-	char **command_str_arr; // NOTE: program_name + args + NULL
-	struct s_command_node	*next;
+	char **command; // NOTE: program_name + args + NULL
+	struct s_cmd	*next;
+	int		in_fd;
+	int		out_fd;
 	t_redir					*redir;
-}							t_command_node;
+}							t_cmd;
 
 #endif
