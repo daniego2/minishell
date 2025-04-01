@@ -15,8 +15,8 @@
 #include "quote_cleanup.h"
 #include "tokenizer_helper.h"
 #include "utils1.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 static t_token	*create_token(void *substr, int len)
 {
@@ -65,9 +65,7 @@ static t_token	*get_next_token(t_tokenizer *t)
 	t_token	*token;
 	int		pair;
 
-
 	skip_whitespace(t);
-
 	substr = &(t->text[t->cursor]);
 	word_len = 0;
 	while (t->text[t->cursor + word_len] != 0 && !ft_isspace(t->text[t->cursor
@@ -119,6 +117,5 @@ t_token	*tokenize(t_tokenizer *tokenizer)
 			// printf("(clean) %d: %s\n", token->type, token->str);
 		}
 	}
-	free(tokenizer);
 	return (first_token);
 }
