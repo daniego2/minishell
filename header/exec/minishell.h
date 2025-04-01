@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/02/05 20:39:31 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:23:48 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,37 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdio.h>
-# include "../libft/libft.h"
+# include "libft/libft.h"
 # include <stdlib.h>
 # include <fcntl.h>
+#include <sys/wait.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
-typedef struct s_pipex
+typedef enum glosary
 {
-	int		out_fd;
-	int		prev_fd;
-	char	*path;
-	char	**path_batch;
+	IN,
+	INN,
+	OUT,
+	OUTT
+}	t_glosary;
+
+typedef struct s_redir
+{
+	char 	*filename;
+	int 	type;
+	struct	s_redir *next;
+}	t_redir;
+
+typedef struct s_token
+{
 	char	**command;
-	char 	**env;
-	struct	s_pipex *next;
-}	t_pipex;
+	int		in_fd;
+	int		out_fd;
+	struct	s_token *next;
+	struct	s_token *prev;
+	struct	s_redir *redir;
+}	t_token;
 
 typedef struct s_env
 {
@@ -38,18 +55,6 @@ typedef struct s_env
 	struct s_env *next;
 }	t_env;
 
-typedef struct s_token  //David dice que esto es una puta mierda y que no se debe hacer asi
-{
-	int argc;
-	char **argv;
-	char **command;
-	t_list *redireciones;
-	t_list *enviroment_ramon;
-	int fd[2];
-	char *flag;
-	struct s_token *next;
-	char *path;
-}	t_token;
 
 void			print_env (t_env *env);
 void			free_env(t_env *env);
@@ -60,25 +65,42 @@ char			**assemble_env(t_env *env);
 void 			get_env(char **env, t_env **environment);
 
 // PIPEX.C:
-void	execute_process(t_pipex *t_pipex, int fd[2]);
-void	setup_child(t_pipex *t_pipex, int fd[2]);
-void	create_fork(char **argv, t_pipex *t_pipex);
-int		main(int argc, char **argv, char **env);
-void 	do_pipex(char **env, t_pipex *t_pipex);
+void	safe_dup2(t_token *token, int fd1, int fd2, int mustclose);
+void	create_fork(char **argv, t_token *token, char *path, t_env *env);
+int		check_path(t_token *token, char **env);
+void 	exec(t_env *env, t_token *token);
 
 
 // PIPEX_UTILS.C:
-t_pipex	*init_struct(void);
-char	*path_finder(char **path_batch, char *target);
-char	**get_path(char **env, t_pipex *t_pipex);
-void	ft_error(char *message);
+
+char	*path_finder(char **path_batch, char *target, t_token *token);
+char	**get_path(char **env, t_token *token, char *path);
+void	ft_error(t_token *token, char *message);
 void	ft_free_array(char **array);
 
 
 // TEST_FUNCTIONS.C:
 void	print_env (t_env *environment);
 void	print_assembled_env(char **env);
-void 	init_token(t_token *token);
-void 	init_pipex(t_pipex **t_pipex);
+void 	init_token(t_token **token);
+
+
+// BUILT-INS:
+int		is_builtin(char *command);
+void 	exec_builtin(t_token *token, char **command, t_env *env);
+void 	exec_pwd(void);
+void 	exec_echo(char **argv);
+void 	exec_env(t_env *env);
+void 	exec_export (t_env **env, char **command);
+void 	exec_unset(t_env **env, char **command);
+void 	exec_cd(char **argv);
+
+// REDIRECTIONS.C:
+int		get_out_fd(t_token *token);
+int 	get_in_fd(t_token *token);
+int 	here_doc(char *filename);
+int		here_doc_eof(char *line, char *eof);
+
+// 
 
 #endif

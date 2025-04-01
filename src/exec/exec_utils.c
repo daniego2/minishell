@@ -1,37 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:27 by daniego2          #+#    #+#             */
-/*   Updated: 2025/02/05 20:01:31 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/02/25 15:34:03 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_pipex	*init_struct(void)
-{
-	t_pipex	*pipex;
-
-	pipex = malloc(sizeof(t_pipex));
-	pipex->prev_fd = 0;
-	pipex->out_fd = 1;
-	pipex->path = NULL;
-	return (pipex);
-}
-
-char	*path_finder(char **path_batch, char *target)
+char	*path_finder(char **path_batch, char *target, t_token *token)
 {
 	int		i;
 	char	*path_cpy;
 	char	*temp;
 
+	temp = NULL;
 	path_cpy = NULL;
 	i = 0;
-	while (path_batch[i])
+	while (path_batch[i] && target && *target)
 	{
 		temp = ft_strjoin(path_batch[i], "/");
 		path_cpy = ft_strjoin(temp, target);
@@ -43,27 +33,30 @@ char	*path_finder(char **path_batch, char *target)
 		i++;
 	}
 	if (!path_cpy)
-		ft_error("Error: No path found");
+		ft_error(token, "Error: No path found");
 	return (path_cpy);
 }
 
-char	**get_path(char **env, t_pipex *t_pipex)
+char	**get_path(char **env, t_token *token, char *path)
 {
 	int		i;
-	char	**path;
+	char	**path_batch;
 
 	i = 0;
 	while (ft_strncmp(env[i], "PATH=", 5) != 0)
 		i++;
-	t_pipex->path = ft_strdup(env[i] + 5);
-	path = ft_split(t_pipex->path, ':');
-	free(t_pipex->path);
-	return (path);
+	path = ft_strdup(env[i] + 5);
+	path_batch = ft_split(path, ':');
+	free(path);
+	return (path_batch);
 }
 
-void	ft_error(char *message)
+void	ft_error(t_token *token, char *message)
 {
+	//close(token->prev_fd);
 	ft_putstr_fd(message, 1);
+	free(token);
 	exit(2);
 }
+
 
