@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int main(int argc, char **argv, char **env)
+int run_pipeline(char **env)
 {
     t_env *environment;
 	char **assembled_env;

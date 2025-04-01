@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 17:57:32 by daniego2          #+#    #+#             */
-/*   Updated: 2023/12/21 20:18:09 by daniego2         ###   ########.fr       */
+/*   Created: 2023/12/02 20:11:12 by daniego2          #+#    #+#             */
+/*   Updated: 2025/04/01 13:04:13 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-// Copies n bytes from "src" to "dest". It doesn't contemplates overlapping.
-// Returns the original value of "dest".
+// Allocate memory and fills it with '\0'. 
+// Returns a ptr to the allocated memory.
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+void	*ft_calloc(size_t n, size_t size)
 {
-	size_t	i;
+	void	*block;
 
-	if (!dest && !src && n)
-	{
-		return (0);
-	}
-	i = 0;
-	while (i < n)
-	{
-		((unsigned char *)dest)[i] = ((unsigned char *)src)[i];
-		i++;
-	}
-	return (dest);
+	block = malloc(n * size);
+	if (block == NULL)
+		return (NULL);
+	ft_bzero(block, n * size);
+	return (block);
 }

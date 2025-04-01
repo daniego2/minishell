@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/01 12:23:48 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:52:27 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdio.h>
-# include "libft/libft.h"
+# include "../../libft/libft.h"
 # include <stdlib.h>
 # include <fcntl.h>
 #include <sys/wait.h>

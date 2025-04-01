@@ -29,7 +29,7 @@ static t_tokenizer	*init_tokenizer(char *text)
 	return (tokenizer);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **env)
 {
 	char			*text;
 	t_tokenizer		*tokenizer;
@@ -39,17 +39,26 @@ int	main(void)
 	// TESTING
 	// text = "Hello\"I like asdf to eat cake on\"ABCDE Wednesdays.";
 	// text = "I like asdf\"to eat cake on adfs Wednesdays.";
-	text = "\"I like\" asdf\"to eat\"HHH\"cake on\" adfs Wednesdays.";
+
+/* 	text = "\"I like\" asdf\"to eat\"HHH\"cake on\" adfs Wednesdays.";
 	text = "ls -l > \"output.txt\" | grep \".c\" | wc -l";
 	text = "ls -l -myflag >> \"output.txt\" < yolo.txt | grep \".c\" | wc "
 			"-l << uranus.txt > yomama.txt";
+			 */
 	// FUNCTIONALITY
-	tokenizer = init_tokenizer(text);
-	tokens = tokenize(tokenizer);
-	pipeline = parse_tokens(tokens);
-	test_parsed_pipeline(pipeline);
-	// WARNING: BE CAREFUL WITH FREEING THE TOKENS AS THEY PARTLY SHARE MEMORY WITH THE COMMANDS.
-	// NOTE: These should be moved onto Dani's part.
-	free_tokens(tokens);
-	free_pipeline(pipeline);
+
+	while (1 + 1 == 2)
+	{
+		text = readline("> ");
+		write(1, text, ft_strlen(text));
+        write(1, "\n", 1);
+		tokenizer = init_tokenizer(text);
+		tokens = tokenize(tokenizer);
+		pipeline = parse_tokens(tokens);
+		test_parsed_pipeline(pipeline);
+		run_pipeline(argc, argv, env, pipeline);
+		// WARNING: BE CAREFUL WITH FREEING THE TOKENS AS THEY PARTLY SHARE MEMORY WITH THE COMMANDS.
+		free_tokens(tokens);
+		free_pipeline(pipeline);
+	}
 }

@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 // Esta estrutura me resulta redundante, ya veremos si se simplifica
 

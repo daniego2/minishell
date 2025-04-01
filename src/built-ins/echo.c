@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 
 // Tengo que arreglar el input: 'echo -n -n hola' y 'echo -n-n-n-n-n hola'

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:38:49 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/03/28 14:47:03 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:01:30 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,7 @@ bool	ft_memmatch(char *a, char *b, size_t n)
 	return (true);
 }
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != 0)
-		i++;
-	return (i);
-}
-
+/*
 char	*ft_strdup(char *str)
 {
 	int		i;
@@ -59,3 +50,4 @@ char	*ft_strdup(char *str)
 	}
 	return (new_str);
 }
+*/

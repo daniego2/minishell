@@ -1,50 +1,130 @@
-CC = clang
-NAME = parser
-BUILD_DIR = build
-SRC_DIR = src/parser
-HEADERS_DIR = headers/parser
-MODE ?= prod
-CFLAGS_prod = -Wall -Wextra -Werror
-CFLAGS_dev = -Wall -Wextra -Wunreachable-code -MMD -MP -g
-CFLAGS = $(CFLAGS_$(MODE))
-INCLUDES = -I$(HEADERS_DIR)
-LDFLAGS = 
+#  |  |  ___ \    \  |         |
+#  |  |     ) |  |\/ |   _  |  |  /   _ 
+# ___ __|  __/   |   |  (   |    <    __/ 
+#    _|  _____| _|  _| \__,_| _|\_\ \___|
+#                              by jcluzet
+################################################################################
+#                                     CONFIG                                   #
+################################################################################
 
-# WARNING: Make .c files explicit
-SOURCES = $(wildcard $(SRC_DIR)/*.c)
+NAME        := minishell
+CC        := gcc
+FLAGS    := -g -lreadline #-Wall -Wextra -Werror 
+################################################################################
+#                                 PROGRAM'S SRCS                               #
+################################################################################
 
-OBJECTS = $(addprefix $(BUILD_DIR)/, $(notdir $(SOURCES:.c=.o)))
+INCLUDES = -I libft -I header/exec -I header/parser -I header/built-ins
 
-all: info $(NAME)
-	@echo ------------------------
+SRCS        :=     src/exec/get_env.c \
+					src/exec/memory_cleaner.c \
+					src/exec/list_manager.c \
+					src/exec/assemble_env.c \
+					src/exec/exec.c \
+					src/exec/exec_utils.c \
+					src/exec/test_functions.c \
+					src/exec/minishell_main.c \
+                    src/exec/redirections.c \
+					src/built-ins/builtins_utils.c \
+					src/built-ins/pwd.c \
+					src/built-ins/echo.c \
+					src/built-ins/env.c \
+					src/built-ins/export.c \
+					src/built-ins/unset.c \
+					src/built-ins/cd.c \
+					src/parser/exit.c \
+                    src/parser/free.c \
+                    src/parser/parser.c \
+                    src/parser/parser_main.c \
+                    src/parser/quote_cleanup.c \
+                    src/parser/redirs.c \
+                    src/parser/testing.c \
+                    src/parser/tokenizer.c \
+                    src/parser/tokenizer_helper.c \
+                    src/parser/utils1.c \
+                    src/parser/utils2.c \
+                          libft/ft_atoi.c \
+                          libft/ft_bzero.c \
+                          libft/ft_calloc.c \
+                          libft/ft_isalnum.c \
+                          libft/ft_isalpha.c \
+                          libft/ft_isascii.c \
+                          libft/ft_isdigit.c \
+                          libft/ft_isprint.c \
+                          libft/ft_itoa.c \
+                          libft/ft_lstadd_back_bonus.c \
+                          libft/ft_lstadd_front_bonus.c \
+                          libft/ft_lstclear_bonus.c \
+                          libft/ft_lstdelone_bonus.c \
+                          libft/ft_lstiter_bonus.c \
+                          libft/ft_lstlast_bonus.c \
+                          libft/ft_lstmap_bonus.c \
+                          libft/ft_lstnew_bonus.c \
+                          libft/ft_lstsize_bonus.c \
+                          libft/ft_memchr.c \
+                          libft/ft_memcmp.c \
+                          libft/ft_memcpy.c \
+                          libft/ft_memmove.c \
+                          libft/ft_memset.c \
+                          libft/ft_putchar_fd.c \
+                          libft/ft_putendl_fd.c \
+                          libft/ft_putnbr_fd.c \
+                          libft/ft_putstr_fd.c \
+                          libft/ft_split.c \
+                          libft/ft_strchr.c \
+                          libft/ft_strdup.c \
+                          libft/ft_striteri.c \
+                          libft/ft_strjoin.c \
+                          libft/ft_strlcat.c \
+                          libft/ft_strlcpy.c \
+                          libft/ft_strlen.c \
+                          libft/ft_strmapi.c \
+                          libft/ft_strncmp.c \
+                          libft/ft_strnstr.c \
+                          libft/ft_strrchr.c \
+                          libft/ft_strtrim.c \
+                          libft/ft_substr.c \
+                          libft/ft_tolower.c \
+                          libft/ft_toupper.c \
+						  libft/ft_isspace.c \
+						  libft/ft_strmatch.c \
+					
+                          
+OBJS        := $(SRCS:.c=.o)
 
--include $(OBJECTS:.o=.d)
+.c.o:
+	${CC} ${FLAGS} $(INCLUDES) -c $< -o ${<:.c=.o}
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(BUILD_DIR)
-	@$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
-	@echo "Compiled: $@."
+################################################################################
+#                                  Makefile  objs                              #
+################################################################################
 
-$(NAME): $(OBJECTS)
-	@$(CC) $(OBJECTS) $(LDFLAGS) -o $(NAME)
-	@echo "Linked: $@."
+
+CLR_RMV		:= \033[0m
+RED		    := \033[1;31m
+GREEN		:= \033[1;32m
+YELLOW		:= \033[1;33m
+BLUE		:= \033[1;34m
+CYAN 		:= \033[1;36m
+RM		    := rm -f
+
+${NAME}:	${OBJS}
+			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
+			${CC} ${FLAGS} -o ${NAME} ${OBJS} -lreadline
+			@echo "$(GREEN)$(NAME) created[0m ✔️"
+
+all:		${NAME}
+
+bonus:		all
 
 clean:
-	@rm -rf $(BUILD_DIR)
+			@ ${RM} *.o */*.o */*/*.o
+			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)objs ✔️"
 
-fclean:
-	@$(MAKE) clean
-	@rm -rf $(NAME)
+fclean:		clean
+			@ ${RM} ${NAME}
+			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
 
-re:
-	@$(MAKE) fclean
-	@$(MAKE) all
+re:			fclean all
 
-info:
-	@echo --INFO------------------
-	@echo MODE=$(MODE)
-	@echo CFLAGS= $(CFLAGS)
-	@echo LDFLAGS= $(LDFLAGS)
-	@echo ------------------------
-
-.PHONY: all clean fclean re info
+.PHONY:		all clean fclean re
