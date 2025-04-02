@@ -22,7 +22,7 @@ void	safe_dup2(t_cmd *token, int fd1, int fd2, int mustclose)
 		close(fd1);
 }
 
-void	create_fork(char **argv, t_cmd *token, char *path, t_env *env)
+void	create_fork(t_cmd *token, char *path, t_env *env, int *standard_input)
 {
     int	pid;
 	int fd[2];
@@ -35,33 +35,29 @@ void	create_fork(char **argv, t_cmd *token, char *path, t_env *env)
 	{
 		if (token->out_fd != -1)
 		{
-			safe_dup2(token, token->out_fd, STDOUT_FILENO, 1);
-		}
-		if (token->in_fd != -1)
-		{
-			safe_dup2(token, token->in_fd, STDIN_FILENO, 1);
+			dup2(token->out_fd, STDOUT_FILENO);
 		}
 		else if (token->next != NULL)
 		{
-			safe_dup2(token, fd[1], STDOUT_FILENO, 1);
+			dup2(fd[1], STDOUT_FILENO);
 		}
+		if (token->in_fd != -1)
+		{
+			dup2(token->in_fd, STDIN_FILENO);
+		}
+		else if (*standard_input != STDIN_FILENO)
+		{
+			dup2(*standard_input, STDIN_FILENO);
+		}
+		close(fd[0]);
+		close(fd[1]);
 		execve(path, token->command, assemble_env(env));
 	}
-	close (fd[1]);
-	if(token->next != NULL)
-	{
-		printf("antes de safe dup2\n");
-		token->next->in_fd = fd[0];
-		safe_dup2(token, fd[0], STDIN_FILENO, 0);
-	}
-	else
-	{
-		printf("antes de safe dup2 else\n");
-		//safe_dup2(token, fd[0], STDIN_FILENO, 0);
-		close(fd[0]);
-	}
+	close(fd[1]);
+	if (*standard_input != STDIN_FILENO)
+		close(*standard_input);
 	waitpid(pid, NULL, 0);
-	//close (fd[1]);
+	*standard_input = fd[0];
 }
 	
 
@@ -77,38 +73,40 @@ int	check_path(t_cmd *token, char **env)
 		env++;
 	}
 	ft_error(token, "Error: Path not found");
+	return (1);
 }
 
 void exec(t_env *env, t_cmd *token)
 {
 	char **path_batch;
 	char *path;
-	int in_fd;
-	int	fd[2];
+	int standard_input;
 
+	standard_input = STDIN_FILENO;
 	while (token != NULL)
 	{
-		printf("Executing command\n");
 		token->in_fd = get_in_fd(token);
 		token->out_fd = get_out_fd(token);
 		if (is_builtin(token->command[0]))
 		{
-			exec_builtin(token, token->command, env);
+			exec_builtin(token->command, env);
 		}
 		else
 		{
-			path_batch = get_path(assemble_env(env), token, path);
-			printf("PATH BATCH: %s\n", path_batch[0]);
+			path_batch = get_path(assemble_env(env), path);
 			path = path_finder(path_batch, token->command[0], token);
 			printf("PATH: %s\n", path);
-			create_fork(token->command, token, path, env);
+			create_fork(token, path, env, &standard_input);
 		}
 		if (token->redir && token->redir->type == REDIR_HEREDOC)
 		{
 			unlink(".here_doc");
 		}
-		printf("antes de iterar\n");
 		token = token->next;
-		printf("despues de iterar\n");
+	}
+	
+	if (standard_input != STDIN_FILENO)
+	{
+        close(standard_input);
 	}
 }

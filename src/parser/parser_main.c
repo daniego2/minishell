@@ -18,15 +18,15 @@
 #include "utils1.h"
 #include <stdlib.h>
 
-static t_tokenizer	*init_tokenizer(char *text)
+static t_tokenizer	*init_tokenizer()
 {
 	t_tokenizer	*tokenizer;
 
 	tokenizer = ft_calloc(1, sizeof(t_tokenizer));
 	if (!tokenizer)
 		exit(EXIT_FAILURE);
-	tokenizer->text = text;
-	printf("Tokenizer text: %s\n", tokenizer->text);
+	tokenizer->text = NULL;
+	//printf("Tokenizer text: %s\n", tokenizer->text);
 	return (tokenizer);
 }
 
@@ -37,6 +37,11 @@ int	main(int argc, char **argv, char **env)
 	t_token		*tokens;
 	t_cmd		*pipeline;
 	t_env		*environment;
+
+	if (argc != 1 || !argv)
+	{
+		return (1);
+	}
 
 	environment = malloc(sizeof(t_env));
 	// TESTING
@@ -49,23 +54,32 @@ int	main(int argc, char **argv, char **env)
 					*/
 	// FUNCTIONALITY
 	get_env(env, &environment);
-	text = readline("> ");
-	tokenizer = init_tokenizer(text);
+
+	tokenizer = init_tokenizer();
 	while (true)
 	{
+		text = NULL;
+		text = readline("> ");
+		if (!text)
+		{
+			printf("Exiting...\n");
+			break;
+		}
+		printf("Text: %s\n", text);
+		tokenizer->text = text;
+		printf("Tokenizer text: %s\n", tokenizer->text);
 		tokens = tokenize(tokenizer);
 		pipeline = parse_tokens(tokens);
 		test_parsed_pipeline(pipeline);
 		run_pipeline(environment, pipeline);
 		// WARNING: BE CAREFUL WITH FREEING THE TOKENS AS THEY PARTLY SHARE MEMORY WITH THE COMMANDS.
+/* 		
 		free_tokens(tokens);
 		free_pipeline(pipeline);
-		free(tokenizer->text);
+		free(tokenizer->text); 
+*/
 		tokenizer->text = NULL;
-		text = readline("> ");
-		printf("Text: %s\n", text);
-		tokenizer->text = text;
-		printf("Tokenizer text: %s\n", tokenizer->text);
 		tokenizer->cursor = 0;
+		free(text);
 	}
 }

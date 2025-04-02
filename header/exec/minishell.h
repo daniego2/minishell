@@ -52,7 +52,7 @@ void 			get_env(char **env, t_env **environment);
 
 // PIPEX.C:
 void	safe_dup2(t_cmd *token, int fd1, int fd2, int mustclose);
-void	create_fork(char **argv, t_cmd *token, char *path, t_env *env);
+void	create_fork(t_cmd *token, char *path, t_env *env, int *standard_input);
 int		check_path(t_cmd *token, char **env);
 void 	exec(t_env *env, t_cmd *token);
 
@@ -60,7 +60,7 @@ void 	exec(t_env *env, t_cmd *token);
 // PIPEX_UTILS.C:
 
 char	*path_finder(char **path_batch, char *target, t_cmd *token);
-char	**get_path(char **env, t_cmd *token, char *path);
+char	**get_path(char **env, char *path);
 void	ft_error(t_cmd *token, char *message);
 void	ft_free_array(char **array);
 
@@ -73,7 +73,7 @@ void 	init_cmd(t_cmd **token);
 
 // BUILT-INS:
 int		is_builtin(char *command);
-void 	exec_builtin(t_cmd *token, char **command, t_env *env);
+void 	exec_builtin(char **command, t_env *env);
 void 	exec_pwd(void);
 void 	exec_echo(char **argv);
 void 	exec_env(t_env *env);

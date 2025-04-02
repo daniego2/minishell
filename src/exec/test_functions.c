@@ -1,7 +1,7 @@
 // Estas funciones solo estan para testear cosas, no son parte del proyecto
 
 #include "minishell.h"
-
+/*
 void print_env (t_env *env)
 {
     while (env != NULL)
@@ -30,7 +30,7 @@ void init_cmd(t_cmd **token)
 	t_redir *redir2;
 	char **environment;
 
-
+*/
 /*  TEST 1: ls -l | wc -l > ennove.txt > charizard.txt */
 /*
 	aux->command = malloc(sizeof(char *) * 7);
@@ -166,4 +166,3 @@ void init_cmd(t_cmd **token)
 	aux->command[1] = "built-ins\0";
 	aux->command[2] = NULL;
 */
-}
