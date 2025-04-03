@@ -38,4 +38,5 @@ void exec_builtin(char **command, t_env *env)
 		exec_env(env);
 	else if (ft_strncmp(command[0], "exit", 5) == 0)
 		printf("TO DO");
+	exit(0);
 }

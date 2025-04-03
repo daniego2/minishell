@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/03 15:54:03 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:40:48 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,14 @@ void	create_fork(t_cmd *token, char *path, t_env *env, int *standard_input)
 		}
 		close(fd[0]);
 		close(fd[1]);
-		execve(path, token->command, assemble_env(env));
+		if (is_builtin(token->command[0]))
+		{
+			write (1, "Executing builtin\n", 18);
+			exec_builtin(token->command, env);
+
+		}
+		else
+			execve(path, token->command, assemble_env(env));
 	}
 	close(fd[1]);
 	if (*standard_input != STDIN_FILENO)
@@ -87,16 +94,12 @@ void exec(t_env *env, t_cmd *token)
 	{
 		token->in_fd = get_in_fd(token);
 		token->out_fd = get_out_fd(token);
-		if (is_builtin(token->command[0]))
-		{
-			exec_builtin(token->command, env);
-		}
-		else
-		{
-			path_batch = get_path(assemble_env(env), path);
-			path = path_finder(path_batch, token->command[0], token);
-			create_fork(token, path, env, &standard_input);
-		}
+		path_batch = get_path(assemble_env(env), path);
+		path = path_finder(path_batch, token->command[0], token);
+		printf("Path: %s\n", path);
+		create_fork(token, path, env, &standard_input);
+		printf("Sale del fork\n");
+		
 		if (token->redir && token->redir->type == REDIR_HEREDOC)
 		{
 			unlink(".here_doc");
