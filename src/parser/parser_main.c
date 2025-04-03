@@ -37,7 +37,9 @@ int	main(int argc, char **argv, char **env)
 	t_token		*tokens;
 	t_cmd		*pipeline;
 	t_env		*environment;
+	int exit_status;
 
+	exit_status = 0;
 	if (argc != 1 || !argv)
 	{
 		return (1);
@@ -71,7 +73,8 @@ int	main(int argc, char **argv, char **env)
 		tokens = tokenize(tokenizer);
 		pipeline = parse_tokens(tokens);
 		test_parsed_pipeline(pipeline);
-		exec(environment, pipeline); 
+		exit_status = exec(environment, pipeline); 
+		printf("Exit status: %d\n", exit_status);
 		// WARNING: BE CAREFUL WITH FREEING THE TOKENS AS THEY PARTLY SHARE MEMORY WITH THE COMMANDS.
 /* 		
 		free_tokens(tokens);

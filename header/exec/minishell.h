@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/01 13:50:14 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:56:30 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ void 			get_env(char **env, t_env **environment);
 
 // PIPEX.C:
 void	safe_dup2(t_cmd *token, int fd1, int fd2, int mustclose);
-void	create_fork(t_cmd *token, char *path, t_env *env, int *standard_input);
+int	create_fork(t_cmd *token, char *path, t_env *env, int *standard_input ,int exit_status);
 int		check_path(t_cmd *token, char **env);
-void 	exec(t_env *env, t_cmd *token);
+int 	exec(t_env *env, t_cmd *token);
 
 
 // PIPEX_UTILS.C:

@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/03 16:40:48 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:57:56 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	safe_dup2(t_cmd *token, int fd1, int fd2, int mustclose)
 		close(fd1);
 }
 
-void	create_fork(t_cmd *token, char *path, t_env *env, int *standard_input)
+int	create_fork(t_cmd *token, char *path, t_env *env, int *standard_input, int exit_status)
 {
     int	pid;
 	int fd[2];
@@ -55,7 +55,6 @@ void	create_fork(t_cmd *token, char *path, t_env *env, int *standard_input)
 		{
 			write (1, "Executing builtin\n", 18);
 			exec_builtin(token->command, env);
-
 		}
 		else
 			execve(path, token->command, assemble_env(env));
@@ -63,8 +62,9 @@ void	create_fork(t_cmd *token, char *path, t_env *env, int *standard_input)
 	close(fd[1]);
 	if (*standard_input != STDIN_FILENO)
 		close(*standard_input);
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &exit_status, 0);
 	*standard_input = fd[0];
+	return (exit_status);
 }
 	
 
@@ -83,12 +83,14 @@ int	check_path(t_cmd *token, char **env)
 	return (1);
 }
 
-void exec(t_env *env, t_cmd *token)
+int exec(t_env *env, t_cmd *token)
 {
 	char **path_batch;
 	char *path;
 	int standard_input;
+	int exit_status;
 
+	exit_status = 0;
 	standard_input = STDIN_FILENO;
 	while (token != NULL)
 	{
@@ -97,18 +99,15 @@ void exec(t_env *env, t_cmd *token)
 		path_batch = get_path(assemble_env(env), path);
 		path = path_finder(path_batch, token->command[0], token);
 		printf("Path: %s\n", path);
-		create_fork(token, path, env, &standard_input);
+		exit_status = create_fork(token, path, env, &standard_input, exit_status);
 		printf("Sale del fork\n");
-		
-		if (token->redir && token->redir->type == REDIR_HEREDOC)
-		{
 			unlink(".here_doc");
-		}
 		token = token->next;
 	}
 	
 	if (standard_input != STDIN_FILENO)
 	{
-        close(standard_input);
+		close(standard_input);
 	}
+	return(exit_status);
 }
