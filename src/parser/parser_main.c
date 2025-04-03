@@ -65,13 +65,13 @@ int	main(int argc, char **argv, char **env)
 			printf("Exiting...\n");
 			break;
 		}
-		printf("Text: %s\n", text);
+		//printf("Text: %s\n", text);
 		tokenizer->text = text;
-		printf("Tokenizer text: %s\n", tokenizer->text);
+		//printf("Tokenizer text: %s\n", tokenizer->text);
 		tokens = tokenize(tokenizer);
 		pipeline = parse_tokens(tokens);
 		test_parsed_pipeline(pipeline);
-		run_pipeline(environment, pipeline);
+		exec(environment, pipeline); 
 		// WARNING: BE CAREFUL WITH FREEING THE TOKENS AS THEY PARTLY SHARE MEMORY WITH THE COMMANDS.
 /* 		
 		free_tokens(tokens);

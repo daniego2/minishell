@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/01 17:15:16 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/03 15:54:03 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void exec(t_env *env, t_cmd *token)
 		{
 			path_batch = get_path(assemble_env(env), path);
 			path = path_finder(path_batch, token->command[0], token);
-			printf("PATH: %s\n", path);
 			create_fork(token, path, env, &standard_input);
 		}
 		if (token->redir && token->redir->type == REDIR_HEREDOC)

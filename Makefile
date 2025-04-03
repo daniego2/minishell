@@ -23,7 +23,6 @@ SRCS        :=     src/exec/get_env.c \
 					src/exec/exec.c \
 					src/exec/exec_utils.c \
 					src/exec/test_functions.c \
-					src/exec/minishell_main.c \
                     src/exec/redirections.c \
 					src/built-ins/builtins_utils.c \
 					src/built-ins/pwd.c \
