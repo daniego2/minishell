@@ -21,7 +21,7 @@ int is_builtin(char *command)
 	return (0);
 }
 
-void exec_builtin(t_cmd *token, char **command, t_env *env)
+void exec_builtin(char **command, t_env *env)
 {
 	
 	if (ft_strncmp(command[0], "echo", 4) == 0)

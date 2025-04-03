@@ -46,6 +46,7 @@ void exec_export (t_env **env, char **command)
 	t_env *current;
 
 	current = *env;
+	//AGREGAR CUANDO SOLO ME PASAN EXPORT SIN ARGUMENTOS ORDENAR EL ENV
 	while (current != NULL)
 	{
 		key = get_key(command[1]);

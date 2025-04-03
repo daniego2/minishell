@@ -37,7 +37,7 @@ char	*path_finder(char **path_batch, char *target, t_cmd *token)
 	return (path_cpy);
 }
 
-char	**get_path(char **env, t_cmd *token, char *path)
+char	**get_path(char **env, char *path)
 {
 	int		i;
 	char	**path_batch;
