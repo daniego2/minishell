@@ -15,6 +15,6 @@
 
 # include "parser_types.h"
 
-t_token	*parse_redirections(t_cmd *command_node, t_token *token);
+t_error	parse_redirections(t_cmd *command_node, t_token **token);
 
 #endif
