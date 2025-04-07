@@ -6,13 +6,13 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:27 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/01 13:36:51 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/07 18:04:20 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*path_finder(char **path_batch, char *target, t_cmd *token)
+char	*path_finder(char **path_batch, char *target)
 {
 	int		i;
 	char	*path_cpy;
@@ -32,8 +32,6 @@ char	*path_finder(char **path_batch, char *target, t_cmd *token)
 		path_cpy = NULL;
 		i++;
 	}
-	if (!path_cpy)
-		ft_error(token, "Error: No path found");
 	return (path_cpy);
 }
 

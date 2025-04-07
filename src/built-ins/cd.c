@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void exec_cd(char **argv)
+int exec_cd(char **argv)
 {
 	if (!argv[1])
 	{
@@ -19,4 +19,5 @@ void exec_cd(char **argv)
 		printf("nos vamo a %s\n", argv[1]);
 		chdir(argv[1]);
 	}
+	return (69);
 }

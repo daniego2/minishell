@@ -40,7 +40,7 @@ char *get_key(char *command)
 	return (key);
 }
 
-void exec_export (t_env **env, char **command)
+int exec_export (t_env **env, char **command)
 {
 	char *key;
 	t_env *current;
@@ -49,16 +49,18 @@ void exec_export (t_env **env, char **command)
 	//AGREGAR CUANDO SOLO ME PASAN EXPORT SIN ARGUMENTOS ORDENAR EL ENV
 	while (current != NULL)
 	{
-		key = get_key(command[1]);
+		printf("Key: %s\n", key);
 		if (ft_strncmp(current->key, key, ft_strlen(key)) == 0)
 		{
 			free(current->value);
 			current->value = get_value(command[1]);
-			free(key);
-			return;
+			return (0);
 		}
-		free(key);
 		current = current->next;
 	}
 	add_node(env, get_key(command[1]), get_value(command[1]));
+	printf("Key: %s\n", key);
+	printf("Value: %s\n", get_value(command[1]));
+	
+	return (69);
 }

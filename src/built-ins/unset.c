@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void exec_unset(t_env **env, char **command)
+int exec_unset(t_env **env, char **command)
 {
 	t_env *current_node;
 	t_env *prev_node;
@@ -16,9 +16,10 @@ void exec_unset(t_env **env, char **command)
 				free(current_node->value);
 			free(current_node->key);
 			free(current_node);
-			return;
+			return (420);
 		}
 		prev_node = current_node;
 		current_node = current_node->next;
 	}
+	return (69);
 }

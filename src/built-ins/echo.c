@@ -2,7 +2,7 @@
 
 
 // Tengo que arreglar el input: 'echo -n -n hola' y 'echo -n-n-n-n-n hola'
-void exec_echo(char **argv)
+int exec_echo(char **argv)
 {
 	int i;
 	int newline;
@@ -22,5 +22,6 @@ void exec_echo(char **argv)
 	printf("%s", argv[i]);
 	if (newline)
 		printf("\n");
+	return (69);
 
 }

@@ -45,7 +45,6 @@ int	main(int argc, char **argv, char **env)
 		return (1);
 	}
 
-	environment = malloc(sizeof(t_env));
 	// TESTING
 	// text = "Hello\"I like asdf to eat cake on\"ABCDE Wednesdays.";
 	// text = "I like asdf\"to eat cake on adfs Wednesdays.";
@@ -55,10 +54,11 @@ int	main(int argc, char **argv, char **env)
 				"-l << uranus.txt > yomama.txt";
 					*/
 	// FUNCTIONALITY
-	get_env(env, &environment);
-
+	environment = malloc(sizeof(t_env) * 2);
+	environment = get_env(env);
 	tokenizer = init_tokenizer();
-	while (true)
+
+ 	while (true)
 	{
 		text = NULL;
 		text = readline("> ");
@@ -73,16 +73,15 @@ int	main(int argc, char **argv, char **env)
 		tokens = tokenize(tokenizer);
 		pipeline = parse_tokens(tokens);
 		test_parsed_pipeline(pipeline);
-		exit_status = exec(environment, pipeline); 
-		printf("Exit status: %d\n", exit_status);
-		// WARNING: BE CAREFUL WITH FREEING THE TOKENS AS THEY PARTLY SHARE MEMORY WITH THE COMMANDS.
-/* 		
-		free_tokens(tokens);
-		free_pipeline(pipeline);
-		free(tokenizer->text); 
-*/
+		exit_status = exec(environment, pipeline);
+		// WARNING: BE CAREFUL WITH FREEING THE TOKENS AS THEY PARTLY SHARE MEMORY WITH THE COMMANDS.* 		
+		//free_tokens(tokens);
+		//free_pipeline(pipeline);
+		//free(tokenizer->text); 
+
 		tokenizer->text = NULL;
 		tokenizer->cursor = 0;
 		free(text);
-	}
+	} 
+	return (exit_status); // ONLY FOR -WExtra FLAG
 }
