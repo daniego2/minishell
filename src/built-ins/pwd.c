@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void exec_pwd(void)
+int exec_pwd(void)
 {
 	char	*path;
 
@@ -18,4 +18,5 @@ void exec_pwd(void)
 		printf("%s\n", path);
 	}	
 	free(path);
+	return (69);
 }

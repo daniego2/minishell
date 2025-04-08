@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:08:00 by daniego2          #+#    #+#             */
-/*   Updated: 2025/02/27 17:48:48 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/07 20:52:20 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,13 @@ void add_node(t_env **head, char *key, char *value)
 {
 	t_env *aux;
 
-	if (*head == NULL)
+	if (head == NULL)
 	{
-		*head = create_node(key, value);
-		return ;
+		create_node(key, value);
 	}
-	else
-	{
-		aux = *head;
-		while (aux->next)
-			aux = aux->next;
-		aux->next = create_node(key, value);
-	}
-	return ;
+	aux = *head;
+	while (aux->next)
+		aux = aux->next;
+	aux->next = create_node(key, value);
+
 }

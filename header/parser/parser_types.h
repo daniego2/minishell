@@ -59,6 +59,7 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 	int		in_fd;
 	int		out_fd;
+	int		exit_status;
 	t_redir					*redir;
 }							t_cmd;
 

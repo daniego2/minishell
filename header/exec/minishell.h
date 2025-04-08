@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/01 13:50:14 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/07 20:07:56 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,18 @@ t_env			*create_node(char *key, char *value);
 void			add_node(t_env **head, char *key, char *value);
 int				envsize(t_env *env);
 char			**assemble_env(t_env *env);
-void 			get_env(char **env, t_env **environment);
+t_env 			*get_env(char **env);
 
 // PIPEX.C:
 void	safe_dup2(t_cmd *token, int fd1, int fd2, int mustclose);
-void	create_fork(t_cmd *token, char *path, t_env *env, int *standard_input);
+int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input);
 int		check_path(t_cmd *token, char **env);
-void 	exec(t_env *env, t_cmd *token);
+int 	exec(t_env **env, t_cmd *token);
 
 
 // PIPEX_UTILS.C:
 
-char	*path_finder(char **path_batch, char *target, t_cmd *token);
+char	*path_finder(char **path_batch, char *target);
 char	**get_path(char **env, char *path);
 void	ft_error(t_cmd *token, char *message);
 void	ft_free_array(char **array);
@@ -72,14 +72,15 @@ void 	init_cmd(t_cmd **token);
 
 
 // BUILT-INS:
+int 	is_builtin_pipeless(char *command);
 int		is_builtin(char *command);
-void 	exec_builtin(char **command, t_env *env);
-void 	exec_pwd(void);
-void 	exec_echo(char **argv);
-void 	exec_env(t_env *env);
-void 	exec_export (t_env **env, char **command);
-void 	exec_unset(t_env **env, char **command);
-void 	exec_cd(char **argv);
+int 	exec_builtin(char **command, t_env **env);
+int 	exec_pwd(void);
+int 	exec_echo(char **argv);
+int 	exec_env(t_env **env);
+int 	exec_export (t_env **env, char **command);
+int 	exec_unset(t_env **env, char **command);
+int 	exec_cd(char **argv);
 
 // REDIRECTIONS.C:
 int		get_out_fd(t_cmd *token);
