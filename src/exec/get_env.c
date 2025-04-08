@@ -12,10 +12,11 @@ t_env *get_env(char **env)
     while (env[i] != NULL)
     {
 		
-		line = ft_split(env[i], '=');
+        line = ft_split(env[i], '=');
         if (line)
 		add_node(&environment, line[0], line[1]);
         i++;
     }
+    printf("Env size: %d\n", envsize(environment));
 	return (environment);
 }

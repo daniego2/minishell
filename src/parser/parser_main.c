@@ -37,28 +37,13 @@ int	main(int argc, char **argv, char **env)
 	t_token		*tokens;
 	t_cmd		*pipeline;
 	t_env		*environment;
-	int exit_status;
 
-	exit_status = 0;
 	if (argc != 1 || !argv)
-	{
 		return (1);
-	}
-
-	// TESTING
-	// text = "Hello\"I like asdf to eat cake on\"ABCDE Wednesdays.";
-	// text = "I like asdf\"to eat cake on adfs Wednesdays.";
-	/* 	text = "\"I like\" asdf\"to eat\"HHH\"cake on\" adfs Wednesdays.";
-		text = "ls -l > \"output.txt\" | grep \".c\" | wc -l";
-		text = "ls -l -myflag >> \"output.txt\" < yolo.txt | grep \".c\" | wc "
-				"-l << uranus.txt > yomama.txt";
-					*/
-	// FUNCTIONALITY
 	environment = malloc(sizeof(t_env) * 2);
 	environment = get_env(env);
 	tokenizer = init_tokenizer();
-
- 	while (true)
+	while (true)
 	{
 		text = NULL;
 		text = readline("> ");
@@ -72,16 +57,22 @@ int	main(int argc, char **argv, char **env)
 		//printf("Tokenizer text: %s\n", tokenizer->text);
 		tokens = tokenize(tokenizer);
 		pipeline = parse_tokens(tokens);
+		pipeline->exit_status = 0;
 		test_parsed_pipeline(pipeline);
-		exit_status = exec(environment, pipeline);
+		pipeline->exit_status = exec(&environment, pipeline);
+
 		// WARNING: BE CAREFUL WITH FREEING THE TOKENS AS THEY PARTLY SHARE MEMORY WITH THE COMMANDS.* 		
 		//free_tokens(tokens);
 		//free_pipeline(pipeline);
 		//free(tokenizer->text); 
-
+		
 		tokenizer->text = NULL;
 		tokenizer->cursor = 0;
+		if (ft_strncmp(text, "exit", 4) == 0)
+		{
+			break;
+		}
 		free(text);
-	} 
-	return (exit_status); // ONLY FOR -WExtra FLAG
+	}  
+	return (pipeline->exit_status); // ONLY FOR -WExtra FLAG
 }

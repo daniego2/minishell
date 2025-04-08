@@ -40,27 +40,36 @@ char *get_key(char *command)
 	return (key);
 }
 
-int exec_export (t_env **env, char **command)
+int exec_export(t_env **env, char **command)
 {
 	char *key;
+	char *value;
 	t_env *current;
 
+	if (!command[1])
+	{
+		printf("No hay command[1]\n");
+		return (1);
+	}
+
+	key = get_key(command[1]);
+	value = get_value(command[1]);
+
 	current = *env;
-	//AGREGAR CUANDO SOLO ME PASAN EXPORT SIN ARGUMENTOS ORDENAR EL ENV
 	while (current != NULL)
 	{
-		printf("Key: %s\n", key);
 		if (ft_strncmp(current->key, key, ft_strlen(key)) == 0)
 		{
 			free(current->value);
-			current->value = get_value(command[1]);
+			current->value = strdup(value);
 			return (0);
 		}
 		current = current->next;
 	}
-	add_node(env, get_key(command[1]), get_value(command[1]));
+
+	add_node(env, key, value);
 	printf("Key: %s\n", key);
-	printf("Value: %s\n", get_value(command[1]));
-	
+	printf("Value: %s\n", value);
+	printf("\n\nEnv size: %d\n", envsize(*env));
 	return (69);
 }

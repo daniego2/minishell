@@ -42,17 +42,13 @@ void add_node(t_env **head, char *key, char *value)
 {
 	t_env *aux;
 
-	if (*head == NULL)
+	if (head == NULL)
 	{
-		*head = create_node(key, value);
-		return ;
+		create_node(key, value);
 	}
-	else
-	{
-		aux = *head;
-		while (aux->next)
-			aux = aux->next;
-		aux->next = create_node(key, value);
-	}
-	return ;
+	aux = *head;
+	while (aux->next)
+		aux = aux->next;
+	aux->next = create_node(key, value);
+
 }

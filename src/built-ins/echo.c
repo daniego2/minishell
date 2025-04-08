@@ -22,6 +22,5 @@ int exec_echo(char **argv)
 	printf("%s", argv[i]);
 	if (newline)
 		printf("\n");
-	return (69);
-
+	return (0);
 }

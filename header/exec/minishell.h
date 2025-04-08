@@ -52,9 +52,9 @@ t_env 			*get_env(char **env);
 
 // PIPEX.C:
 void	safe_dup2(t_cmd *token, int fd1, int fd2, int mustclose);
-int	create_fork(t_cmd *token, char *path, t_env *env, int *standard_input ,int exit_status);
+int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input);
 int		check_path(t_cmd *token, char **env);
-int 	exec(t_env *env, t_cmd *token);
+int 	exec(t_env **env, t_cmd *token);
 
 
 // PIPEX_UTILS.C:
@@ -72,11 +72,12 @@ void 	init_cmd(t_cmd **token);
 
 
 // BUILT-INS:
+int 	is_builtin_pipeless(char *command);
 int		is_builtin(char *command);
-int 	exec_builtin(char **command, t_env *env);
+int 	exec_builtin(char **command, t_env **env);
 int 	exec_pwd(void);
 int 	exec_echo(char **argv);
-int 	exec_env(t_env *env);
+int 	exec_env(t_env **env);
 int 	exec_export (t_env **env, char **command);
 int 	exec_unset(t_env **env, char **command);
 int 	exec_cd(char **argv);

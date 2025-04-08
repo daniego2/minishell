@@ -1,11 +1,14 @@
 #include "minishell.h"
 
-int exec_env(t_env *env)
+int exec_env(t_env **env)
 {
-	while (env != NULL)
+	t_env *aux;
+
+	aux = *env;
+	while (aux != NULL)
 	{
-		printf("%s=%s\n", env->key, env->value);
-		env = env->next;
+		printf("%s=%s\n", aux->key, aux->value);
+		aux = aux->next;
 	}
-	return (69);
+	return (0);
 }

@@ -22,7 +22,7 @@ void	safe_dup2(t_cmd *token, int fd1, int fd2, int mustclose)
 		close(fd1);
 }
 
-int	create_fork(t_cmd *token, char *path, t_env *env, int *standard_input, int exit_status)
+int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input)
 {
     int	pid;
 	int fd[2];
@@ -45,18 +45,19 @@ int	create_fork(t_cmd *token, char *path, t_env *env, int *standard_input, int e
 		close(fd[1]);
 		if (is_builtin(token->command[0]))
 		{
-			exit_status = exec_builtin(token->command, env);
+			token->exit_status = exec_builtin(token->command, env);
 			exit(0);
 		}
 		else
-			execve(path, token->command, assemble_env(env));
+			execve(path, token->command, assemble_env(*env));
 	}
 	close(fd[1]);
 	if (*standard_input != STDIN_FILENO)
 		close(*standard_input);
-	waitpid(pid, &exit_status, 0);
+	waitpid(pid, &token->exit_status, 0);
+	printf("exit status: %d\n", token->exit_status);
 	*standard_input = fd[0];
-	return (exit_status);
+	return (token->exit_status);
 }
 	
 
@@ -75,42 +76,40 @@ int	check_path(t_cmd *token, char **env)
 	return (1);
 }
 
-int exec(t_env *env, t_cmd *token)
+int exec(t_env **env, t_cmd *token)
 {
 	char **path_batch;
 	char *path;
 	int standard_input;
-	int exit_status;
+	int aux_status;
 
-	exit_status = 0;
 	standard_input = STDIN_FILENO;
-	if (ft_strncmp(token->command[0], "salida", 6) == 0)
-	{
-		printf("Exit status: %d\n", exit_status);
-		return (exit_status);
-	}
 	while (token != NULL)
 	{
+
 		token->in_fd = get_in_fd(token);
 		token->out_fd = get_out_fd(token);
-		path_batch = get_path(assemble_env(env), path);
+		path_batch = get_path(assemble_env(*env), path);
 		path = path_finder(path_batch, token->command[0]);
 		if (!path && !is_builtin(token->command[0]))
 		{
 			free(path_batch);
 			printf("Error: No hay Path maquinón\n");
-			return (exit_status);
+			return (token->exit_status);
 		}
-		//printf("Path: %s\n", path);
-		exit_status = create_fork(token, path, env, &standard_input, exit_status);
-		//printf("Sale del fork\n");
-			unlink(".here_doc");
+		if (is_builtin_pipeless(token->command[0]))
+		{
+			token->exit_status = exec_builtin(token->command, env);
+		}
+		else
+			token->exit_status = create_fork(token, path, env, &standard_input);
+		unlink(".here_doc");
+		aux_status = token->exit_status;
 		token = token->next;
 	}
-	
 	if (standard_input != STDIN_FILENO)
 	{
 		close(standard_input);
 	}
-	return(exit_status);
+	return(aux_status);
 }
