@@ -64,17 +64,10 @@ typedef struct s_cmd
 {
 	char **command; // NOTE: program_name + args + NULL
 	struct s_cmd	*next;
-<<<<<<< HEAD
 	int		in_fd;
 	int		out_fd;
 	int		exit_status;
 	t_redir					*redir;
 }							t_cmd;
-=======
-	int				in_fd;
-	int				out_fd;
-	t_redir			*redir;
-}					t_cmd;
->>>>>>> charlie-post-merge
 
 #endif
