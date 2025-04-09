@@ -47,26 +47,30 @@ int	main(int argc, char **argv, char **env)
 	{
 		text = NULL;
 		text = readline("> ");
-		if (!text)
+		printf("text: %s\n", text);
+		if (text == NULL || text[0] == '\0' || ft_strncmp(text, "exit", 5) == 0)
 		{
 			printf("Exiting...\n");
-			break ;
+			return (1);
 		}
 		tokenizer->text = text;
 		tokens = tokenize(tokenizer);
 		pipeline = parse_tokens(tokens);
-		pipeline->exit_status = 0;
-		test_parsed_pipeline(pipeline);
-		pipeline->exit_status = exec(&environment, pipeline);
-
-		// WARNING: BE CAREFUL WITH FREEING THE TOKENS AS THEY PARTLY SHARE MEMORY WITH THE COMMANDS.* 		
-		tokenizer->text = NULL;
-		tokenizer->cursor = 0;
-		if (ft_strncmp(text, "exit", 4) == 0)
+		if (pipeline != NULL)
 		{
-			break;
+			// pipeline->exit_status = 0; // NOTE: En principio no es necesario.
+			test_parsed_pipeline(pipeline);
+			printf("Exit Status A: %d\n", pipeline->exit_status);
+			pipeline->exit_status = exec(&environment, pipeline);
+			printf("Exit Status B: %d\n", pipeline->exit_status);
+			tokenizer->text = NULL;
+			tokenizer->cursor = 0;
+			// WARNING: PIPELINE AND TOKENS CANNOT BE FREED INDEPENDENTLY. ALWAYS KEEP TOGETHER!
+			// free_pipeline(pipeline);
 		}
-		free(text);
-	}  
+		// free(text);
+		// free_tokens(tokens);
+	}
+	free(tokenizer);
 	return (pipeline->exit_status); // ONLY FOR -WExtra FLAG
 }

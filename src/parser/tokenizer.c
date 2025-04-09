@@ -84,6 +84,20 @@ static t_token	*get_next_token(t_tokenizer *t)
 	return (token);
 }
 
+void	test_tokens(t_token *tokens)
+{
+	int	i;
+
+	i = 0;
+	printf("TOKENIZER:\n");
+	while (tokens != NULL)
+	{
+		printf("token %d: %s\n", i, tokens->str);
+		tokens = tokens->next;
+		i++;
+	}
+}
+
 // NOTE: How should I handle unknown tokens?
 t_token	*tokenize(t_tokenizer *tokenizer)
 {
@@ -117,5 +131,6 @@ t_token	*tokenize(t_tokenizer *tokenizer)
 			// printf("(clean) %d: %s\n", token->type, token->str);
 		}
 	}
+	test_tokens(first_token);
 	return (first_token);
 }
