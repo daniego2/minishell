@@ -18,7 +18,7 @@
 #include "utils1.h"
 #include <stdlib.h>
 
-static t_tokenizer	*init_tokenizer()
+static t_tokenizer	*init_tokenizer(void)
 {
 	t_tokenizer	*tokenizer;
 
@@ -26,7 +26,7 @@ static t_tokenizer	*init_tokenizer()
 	if (!tokenizer)
 		exit(EXIT_FAILURE);
 	tokenizer->text = NULL;
-	//printf("Tokenizer text: %s\n", tokenizer->text);
+	// printf("Tokenizer text: %s\n", tokenizer->text);
 	return (tokenizer);
 }
 
@@ -50,11 +50,9 @@ int	main(int argc, char **argv, char **env)
 		if (!text)
 		{
 			printf("Exiting...\n");
-			break;
+			break ;
 		}
-		//printf("Text: %s\n", text);
 		tokenizer->text = text;
-		//printf("Tokenizer text: %s\n", tokenizer->text);
 		tokens = tokenize(tokenizer);
 		pipeline = parse_tokens(tokens);
 		pipeline->exit_status = 0;
@@ -62,10 +60,6 @@ int	main(int argc, char **argv, char **env)
 		pipeline->exit_status = exec(&environment, pipeline);
 
 		// WARNING: BE CAREFUL WITH FREEING THE TOKENS AS THEY PARTLY SHARE MEMORY WITH THE COMMANDS.* 		
-		//free_tokens(tokens);
-		//free_pipeline(pipeline);
-		//free(tokenizer->text); 
-		
 		tokenizer->text = NULL;
 		tokenizer->cursor = 0;
 		if (ft_strncmp(text, "exit", 4) == 0)

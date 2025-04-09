@@ -50,41 +50,45 @@ static void	set_redir_type(t_redir *redir, t_token *token)
 		assert(0);
 }
 
-static void	set_redir_filename(t_redir *redir, t_token *token)
+static enum e_error	set_redir_filename(t_redir *redir, t_token *token)
 {
 	if (token->type == TOKEN_WORD)
 	{
 		redir->filename = token->str;
 		// NOTE: May be better to copy str.
 		// printf("redir->filename: %s\n", redir->filename);
+		return (ERROR_NONE);
 	}
 	else
 	{
 		// TODO: Handle error case.
-		printf("NEED TO HANDLE REDIR NO FILENAME ERROR CASE");
-		assert(0);
+		printf("minishell: expected filename got \"%s\"\n", token->str);
+		return (ERROR_BAD_TOKEN);
 	}
 }
 
-t_token	*parse_redirections(t_cmd *command_node, t_token *token)
+t_error	parse_redirections(t_cmd *command_node, t_token **token)
 {
 	t_redir	*redir;
+	t_error	error;
 
-	while (token->type == TOKEN_REDIR_OUT || token->type == TOKEN_REDIR_IN
-		|| token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
+	while ((*token)->type == TOKEN_REDIR_OUT || (*token)->type == TOKEN_REDIR_IN
+		|| (*token)->type == TOKEN_APPEND || (*token)->type == TOKEN_HEREDOC)
 	{
 		redir = append_new_redir(command_node);
 		if (redir == NULL)
 		{
 			free_redirs(command_node->redir);
 			command_node->redir = NULL;
-			return (NULL);
+			return (ERROR_BAD_ALLOCATION);
 		}
-		set_redir_type(redir, token);
-		token = token->next;
+		set_redir_type(redir, *token);
+		(*token) = (*token)->next;
 		// printf("redir->type: %d\n", redir->type);
-		set_redir_filename(redir, token);
-		token = token->next;
+		error = set_redir_filename(redir, *token);
+		if (error == ERROR_BAD_TOKEN)
+			return (error);
+		(*token) = (*token)->next;
 	}
-	return (token);
+	return (ERROR_NONE);
 }

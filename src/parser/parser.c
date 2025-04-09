@@ -57,36 +57,42 @@ static int	count_word_tokens_in_sequence(t_token *token)
 	return (number_of_word_tokens_in_sequence);
 }
 
-static t_token	*parse_command(t_cmd *command_node, t_token *token)
+static t_error	parse_command(t_cmd *command_node, t_token **token)
 {
 	int	i;
 	int	word_token_count;
 
-	word_token_count = count_word_tokens_in_sequence(token);
-	command_node->command = ft_calloc(word_token_count + 1,
-			sizeof(char *));
+	word_token_count = count_word_tokens_in_sequence(*token);
+	command_node->command = ft_calloc(word_token_count + 1, sizeof(char *));
 	if (command_node->command == NULL)
-	{
-		// TODO: Handle error.
-		return (NULL);
-	}
+		return (ERROR_BAD_ALLOCATION);
 	i = 0;
 	while (i < word_token_count)
 	{
 		// WARN: It's a problem if I free the token's memory. Copy instead if need be.
-		command_node->command[i] = token->str;
-		token = token->next;
+		command_node->command[i] = (*token)->str;
+		*token = (*token)->next;
 		i++;
+	}
+	return (ERROR_NONE);
+}
+
+t_token	*advance_n_tokens(t_token *token, int n)
+{
+	while (n != 0)
+	{
+		token = token->next;
+		n--;
 	}
 	return (token);
 }
 
-// TODO: What to do on parse error?
 t_cmd	*parse_tokens(t_token *first_token)
 {
 	t_cmd	*command_node;
 	t_cmd	*pipeline;
-	t_token			*token;
+	t_token	*token;
+	t_error	error;
 
 	token = first_token;
 	pipeline = create_pipeline();
@@ -95,25 +101,32 @@ t_cmd	*parse_tokens(t_token *first_token)
 	command_node = pipeline;
 	while (token->type != TOKEN_END)
 	{
-		token = parse_command(command_node, token);
-		if (token == NULL)
+		error = parse_command(command_node, &token);
+		if (error == ERROR_BAD_ALLOCATION)
 			free_pipeline_and_exit(pipeline);
-		token = parse_redirections(command_node, token);
-		if (token == NULL)
+		error = parse_redirections(command_node, &token);
+		if (error == ERROR_BAD_ALLOCATION)
 			free_pipeline_and_exit(pipeline);
+		else if (error == ERROR_BAD_TOKEN)
+			return (NULL);
 		if (token->type == TOKEN_PIPE)
 		{
 			command_node = append_new_command_node(command_node);
 			if (command_node == NULL)
 				free_pipeline_and_exit(pipeline);
 			token = token->next;
+			if (token->type == TOKEN_END)
+			{
+				printf("minishell: expected command, got \"%s\"\n", token->str);
+				return (NULL);
+			}
 		}
 		else if (token->type == TOKEN_END)
 			continue ;
 		else
 		{
-			printf("EXPECTED PIPE BUT GOT SOMETHING ELSE CASE UNHANDLED");
-			assert(0);
+			printf("minishell: expected pipe, got \"%s\"\n", token->str);
+			return (NULL);
 		}
 	}
 	return (pipeline);
