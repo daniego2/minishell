@@ -89,7 +89,7 @@ void	test_tokens(t_token *tokens)
 	int	i;
 
 	i = 0;
-	printf("TOKENIZER:\n");
+	printf("\nTOKENIZER:\n\n");
 	while (tokens != NULL)
 	{
 		printf("token %d: %s\n", i, tokens->str);
@@ -132,5 +132,7 @@ t_token	*tokenize(t_tokenizer *tokenizer)
 		}
 	}
 	test_tokens(first_token);
+	tokenizer->text = NULL;
+	tokenizer->cursor = 0;
 	return (first_token);
 }

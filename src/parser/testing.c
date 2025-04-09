@@ -19,7 +19,7 @@ void	test_parsed_pipeline(t_cmd *pipeline)
 {
 	t_redir	*redir;
 
-	printf("\n\nFINAL PARSING\n");
+	printf("\nFINAL PARSING\n");
 	for (int i = 0; pipeline != NULL; i++)
 	{
 		printf("\nCOMMAND #%d:\n", i);

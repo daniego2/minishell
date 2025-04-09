@@ -160,27 +160,6 @@
       "header/built-ins",
       "-c",
       "-o",
-      "src/exec/minishell_main.o",
-      "src/exec/minishell_main.c"
-    ],
-    "directory": "/home/charlie/projects/minishell",
-    "file": "/home/charlie/projects/minishell/src/exec/minishell_main.c",
-    "output": "/home/charlie/projects/minishell/src/exec/minishell_main.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/gcc",
-      "-g",
-      "-I",
-      "libft",
-      "-I",
-      "header/exec",
-      "-I",
-      "header/parser",
-      "-I",
-      "header/built-ins",
-      "-c",
-      "-o",
       "src/exec/redirections.o",
       "src/exec/redirections.c"
     ],
