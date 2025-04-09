@@ -47,11 +47,13 @@ int	main(int argc, char **argv, char **env)
 	{
 		text = NULL;
 		text = readline("> ");
-		if (text == NULL || text[0] == '\0' || ft_strncmp(text, "exit", 5) == 0)
+		if (text == NULL || ft_strncmp(text, "exit", 5) == 0)
 		{
 			printf("Exiting...\n");
 			return (1);
 		}
+		else if (text[0] == '\0')
+			continue ;
 		tokenizer->text = text;
 		tokens = tokenize(tokenizer);
 		pipeline = parse_tokens(tokens);
