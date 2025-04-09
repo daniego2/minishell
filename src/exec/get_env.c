@@ -17,6 +17,5 @@ t_env *get_env(char **env)
 		add_node(&environment, line[0], line[1]);
         i++;
     }
-    printf("Env size: %d\n", envsize(environment));
 	return (environment);
 }

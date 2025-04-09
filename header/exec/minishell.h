@@ -51,8 +51,7 @@ char			**assemble_env(t_env *env);
 t_env 			*get_env(char **env);
 
 // PIPEX.C:
-void	safe_dup2(t_cmd *token, int fd1, int fd2, int mustclose);
-int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input);
+int		create_fork(t_cmd *token, char *path, t_env **env, int *standard_input);
 int		check_path(t_cmd *token, char **env);
 int 	exec(t_env **env, t_cmd *token);
 

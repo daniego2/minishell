@@ -12,14 +12,17 @@
 
 #include "minishell.h"
 
-void	safe_dup2(t_cmd *token, int fd1, int fd2, int mustclose)
+int is_path_to_program(char *command)
 {
-	if (dup2(fd1, fd2) == -1)
+	int i;
+
+	while (command[i])
 	{
-		ft_error(token, "Error: Dup2 failed\n");
+		if (command[0] == '/')
+			return (1);
+		i++;
 	}
-	if (mustclose)
-		close(fd1);
+	return (0);
 }
 
 int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input)
@@ -86,11 +89,15 @@ int exec(t_env **env, t_cmd *token)
 	standard_input = STDIN_FILENO;
 	while (token != NULL)
 	{
-
 		token->in_fd = get_in_fd(token);
 		token->out_fd = get_out_fd(token);
-		path_batch = get_path(assemble_env(*env), path);
-		path = path_finder(path_batch, token->command[0]);
+		if (is_path_to_program(token->command[0]))
+			path = token->command[0];
+		else
+		{
+			path_batch = get_path(assemble_env(*env), path);
+			path = path_finder(path_batch, token->command[0]);
+		}
 		if (!path && !is_builtin(token->command[0]))
 		{
 			free(path_batch);
@@ -98,9 +105,7 @@ int exec(t_env **env, t_cmd *token)
 			return (token->exit_status);
 		}
 		if (is_builtin_pipeless(token->command[0]))
-		{
 			token->exit_status = exec_builtin(token->command, env);
-		}
 		else
 			token->exit_status = create_fork(token, path, env, &standard_input);
 		unlink(".here_doc");
