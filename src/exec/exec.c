@@ -18,12 +18,15 @@ int is_path_to_program(char *command)
 
 	while (command[i])
 	{
-		if (command[0] == '/')
+		if (command[0] == '/' || command[0] == '.')
 			return (1);
 		i++;
 	}
 	return (0);
 }
+
+
+
 
 int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input)
 {
@@ -52,7 +55,10 @@ int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input)
 			exit(0);
 		}
 		else
+		{
+			dprintf(STDIN_FILENO, "PATH: %s\n", path);
 			execve(path, token->command, assemble_env(*env));
+		}
 	}
 	close(fd[1]);
 	if (*standard_input != STDIN_FILENO)
@@ -60,6 +66,7 @@ int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input)
 	waitpid(pid, &token->exit_status, 0);
 	printf("exit status: %d\n", token->exit_status);
 	*standard_input = fd[0];
+	free(path);
 	return (token->exit_status);
 }
 	
@@ -81,7 +88,6 @@ int	check_path(t_cmd *token, char **env)
 
 int exec(t_env **env, t_cmd *token)
 {
-	char **path_batch;
 	char *path;
 	int standard_input;
 	int aux_status;
@@ -91,16 +97,9 @@ int exec(t_env **env, t_cmd *token)
 	{
 		token->in_fd = get_in_fd(token);
 		token->out_fd = get_out_fd(token);
-		if (is_path_to_program(token->command[0]))
-			path = token->command[0];
-		else
-		{
-			path_batch = get_path(assemble_env(*env), path);
-			path = path_finder(path_batch, token->command[0]);
-		}
+		path = get_path_to_program(token, env);
 		if (!path && !is_builtin(token->command[0]))
 		{
-			free(path_batch);
 			printf("Error: No hay Path maquinón\n");
 			return (token->exit_status);
 		}

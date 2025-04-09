@@ -60,9 +60,9 @@ int	main(int argc, char **argv, char **env)
 		if (pipeline != NULL)
 		{
 			test_parsed_pipeline(pipeline);
-			printf("Exit Status A: %d\n", pipeline->exit_status);
+			//printf("Exit Status A: %d\n", pipeline->exit_status);
 			pipeline->exit_status = exec(&environment, pipeline);
-			printf("Exit Status B: %d\n", pipeline->exit_status);
+			//printf("Exit Status B: %d\n", pipeline->exit_status);
 			// WARNING: PIPELINE AND TOKENS CANNOT BE FREED INDEPENDENTLY. ALWAYS KEEP TOGETHER!
 			free_pipeline(pipeline);
 		}

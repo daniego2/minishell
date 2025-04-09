@@ -89,10 +89,10 @@ void	test_tokens(t_token *tokens)
 	int	i;
 
 	i = 0;
-	printf("\nTOKENIZER:\n\n");
+	//printf("\nTOKENIZER:\n\n");
 	while (tokens != NULL)
 	{
-		printf("token %d: %s\n", i, tokens->str);
+		//printf("token %d: %s\n", i, tokens->str);
 		tokens = tokens->next;
 		i++;
 	}

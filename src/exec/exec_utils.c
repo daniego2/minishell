@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*path_finder(char **path_batch, char *target)
+char	*path_finder(char *target, char **path_batch)
 {
 	int		i;
 	char	*path_cpy;
@@ -49,9 +49,40 @@ char	**get_path(char **env, char *path)
 	return (path_batch);
 }
 
+char *get_path_to_program(t_cmd *token, t_env **env)
+{
+	char *path;
+	char *env_path;
+	char **env_cpy;
+	char **path_batch;
+	int i;
+
+	i= 0;
+	if (is_path_to_program(token->command[0]))
+		return token->command[0];
+	env_cpy = assemble_env(*env);
+	env_path = NULL;
+	while (env_cpy[i])
+	{
+		if (ft_strncmp(env_cpy[i], "PATH=", 5) == 0)
+		{
+			env_path = env_cpy[i] + 5;
+			break;
+		}
+		i++;
+	}
+
+	if (!env_path)
+		return NULL;
+	path_batch = ft_split(env_path, ':');
+	path = path_finder(token->command[0], path_batch);
+	ft_free_array(path_batch);
+	ft_free_array(env_cpy);
+	return path;
+}
+
 void	ft_error(t_cmd *token, char *message)
 {
-	//close(token->prev_fd);
 	ft_putstr_fd(message, 1);
 	free(token);
 	exit(2);

@@ -58,10 +58,14 @@ int 	exec(t_env **env, t_cmd *token);
 
 // PIPEX_UTILS.C:
 
-char	*path_finder(char **path_batch, char *target);
+char	*path_finder(char *target, char **path_batch);
 char	**get_path(char **env, char *path);
 void	ft_error(t_cmd *token, char *message);
 void	ft_free_array(char **array);
+char 	*get_path_to_program(t_cmd *token, t_env **env);
+int 	is_path_to_program(char *command);
+
+
 
 
 // TEST_FUNCTIONS.C:
