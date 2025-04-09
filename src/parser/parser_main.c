@@ -18,6 +18,8 @@
 #include "utils1.h"
 #include <stdlib.h>
 
+int g_exit_status = 0;
+
 static t_tokenizer	*init_tokenizer(void)
 {
 	t_tokenizer	*tokenizer;
@@ -45,6 +47,7 @@ int	main(int argc, char **argv, char **env)
 	tokenizer = init_tokenizer();
 	while (true)
 	{
+		setup_signal_handlers();
 		text = NULL;
 		text = readline("> ");
 		if (text == NULL || ft_strncmp(text, "exit", 5) == 0)

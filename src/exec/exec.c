@@ -56,7 +56,6 @@ int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input)
 		}
 		else
 		{
-			dprintf(STDIN_FILENO, "PATH: %s\n", path);
 			execve(path, token->command, assemble_env(*env));
 		}
 	}
@@ -64,6 +63,14 @@ int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input)
 	if (*standard_input != STDIN_FILENO)
 		close(*standard_input);
 	waitpid(pid, &token->exit_status, 0);
+	if (WIFEXITED(token->exit_status))
+        token->exit_status = WEXITSTATUS(token->exit_status);
+    // Si el proceso terminó por una señal, ajustamos el exit status
+    else if (WIFSIGNALED(token->exit_status))
+        token->exit_status = 128 + WTERMSIG(token->exit_status);
+    else
+        // Si no sabemos cómo terminó el proceso, asignamos un código genérico
+        token->exit_status = 1;
 	printf("exit status: %d\n", token->exit_status);
 	*standard_input = fd[0];
 	free(path);
