@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-int is_path_to_program(char *command)
+int	is_path_to_program(char *command)
 {
-	int i;
+	int	i;
 
 	while (command[i])
 	{
@@ -25,12 +25,10 @@ int is_path_to_program(char *command)
 	return (0);
 }
 
-
-
-
 int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input)
 {
-    int	pid;
+
+  int	pid;
 	int fd[2];
 	
 	printf("ENTRA AL FORK\n");
@@ -69,8 +67,6 @@ int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input)
 	free(path);
 	return (token->exit_status);
 }
-	
-
 
 int	check_path(t_cmd *token, char **env)
 {
@@ -86,11 +82,11 @@ int	check_path(t_cmd *token, char **env)
 	return (1);
 }
 
-int exec(t_env **env, t_cmd *token)
+int	exec(t_env **env, t_cmd *token)
 {
-	char *path;
-	int standard_input;
-	int aux_status;
+	char	*path;
+	int		standard_input;
+	int		aux_status;
 
 	standard_input = STDIN_FILENO;
 	while (token != NULL)
@@ -115,5 +111,5 @@ int exec(t_env **env, t_cmd *token)
 	{
 		close(standard_input);
 	}
-	return(aux_status);
+	return (aux_status);
 }
