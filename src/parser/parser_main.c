@@ -98,13 +98,14 @@ int	main(int argc, char **argv, char **env)
 	tokenizer = init_tokenizer();
 	while (true)
 	{
+		setup_signal_handlers();
 		text = NULL;
 		text = readline(get_prompt(environment, "USER", "PWD"));
 		// text = readline("> ");
 		add_history(text);
 		if (text == NULL || ft_strncmp(text, "exit", 5) == 0)
 		{
-			printf("Exiting...\n");
+			printf("exit\n");
 			return (1);
 		}
 		else if (text[0] == '\0')
@@ -114,6 +115,7 @@ int	main(int argc, char **argv, char **env)
 		pipeline = parse_tokens(tokens);
 		if (pipeline != NULL)
 		{
+
 			// ISSUE: This makes things crash?
 			// test_parsed_pipeline(pipeline);
 			// printf("Exit Status A: %d\n", pipeline->exit_status);
@@ -124,6 +126,7 @@ int	main(int argc, char **argv, char **env)
 		}
 		free(text);
 		free_tokens(tokens);
+		printf("TERMINA EL WHILE\n\n\n\n");
 	}
 	free(tokenizer);
 	return (pipeline->exit_status); // ONLY FOR -WExtra FLAG

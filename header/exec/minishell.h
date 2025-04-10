@@ -23,24 +23,15 @@
 #include <sys/wait.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <sys/wait.h>
+#include <signal.h>
 
-/*
-typedef struct s_token
-{
-	char	**command;
-	int		in_fd;
-	int		out_fd;
-	struct	s_token *next;
-	struct	s_redir *redir;
-}	t_token;
-*/
 typedef struct s_env
 {
 	char *key;
 	char *value;
 	struct s_env *next;
 }	t_env;
-
 
 void			print_env (t_env *env);
 void			free_env(t_env *env);
@@ -49,6 +40,9 @@ void			add_node(t_env **head, char *key, char *value);
 int				envsize(t_env *env);
 char			**assemble_env(t_env *env);
 t_env 			*get_env(char **env);
+void	ctrl_c_handler(int sig);
+void	ctrl_quit_handler(int sig);
+void	setup_signal_handlers();
 
 // PIPEX.C:
 int		create_fork(t_cmd *token, char *path, t_env **env, int *standard_input);
