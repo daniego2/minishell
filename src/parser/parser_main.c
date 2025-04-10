@@ -18,8 +18,6 @@
 #include "utils1.h"
 #include <stdlib.h>
 
-int g_exit_status = 0;
-
 static t_tokenizer	*init_tokenizer(void)
 {
 	t_tokenizer	*tokenizer;
@@ -52,7 +50,7 @@ int	main(int argc, char **argv, char **env)
 		text = readline("> ");
 		if (text == NULL || ft_strncmp(text, "exit", 5) == 0)
 		{
-			printf("Exiting...\n");
+			printf("exit\n");
 			return (1);
 		}
 		else if (text[0] == '\0')
@@ -62,15 +60,14 @@ int	main(int argc, char **argv, char **env)
 		pipeline = parse_tokens(tokens);
 		if (pipeline != NULL)
 		{
-			test_parsed_pipeline(pipeline);
-			//printf("Exit Status A: %d\n", pipeline->exit_status);
+			//test_parsed_pipeline(pipeline); // THIS ONE IS PROBLEMATIC. SECOND INPUT ALWAYS RESULT IN SEGFAULT.
 			pipeline->exit_status = exec(&environment, pipeline);
-			//printf("Exit Status B: %d\n", pipeline->exit_status);
 			// WARNING: PIPELINE AND TOKENS CANNOT BE FREED INDEPENDENTLY. ALWAYS KEEP TOGETHER!
 			free_pipeline(pipeline);
 		}
 		free(text);
 		free_tokens(tokens);
+		printf("TERMINA EL WHILE\n\n\n\n");
 	}
 	free(tokenizer);
 	return (pipeline->exit_status); // ONLY FOR -WExtra FLAG

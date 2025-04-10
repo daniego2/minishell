@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/07 20:18:16 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/10 13:47:07 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input)
     int	pid;
 	int fd[2];
 	
+	printf("ENTRA AL FORK\n");
 	pipe(fd);
 	pid = fork();
 	if (pid == -1)
@@ -56,6 +57,7 @@ int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input)
 		}
 		else
 		{
+			printf("ENTRA AL EXECVE\n");
 			execve(path, token->command, assemble_env(*env));
 		}
 	}
@@ -63,15 +65,6 @@ int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input)
 	if (*standard_input != STDIN_FILENO)
 		close(*standard_input);
 	waitpid(pid, &token->exit_status, 0);
-	if (WIFEXITED(token->exit_status))
-        token->exit_status = WEXITSTATUS(token->exit_status);
-    // Si el proceso terminó por una señal, ajustamos el exit status
-    else if (WIFSIGNALED(token->exit_status))
-        token->exit_status = 128 + WTERMSIG(token->exit_status);
-    else
-        // Si no sabemos cómo terminó el proceso, asignamos un código genérico
-        token->exit_status = 1;
-	printf("exit status: %d\n", token->exit_status);
 	*standard_input = fd[0];
 	free(path);
 	return (token->exit_status);
