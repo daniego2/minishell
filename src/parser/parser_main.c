@@ -10,6 +10,7 @@
 
 // TODO: Ensure correct handling of every allocation (malloc/calloc).
 #include "free.h"
+#include "libft.h"
 #include "minishell.h"
 #include "parser.h"
 #include "parser_types.h"
@@ -17,6 +18,7 @@
 #include "tokenizer.h"
 #include "utils1.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 static t_tokenizer	*init_tokenizer(void)
 {
@@ -28,6 +30,57 @@ static t_tokenizer	*init_tokenizer(void)
 	tokenizer->text = NULL;
 	// printf("Tokenizer text: %s\n", tokenizer->text);
 	return (tokenizer);
+}
+
+#include <assert.h> // WARN: Delete.
+
+int	len(char *s)
+{
+	return (ft_strlen(s));
+}
+
+t_env	*get_environment_variable(t_env *env, char *key)
+{
+	while (env != NULL)
+	{
+		if (ft_strmatch(env->key, key))
+			return (env);
+		env = env->next;
+	}
+	return (NULL);
+}
+
+char	*get_prompt(t_env *env, char *key_a, char *key_b)
+{
+	char	*prompt;
+	t_env	*var_a;
+	t_env	*var_b;
+	char	*sep_a;
+	char	*sep_b;
+	int		prompt_len;
+
+	sep_a = ":";
+	sep_b = " > ";
+	assert(env != NULL);
+	var_a = get_environment_variable(env, key_a);
+	var_b = get_environment_variable(env, key_b);
+	prompt_len = len(sep_a) + len(sep_b);
+	if (var_a != NULL)
+		prompt_len += len(var_a->value);
+	if (var_b != NULL)
+		prompt_len += len(var_b->value);
+	prompt = ft_calloc(prompt_len + 1, sizeof(char));
+	if (var_a != NULL)
+	{
+		ft_memcpy(&prompt[0], var_a->value, len(var_a->value));
+		ft_memcpy(&prompt[len(prompt)], sep_a, len(sep_a));
+	}
+	if (var_b != NULL)
+	{
+		ft_memcpy(&prompt[len(prompt)], var_b->value, len(var_b->value));
+	}
+	ft_memcpy(&prompt[len(prompt)], sep_b, len(sep_b));
+	return (prompt);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -46,7 +99,9 @@ int	main(int argc, char **argv, char **env)
 	while (true)
 	{
 		text = NULL;
-		text = readline("> ");
+		text = readline(get_prompt(environment, "USER", "PWD"));
+		// text = readline("> ");
+		add_history(text);
 		if (text == NULL || ft_strncmp(text, "exit", 5) == 0)
 		{
 			printf("Exiting...\n");
@@ -59,10 +114,11 @@ int	main(int argc, char **argv, char **env)
 		pipeline = parse_tokens(tokens);
 		if (pipeline != NULL)
 		{
-			test_parsed_pipeline(pipeline);
-			//printf("Exit Status A: %d\n", pipeline->exit_status);
+			// ISSUE: This makes things crash?
+			// test_parsed_pipeline(pipeline);
+			// printf("Exit Status A: %d\n", pipeline->exit_status);
 			pipeline->exit_status = exec(&environment, pipeline);
-			//printf("Exit Status B: %d\n", pipeline->exit_status);
+			// printf("Exit Status B: %d\n", pipeline->exit_status);
 			// WARNING: PIPELINE AND TOKENS CANNOT BE FREED INDEPENDENTLY. ALWAYS KEEP TOGETHER!
 			free_pipeline(pipeline);
 		}

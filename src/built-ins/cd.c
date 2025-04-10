@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int exec_cd(char **argv)
+int	exec_cd(char **argv)
 {
 	if (!argv[1])
 	{
@@ -10,7 +10,7 @@ int exec_cd(char **argv)
 			return (1);
 		}
 	}
-	else 
+	else
 	{
 		if (chdir(argv[1]) != 0)
 		{
