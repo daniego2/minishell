@@ -2,7 +2,7 @@
 
 
 // Tengo que arreglar el input: 'echo -n -n hola' y 'echo -n-n-n-n-n hola'
-int exec_echo(char **argv)
+int exec_echo(char **argv, int exit_status)
 {
 	int i;
 	int newline;
@@ -16,11 +16,18 @@ int exec_echo(char **argv)
 	}
 	while (argv[i] && argv[i + 1])
 	{
-		printf("%s ", argv[i]);
+		if (ft_strncmp(argv[i], "$?", 2) == 0)
+			printf("%i ", exit_status);
+		else
+			printf("%s ", argv[i]);
 		i++;
 	}
-	printf("%s", argv[i]);
+	if (ft_strncmp(argv[i], "$?", 2) == 0)
+		printf("%i", exit_status);
+	else
+		printf("%s", argv[i]);
 	if (newline)
 		printf("\n");
+	
 	return (0);
 }
