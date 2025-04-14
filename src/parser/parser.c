@@ -14,6 +14,7 @@
 #include "parser_types.h"
 #include "redirs.h"
 #include "utils1.h"
+#include "utils2.h"
 #include <assert.h>
 #include <stdio.h>
 
@@ -87,7 +88,34 @@ t_token	*advance_n_tokens(t_token *token, int n)
 	return (token);
 }
 
-t_cmd	*parse_tokens(t_token *first_token)
+// TODO: WIP
+t_cmd	*expand_variables(t_cmd *pipeline, t_env *env)
+{
+	t_cmd	*node;
+	int		i;
+	t_env	*env_var;
+
+	node = pipeline;
+	while (node != NULL)
+	{
+		i = 0;
+		while (node->command[i] != NULL)
+		{
+			// TODO: This needs to be more sophisticated. "$" can be in the middle of the word and there can be multiple."
+			if (node->command[i][0] == '$')
+			{
+				// TODO: Fixed index 1 is naive.
+				env_var = get_environment_variable(env, &(node->command[i][1]));
+				node->command[i] = ft_strdup(env_var->value);
+			}
+			i++;
+		}
+		node = node->next;
+	}
+	return (pipeline);
+}
+
+t_cmd	*parse_tokens(t_token *first_token, t_env *env)
 {
 	t_cmd	*command_node;
 	t_cmd	*pipeline;
@@ -129,5 +157,6 @@ t_cmd	*parse_tokens(t_token *first_token)
 			return (NULL);
 		}
 	}
+	expand_variables(pipeline, env);
 	return (pipeline);
 }

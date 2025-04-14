@@ -13,7 +13,9 @@
 #ifndef UTILS2_H
 # define UTILS2_H
 
-int		ft_strlen(char *str);
-char	*ft_strdup(char *str);
+# include "minishell.h"
+// int		ft_strlen(char *str);
+// char	*ft_strdup(char *str);
+t_env	*get_environment_variable(t_env *env, char *key);
 
 #endif
