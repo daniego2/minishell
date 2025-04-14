@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/10 15:26:05 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:58:45 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,12 @@ int	is_path_to_program(char *command)
 	return (0);
 }
 
-int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input)
+int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input, int exit_status)
 {
 
-  int	pid;
+  	int	pid;
 	int fd[2];
-	
-	printf("ENTRA AL FORK\n");
+
 	pipe(fd);
 	pid = fork();
 	if (pid == -1)
@@ -51,22 +50,21 @@ int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input)
 		close(fd[1]);
 		if (is_builtin(token->command[0]))
 		{
-			token->exit_status = exec_builtin(token->command, env);
+			exit_status = exec_builtin(token, env, exit_status);
 			exit(0);
 		}
 		else
 		{
-			printf("ENTRA AL EXECVE\n");
 			execve(path, token->command, assemble_env(*env));
 		}
 	}
 	close(fd[1]);
 	if (*standard_input != STDIN_FILENO)
 		close(*standard_input);
-	waitpid(pid, &token->exit_status, 0);
+	waitpid(pid, &exit_status, 0);
 	*standard_input = fd[0];
 	free(path);
-	return (token->exit_status);
+	return (exit_status);
 }
 
 int	check_path(t_cmd *token, char **env)
@@ -83,34 +81,35 @@ int	check_path(t_cmd *token, char **env)
 	return (1);
 }
 
-int	exec(t_env **env, t_cmd *token)
+int	exec(t_env **env, t_cmd *token, int exit_status)
 {
 	char	*path;
 	int		standard_input;
-	int		aux_status;
 
 	standard_input = STDIN_FILENO;
+	if (!exit_status)
+		exit_status = 0;
+
 	while (token != NULL)
 	{
 		token->in_fd = get_in_fd(token);
 		token->out_fd = get_out_fd(token);
 		path = get_path_to_program(token, env);
+
 		if (!path && !is_builtin(token->command[0]))
 		{
-			printf("Error: No hay Path maquinón\n");
-			return (token->exit_status);
+			printf("%s: Command not found\n", token->command[0]);
+			return (127);
 		}
+
 		if (is_builtin_pipeless(token->command[0]))
-			token->exit_status = exec_builtin(token->command, env);
+			exit_status = exec_builtin(token, env, exit_status);
 		else
-			token->exit_status = create_fork(token, path, env, &standard_input);
+			exit_status = create_fork(token, path, env, &standard_input, exit_status);
 		unlink(".here_doc");
-		aux_status = token->exit_status;
 		token = token->next;
 	}
 	if (standard_input != STDIN_FILENO)
-	{
 		close(standard_input);
-	}
-	return (aux_status);
+	return (exit_status);
 }

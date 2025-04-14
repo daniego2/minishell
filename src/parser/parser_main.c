@@ -90,12 +90,14 @@ int	main(int argc, char **argv, char **env)
 	t_token		*tokens;
 	t_cmd		*pipeline;
 	t_env		*environment;
+	int			exit_status;
 
 	if (argc != 1 || !argv)
 		return (1);
 	environment = malloc(sizeof(t_env) * 2);
 	environment = get_env(env);
 	tokenizer = init_tokenizer();
+	exit_status = 0;
 	while (true)
 	{
 		setup_signal_handlers();
@@ -118,15 +120,13 @@ int	main(int argc, char **argv, char **env)
 
 			// ISSUE: This makes things crash?
 			// test_parsed_pipeline(pipeline);
-			// printf("Exit Status A: %d\n", pipeline->exit_status);
-			pipeline->exit_status = exec(&environment, pipeline);
+			exit_status = exec(&environment, pipeline, exit_status);
 			// printf("Exit Status B: %d\n", pipeline->exit_status);
 			// WARNING: PIPELINE AND TOKENS CANNOT BE FREED INDEPENDENTLY. ALWAYS KEEP TOGETHER!
 			free_pipeline(pipeline);
 		}
 		free(text);
 		free_tokens(tokens);
-		printf("TERMINA EL WHILE\n\n\n\n");
 	}
 	free(tokenizer);
 	return (pipeline->exit_status); // ONLY FOR -WExtra FLAG

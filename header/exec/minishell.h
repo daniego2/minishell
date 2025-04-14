@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/07 20:07:56 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:57:22 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	ctrl_quit_handler(int sig);
 void	setup_signal_handlers();
 
 // PIPEX.C:
-int		create_fork(t_cmd *token, char *path, t_env **env, int *standard_input);
+int		create_fork(t_cmd *token, char *path, t_env **env, int *standard_input, int exit_status);
 int		check_path(t_cmd *token, char **env);
-int 	exec(t_env **env, t_cmd *token);
+int 	exec(t_env **env, t_cmd *token, int exit_status);
 
 
 // PIPEX_UTILS.C:
@@ -71,9 +71,9 @@ void 	init_cmd(t_cmd **token);
 // BUILT-INS:
 int 	is_builtin_pipeless(char *command);
 int		is_builtin(char *command);
-int 	exec_builtin(char **command, t_env **env);
+int 	exec_builtin(t_cmd *cmd, t_env **env, int exit_status);
 int 	exec_pwd(void);
-int 	exec_echo(char **argv);
+int 	exec_echo(char **argv, int exit_status);
 int 	exec_env(t_env **env);
 int 	exec_export (t_env **env, char **command);
 int 	exec_unset(t_env **env, char **command);

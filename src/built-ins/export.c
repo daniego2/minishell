@@ -6,12 +6,12 @@ char *get_value(char *command)
 	char *value;
 
 	i = 0;
-	while (command[i] != '=')
+	while (command[i] != '='  && command[i])
 		i++;
 	value = malloc(sizeof(char) * ft_strlen(command) - i + 1);
 	i++;
 	int j = 0;
-	while (command[i] != '\0')
+	while (command[i] != '\0' && command[i])
 	{
 		value[j] = command[i];
 		i++;
@@ -27,11 +27,11 @@ char *get_key(char *command)
 	char *key;
 
 	i = 0;
-	while (command[i] != '=')
+	while (command[i] != '=' && command[i])
 		i++;
 	key = malloc(sizeof(char) * i + 1);
 	i = 0;
-	while (command[i] != '=')
+	while (command[i] != '=' && command[i])
 	{
 		key[i] = command[i];
 		i++;
@@ -51,25 +51,19 @@ int exec_export(t_env **env, char **command)
 		printf("No hay command[1]\n");
 		return (1);
 	}
-
 	key = get_key(command[1]);
 	value = get_value(command[1]);
-
 	current = *env;
 	while (current != NULL)
 	{
 		if (ft_strncmp(current->key, key, ft_strlen(key)) == 0)
 		{
 			free(current->value);
-			current->value = strdup(value);
+			current->value = ft_strdup(value);
 			return (0);
 		}
 		current = current->next;
 	}
-
 	add_node(env, key, value);
-	printf("Key: %s\n", key);
-	printf("Value: %s\n", value);
-	printf("\n\nEnv size: %d\n", envsize(*env));
-	return (69);
+	return (0);
 }
