@@ -9,7 +9,7 @@ int exec_unset(t_env **env, char **command)
 	prev_node = NULL;
 	while (current_node != NULL)
 	{
-		if (ft_strncmp(current_node->key, command[1], ft_strlen(command[1]) + 1) == 0)
+		if (ft_strcmp(current_node->key, command[1]) == 0)
 		{
 			prev_node->next = current_node->next;
 			if (current_node->value)

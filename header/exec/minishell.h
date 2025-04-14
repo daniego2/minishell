@@ -45,18 +45,18 @@ void	ctrl_quit_handler(int sig);
 void	setup_signal_handlers();
 
 // PIPEX.C:
-int		create_fork(t_cmd *token, char *path, t_env **env, int *standard_input, int exit_status);
-int		check_path(t_cmd *token, char **env);
-int 	exec(t_env **env, t_cmd *token, int exit_status);
+int		create_fork(t_cmd *cmd, char *path, t_env **env, int *standard_input, int exit_status);
+int		check_path(t_cmd *cmd, char **env);
+int 	exec(t_env **env, t_cmd *cmd, int exit_status);
 
 
 // PIPEX_UTILS.C:
 
 char	*path_finder(char *target, char **path_batch);
 char	**get_path(char **env, char *path);
-void	ft_error(t_cmd *token, char *message);
+void	ft_error(t_cmd *cmd, char *message);
 void	ft_free_array(char **array);
-char 	*get_path_to_program(t_cmd *token, t_env **env);
+char 	*get_path_to_program(t_cmd *cmd, t_env **env);
 int 	is_path_to_program(char *command);
 
 
@@ -65,7 +65,7 @@ int 	is_path_to_program(char *command);
 // TEST_FUNCTIONS.C:
 void	print_env (t_env *environment);
 void	print_assembled_env(char **env);
-void 	init_cmd(t_cmd **token);
+void 	init_cmd(t_cmd **cmd);
 
 
 // BUILT-INS:
@@ -80,12 +80,12 @@ int 	exec_unset(t_env **env, char **command);
 int 	exec_cd(char **argv);
 
 // REDIRECTIONS.C:
-int		get_out_fd(t_cmd *token);
-int 	get_in_fd(t_cmd *token);
+int		get_out_fd(t_cmd *cmd);
+int 	get_in_fd(t_cmd *cmd);
 int 	here_doc(char *filename);
 int		here_doc_eof(char *line, char *eof);
 
-int run_pipeline(t_env *environment, t_cmd *token);
+int run_pipeline(t_env *environment, t_cmd *cmd);
 
 // 
 
