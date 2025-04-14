@@ -16,10 +16,10 @@ int exec_unset(t_env **env, char **command)
 				free(current_node->value);
 			free(current_node->key);
 			free(current_node);
-			return (420);
+			return (0);
 		}
 		prev_node = current_node;
 		current_node = current_node->next;
 	}
-	return (69);
+	return (0);
 }

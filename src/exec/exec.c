@@ -103,20 +103,13 @@ int	exec(t_env **env, t_cmd *token, int exit_status)
 		}
 
 		if (is_builtin_pipeless(token->command[0]))
-		{
 			exit_status = exec_builtin(token, env, exit_status);
-		}
 		else
-		{
 			exit_status = create_fork(token, path, env, &standard_input, exit_status);
-		}
-
 		unlink(".here_doc");
 		token = token->next;
 	}
 	if (standard_input != STDIN_FILENO)
-	{
 		close(standard_input);
-	}
 	return (exit_status);
 }
