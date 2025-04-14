@@ -23,12 +23,12 @@ int here_doc(char *filename)
     return (fd);
 }
 
-int get_out_fd(t_cmd *token)
+int get_out_fd(t_cmd *cmd)
 {
     t_redir *redir;
     int fd;
 
-    redir = token->redir;
+    redir = cmd->redir;
     fd = -1;
     while (redir != NULL)
     {
@@ -41,13 +41,13 @@ int get_out_fd(t_cmd *token)
     return (fd);
 }
 
-int get_in_fd(t_cmd *token)
+int get_in_fd(t_cmd *cmd)
 {
 	t_redir *redir;
 	int fd;
 	int here_doc_fd;
 
-	redir = token->redir;
+	redir = cmd->redir;
 	fd = -1;
 	while (redir != NULL)
 	{

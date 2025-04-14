@@ -49,7 +49,7 @@ char	**get_path(char **env, char *path)
 	return (path_batch);
 }
 
-char *get_path_to_program(t_cmd *token, t_env **env)
+char *get_path_to_program(t_cmd *cmd, t_env **env)
 {
 	char *path;
 	char *env_path;
@@ -58,8 +58,8 @@ char *get_path_to_program(t_cmd *token, t_env **env)
 	int i;
 
 	i= 0;
-	if (is_path_to_program(token->command[0]))
-		return token->command[0];
+	if (is_path_to_program(cmd->command[0]))
+		return cmd->command[0];
 	env_cpy = assemble_env(*env);
 	env_path = NULL;
 	while (env_cpy[i])
@@ -75,16 +75,16 @@ char *get_path_to_program(t_cmd *token, t_env **env)
 	if (!env_path)
 		return NULL;
 	path_batch = ft_split(env_path, ':');
-	path = path_finder(token->command[0], path_batch);
+	path = path_finder(cmd->command[0], path_batch);
 	ft_free_array(path_batch);
 	ft_free_array(env_cpy);
 	return path;
 }
 
-void	ft_error(t_cmd *token, char *message)
+void	ft_error(t_cmd *cmd, char *message)
 {
 	ft_putstr_fd(message, 1);
-	free(token);
+	free(cmd);
 	exit(2);
 }
 

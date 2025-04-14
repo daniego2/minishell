@@ -21,9 +21,9 @@ void print_assembled_env(char **env)
 	}
 }
 
-void init_cmd(t_cmd **token)
+void init_cmd(t_cmd **cmd)
 {
-	t_cmd *aux = *token;
+	t_cmd *aux = *cmd;
 	t_cmd *aux2;
 	t_cmd *aux3;
 	t_redir *redir;

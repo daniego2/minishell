@@ -26,7 +26,7 @@ int	is_path_to_program(char *command)
 	return (0);
 }
 
-int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input, int exit_status)
+int	create_fork(t_cmd *cmd, char *path, t_env **env, int *standard_input, int exit_status)
 {
 
   	int	pid;
@@ -35,27 +35,27 @@ int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input, int 
 	pipe(fd);
 	pid = fork();
 	if (pid == -1)
-		ft_error(token, "Error: Fork failed");
+		ft_error(cmd, "Error: Fork failed");
 	if (pid == 0)
 	{
-		if (token->out_fd != -1)
-			dup2(token->out_fd, STDOUT_FILENO);
-		else if (token->next != NULL)
+		if (cmd->out_fd != -1)
+			dup2(cmd->out_fd, STDOUT_FILENO);
+		else if (cmd->next != NULL)
 			dup2(fd[1], STDOUT_FILENO);
-		if (token->in_fd != -1)
-			dup2(token->in_fd, STDIN_FILENO);
+		if (cmd->in_fd != -1)
+			dup2(cmd->in_fd, STDIN_FILENO);
 		else if (*standard_input != STDIN_FILENO)
 			dup2(*standard_input, STDIN_FILENO);
 		close(fd[0]);
 		close(fd[1]);
-		if (is_builtin(token->command[0]))
+		if (is_builtin(cmd->command[0]))
 		{
-			exit_status = exec_builtin(token, env, exit_status);
+			exit_status = exec_builtin(cmd, env, exit_status);
 			exit(0);
 		}
 		else
 		{
-			execve(path, token->command, assemble_env(*env));
+			execve(path, cmd->command, assemble_env(*env));
 		}
 	}
 	close(fd[1]);
@@ -63,25 +63,24 @@ int	create_fork(t_cmd *token, char *path, t_env **env, int *standard_input, int 
 		close(*standard_input);
 	waitpid(pid, &exit_status, 0);
 	*standard_input = fd[0];
-	free(path);
 	return (exit_status);
 }
 
-int	check_path(t_cmd *token, char **env)
+int	check_path(t_cmd *cmd, char **env)
 {
 	if (!env || !*env)
-		ft_error(token, "Error: Path not found");
+		ft_error(cmd, "Error: Path not found");
 	while (*env)
 	{
 		if (ft_strncmp(*env, "PATH=", 5) == 0)
 			return (0);
 		env++;
 	}
-	ft_error(token, "Error: Path not found");
+	ft_error(cmd, "Error: Path not found");
 	return (1);
 }
 
-int	exec(t_env **env, t_cmd *token, int exit_status)
+int	exec(t_env **env, t_cmd *cmd, int exit_status)
 {
 	char	*path;
 	int		standard_input;
@@ -90,24 +89,24 @@ int	exec(t_env **env, t_cmd *token, int exit_status)
 	if (!exit_status)
 		exit_status = 0;
 
-	while (token != NULL)
+	while (cmd != NULL)
 	{
-		token->in_fd = get_in_fd(token);
-		token->out_fd = get_out_fd(token);
-		path = get_path_to_program(token, env);
+		cmd->in_fd = get_in_fd(cmd);
+		cmd->out_fd = get_out_fd(cmd);
+		path = get_path_to_program(cmd, env);
 
-		if (!path && !is_builtin(token->command[0]))
+		if (!path && !is_builtin(cmd->command[0]))
 		{
-			printf("%s: Command not found\n", token->command[0]);
+			printf("%s: Command not found\n", cmd->command[0]);
 			return (127);
 		}
 
-		if (is_builtin_pipeless(token->command[0]))
-			exit_status = exec_builtin(token, env, exit_status);
+		if (is_builtin_pipeless(cmd->command[0]))
+			exit_status = exec_builtin(cmd, env, exit_status);
 		else
-			exit_status = create_fork(token, path, env, &standard_input, exit_status);
+			exit_status = create_fork(cmd, path, env, &standard_input, exit_status);
 		unlink(".here_doc");
-		token = token->next;
+		cmd = cmd->next;
 	}
 	if (standard_input != STDIN_FILENO)
 		close(standard_input);
