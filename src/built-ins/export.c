@@ -56,7 +56,7 @@ int exec_export(t_env **env, char **command)
 	current = *env;
 	while (current != NULL)
 	{
-		if (ft_strncmp(current->key, key, ft_strlen(key)) == 0)
+		if (ft_strcmp(current->key, key) == 0)
 		{
 			free(current->value);
 			current->value = ft_strdup(value);
