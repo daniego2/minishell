@@ -59,9 +59,8 @@ char	*get_prompt(t_env *env, char *key_a, char *key_b)
 	char	*sep_b;
 	int		prompt_len;
 
-	sep_a = ":";
-	sep_b = " > ";
-	assert(env != NULL);
+	sep_a = "\033[36m ";
+	sep_b = "\033[31m > \033[0m";
 	var_a = get_environment_variable(env, key_a);
 	var_b = get_environment_variable(env, key_b);
 	prompt_len = len(sep_a) + len(sep_b);
@@ -69,16 +68,15 @@ char	*get_prompt(t_env *env, char *key_a, char *key_b)
 		prompt_len += len(var_a->value);
 	if (var_b != NULL)
 		prompt_len += len(var_b->value);
-	prompt = ft_calloc(prompt_len + 1, sizeof(char));
+	prompt = ft_calloc(5 + prompt_len + 1, sizeof(char));
+	ft_memcpy(prompt, "\033[34m", 5);
 	if (var_a != NULL)
 	{
-		ft_memcpy(&prompt[0], var_a->value, len(var_a->value));
+		ft_memcpy(&prompt[5], var_a->value, len(var_a->value));
 		ft_memcpy(&prompt[len(prompt)], sep_a, len(sep_a));
 	}
 	if (var_b != NULL)
-	{
 		ft_memcpy(&prompt[len(prompt)], var_b->value, len(var_b->value));
-	}
 	ft_memcpy(&prompt[len(prompt)], sep_b, len(sep_b));
 	return (prompt);
 }
@@ -117,7 +115,6 @@ int	main(int argc, char **argv, char **env)
 		pipeline = parse_tokens(tokens);
 		if (pipeline != NULL)
 		{
-
 			// ISSUE: This makes things crash?
 			// test_parsed_pipeline(pipeline);
 			exit_status = exec(&environment, pipeline, exit_status);
