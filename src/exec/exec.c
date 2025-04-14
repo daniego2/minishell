@@ -63,7 +63,6 @@ int	create_fork(t_cmd *cmd, char *path, t_env **env, int *standard_input, int ex
 		close(*standard_input);
 	waitpid(pid, &exit_status, 0);
 	*standard_input = fd[0];
-	free(path);
 	return (exit_status);
 }
 
