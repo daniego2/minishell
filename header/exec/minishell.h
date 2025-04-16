@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/10 17:57:22 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:58:13 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ t_env 			*get_env(char **env);
 void	ctrl_c_handler(int sig);
 void	ctrl_quit_handler(int sig);
 void	setup_signal_handlers();
+void	free_list(t_env *env);
+
 
 // PIPEX.C:
 int		create_fork(t_cmd *cmd, char *path, t_env **env, int *standard_input, int exit_status);
@@ -74,10 +76,13 @@ int		is_builtin(char *command);
 int 	exec_builtin(t_cmd *cmd, t_env **env, int exit_status);
 int 	exec_pwd(void);
 int 	exec_echo(char **argv, int exit_status);
-int 	exec_env(t_env **env);
+int 	exec_env(t_env *env);
 int 	exec_export (t_env **env, char **command);
 int 	exec_unset(t_env **env, char **command);
-int 	exec_cd(char **argv);
+int 	exec_cd(t_env **env, char **argv);
+void change_current_directory(t_env **env, char *new_dir);
+t_env	*get_environment_variable(t_env *env, char *key);
+
 
 // REDIRECTIONS.C:
 int		get_out_fd(t_cmd *cmd);

@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:08:00 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/07 20:52:20 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/16 16:34:02 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ t_env *create_node(char *key, char *value)
     new_node = malloc(sizeof(t_env));
     if (!new_node)
         return NULL;
-    new_node->key = key;
-    new_node->value = value;
+    new_node->key = ft_strdup(key);
+    new_node->value = ft_strdup(value);
     new_node->next = NULL;
     return new_node;
 }

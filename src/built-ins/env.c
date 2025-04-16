@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-int exec_env(t_env **env)
+int exec_env(t_env *env)
 {
 	t_env *aux;
 
-	aux = *env;
+	aux = env;
 	while (aux != NULL)
 	{
 		printf("%s=%s\n", aux->key, aux->value);

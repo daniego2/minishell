@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 21:03:44 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/01 13:44:04 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:57:04 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,7 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 bool	ft_isspace(char c);
 bool	ft_strmatch(char *a, char *b);
+char	*ft_strncpy(char *dest, char *src, unsigned int n);
+
 
 #endif

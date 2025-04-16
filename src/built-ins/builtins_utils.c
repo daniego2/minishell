@@ -36,7 +36,7 @@ int exec_builtin(t_cmd *cmd, t_env **env, int exit_status)
 	if (ft_strcmp(cmd->command[0], "echo") == 0)
 		exit_status = exec_echo(cmd->command, exit_status);
 	else if (ft_strcmp(cmd->command[0], "cd") == 0)
-		exit_status = exec_cd(cmd->command);
+		exit_status = exec_cd(env, cmd->command);
 	else if (ft_strcmp(cmd->command[0], "pwd") == 0)
 		exit_status = exec_pwd();
 	else if (ft_strcmp(cmd->command[0], "export") == 0)
@@ -44,7 +44,7 @@ int exec_builtin(t_cmd *cmd, t_env **env, int exit_status)
 	else if (ft_strcmp(cmd->command[0], "unset") == 0)
 		exit_status = exec_unset(env, cmd->command);
 	else if (ft_strcmp(cmd->command[0], "env") == 0)
-		exit_status = exec_env(env);
+		exit_status = exec_env(*env);
 	else if (ft_strcmp(cmd->command[0], "exit") == 0)
 		exit_status = 0;
 	return (exit_status);

@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/10 17:58:45 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/16 19:21:03 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ int	exec(t_env **env, t_cmd *cmd, int exit_status)
 			exit_status = exec_builtin(cmd, env, exit_status);
 		else
 			exit_status = create_fork(cmd, path, env, &standard_input, exit_status);
+		if (path)
+            free(path);
 		unlink(".here_doc");
 		cmd = cmd->next;
 	}
