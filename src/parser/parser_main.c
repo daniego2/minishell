@@ -90,12 +90,11 @@ int	main(int argc, char **argv, char **env)
 	t_env		*environment;
 	int			exit_status;
 
-	if (argc != 1 || !argv)
-		return (1);
-	environment = malloc(sizeof(t_env) * 2);
+ 	if (argc != 1 || !argv)
+		return (1); 
 	environment = get_env(env);
 	tokenizer = init_tokenizer();
-	exit_status = 0;
+	exit_status = 0;	
 	while (true)
 	{
 		setup_signal_handlers();
@@ -103,13 +102,15 @@ int	main(int argc, char **argv, char **env)
 		text = readline(get_prompt(environment, "USER", "PWD"));
 		// text = readline("> ");
 		add_history(text);
-		if (text == NULL || ft_strncmp(text, "exit", 5) == 0)
+
+		// Esto no debería considerar los espacios "exit   "
+		if (text == NULL || ft_strcmp(text, "exit") == 0)
 		{
 			printf("exit\n");
-			return (1);
+			break;
 		}
 		else if (text[0] == '\0')
-			continue ;
+		continue ;
 		tokenizer->text = text;
 		tokens = tokenize(tokenizer);
 		pipeline = parse_tokens(tokens);
@@ -125,6 +126,7 @@ int	main(int argc, char **argv, char **env)
 		free(text);
 		free_tokens(tokens);
 	}
+	free_env(environment);
 	free(tokenizer);
-	return (pipeline->exit_status); // ONLY FOR -WExtra FLAG
+	return (exit_status);
 }

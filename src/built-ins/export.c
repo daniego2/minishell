@@ -48,8 +48,8 @@ int exec_export(t_env **env, char **command)
 
 	if (!command[1])
 	{
-		printf("No hay command[1]\n");
-		return (1);
+		print_env(*env);
+		return (0);
 	}
 	key = get_key(command[1]);
 	value = get_value(command[1]);
@@ -60,10 +60,14 @@ int exec_export(t_env **env, char **command)
 		{
 			free(current->value);
 			current->value = ft_strdup(value);
+			free(key);
+			free(value);
 			return (0);
 		}
 		current = current->next;
 	}
 	add_node(env, key, value);
+	free(key);
+	free(value);
 	return (0);
 }

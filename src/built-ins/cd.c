@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-int exec_cd(char **argv)
+int exec_cd(t_env **env, char **argv)
 {
     if (!argv[1])
     {
-        // Cambiar getenv() por la expansión de la variable de entorno HOME
+		//getenv() NO EXISTE EN EL PROYECTO
         if (chdir(getenv("HOME")) != 0)
         {
             perror("cd: No Home directory");
@@ -12,12 +12,8 @@ int exec_cd(char **argv)
         }
     }
     else
-    {
-        if (chdir(argv[1]) != 0)
-        {
-            perror("cd");
-            return (1); 
-        }
-    }
+	{
+		chdir(argv[1]);
+	}
     return (0);
 }

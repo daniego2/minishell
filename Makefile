@@ -9,7 +9,7 @@
 
 NAME        := minishell
 CC        := gcc
-FLAGS    := -g -lreadline #-Wall -Wextra -Werror 
+FLAGS    := -g -lreadline  #-fsanitize=address #-Wall -Wextra -Werror 
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
@@ -89,6 +89,7 @@ SRCS        :=     src/exec/get_env.c \
                           libft/ft_toupper.c \
 						  libft/ft_isspace.c \
 						  libft/ft_strmatch.c \
+						  libft/ft_strncpy.c \
 					
                           
 OBJS        := $(SRCS:.c=.o)

@@ -1,16 +1,19 @@
 // Estas funciones solo estan para testear cosas, no son parte del proyecto
 
 #include "minishell.h"
-/*
+
 void print_env (t_env *env)
 {
-    while (env != NULL)
+	t_env *aux;
+
+	aux = env;
+    while (aux != NULL)
     {
-        printf("Key: %s,        Value: %s\n", env->key, env->value);
-        env = env->next;
+        printf("Key: %s,        Value: %s\n", aux->key, aux->value);
+        aux = aux->next;
     }
 }
-
+/*
 void print_assembled_env(char **env)
 {
 	int i = 0;
