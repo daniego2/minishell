@@ -24,3 +24,17 @@ bool	ft_strmatch(char *a, char *b)
 	else
 		return (false);
 }
+
+// Check if the "b" string is a substring of "a" in starting at address of "a".
+bool	ft_substrmatch(char *a, char *b)
+{
+	size_t i;
+
+	i = 0;
+	while (a[i] != 0 && b[i] != 0 && a[i] == b[i])
+		i++;
+	if (a[i] == b[i] || b[i] == 0)
+		return (true);
+	else
+		return (false);
+}
