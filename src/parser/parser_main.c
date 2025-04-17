@@ -17,6 +17,8 @@
 #include "testing.h"
 #include "tokenizer.h"
 #include "utils1.h"
+#include "utils2.h"
+#include <assert.h> // WARN: Delete.
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -32,22 +34,9 @@ static t_tokenizer	*init_tokenizer(void)
 	return (tokenizer);
 }
 
-#include <assert.h> // WARN: Delete.
-
 int	len(char *s)
 {
 	return (ft_strlen(s));
-}
-
-t_env	*get_environment_variable(t_env *env, char *key)
-{
-	while (env != NULL)
-	{
-		if (ft_strmatch(env->key, key))
-			return (env);
-		env = env->next;
-	}
-	return (NULL);
 }
 
 char	*get_prompt(t_env *env, char *key_a, char *key_b)
@@ -100,7 +89,6 @@ int	main(int argc, char **argv, char **env)
 		setup_signal_handlers();
 		text = NULL;
 		text = readline(get_prompt(environment, "USER", "PWD"));
-		// text = readline("> ");
 		add_history(text);
 
 		// Esto no debería considerar los espacios "exit   "
@@ -113,7 +101,7 @@ int	main(int argc, char **argv, char **env)
 		continue ;
 		tokenizer->text = text;
 		tokens = tokenize(tokenizer);
-		pipeline = parse_tokens(tokens);
+		pipeline = parse_tokens(tokens, environment);
 		if (pipeline != NULL)
 		{
 			// ISSUE: This makes things crash?

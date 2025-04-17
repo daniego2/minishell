@@ -6,14 +6,17 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:13:30 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/04/01 13:33:34 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/17 15:54:39 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exit.h"
+#include "libft.h"
 #include "parser_types.h"
 #include "redirs.h"
 #include "utils1.h"
+#include "utils2.h"
+#include "variable_expansion.h"
 #include <assert.h>
 #include <stdio.h>
 
@@ -77,17 +80,7 @@ static t_error	parse_command(t_cmd *command_node, t_token **token)
 	return (ERROR_NONE);
 }
 
-t_token	*advance_n_tokens(t_token *token, int n)
-{
-	while (n != 0)
-	{
-		token = token->next;
-		n--;
-	}
-	return (token);
-}
-
-t_cmd	*parse_tokens(t_token *first_token)
+t_cmd	*parse_tokens(t_token *first_token, t_env *env)
 {
 	t_cmd	*command_node;
 	t_cmd	*pipeline;
@@ -129,5 +122,6 @@ t_cmd	*parse_tokens(t_token *first_token)
 			return (NULL);
 		}
 	}
+	expand_variables(pipeline, env);
 	return (pipeline);
 }

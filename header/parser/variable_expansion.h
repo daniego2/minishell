@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.h                                           :+:      :+:    :+:   */
+/*   variable_expansion.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 11:40:13 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/03/06 11:40:51 by cargonz2         ###   ########.fr       */
+/*   Created: 2025/04/17 15:52:13 by cargonz2          #+#    #+#             */
+/*   Updated: 2025/04/17 15:53:08 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS2_H
-# define UTILS2_H
+#ifndef VARIABLE_EXPANSION_H
+# define VARIABLE_EXPANSION_H
 
 # include "minishell.h"
-// int		ft_strlen(char *str);
-// char	*ft_strdup(char *str);
-t_env	*get_environment_variable(t_env *env, char *key);
+# include "parser_types.h"
+t_cmd	*expand_variables(t_cmd *pipeline, t_env *env);
 
 #endif

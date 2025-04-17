@@ -43,6 +43,7 @@ SRCS        :=     src/exec/get_env.c \
                     src/parser/tokenizer_helper.c \
                     src/parser/utils1.c \
                     src/parser/utils2.c \
+                    src/parser/variable_expansion.c \
                           libft/ft_atoi.c \
                           libft/ft_bzero.c \
                           libft/ft_calloc.c \
@@ -90,7 +91,6 @@ SRCS        :=     src/exec/get_env.c \
 						  libft/ft_isspace.c \
 						  libft/ft_strmatch.c \
 						  libft/ft_strncpy.c \
-					
                           
 OBJS        := $(SRCS:.c=.o)
 

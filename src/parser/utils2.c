@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stdbool.h"
-#include "stdlib.h"
+#include "minishell.h"
+#include <stdbool.h>
+#include <stdlib.h>
 
 bool	ft_memmatch(char *a, char *b, size_t n)
 {
@@ -29,6 +30,17 @@ bool	ft_memmatch(char *a, char *b, size_t n)
 			return (false);
 	}
 	return (true);
+}
+
+t_env	*get_environment_variable(t_env *env, char *key)
+{
+	while (env != NULL)
+	{
+		if (ft_strmatch(env->key, key))
+			return (env);
+		env = env->next;
+	}
+	return (NULL);
 }
 
 /*
