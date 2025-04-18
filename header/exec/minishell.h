@@ -82,6 +82,9 @@ int 	exec_unset(t_env **env, char **command);
 int 	exec_cd(t_env **env, char **argv);
 void change_current_directory(t_env **env, char *new_dir);
 t_env	*get_environment_variable(t_env *env, char *key);
+void print_export(t_env *env);
+t_env *copy_env_list(t_env *env);
+
 
 
 // REDIRECTIONS.C:

@@ -8,8 +8,14 @@ void free_env(t_env *env)
     {
         tmp = env;
         env = env->next;
-        free(tmp->key);
-        free(tmp->value);
+		if (tmp->key)
+		{
+			free(tmp->key);
+		}
+		if (tmp->value)
+		{
+        	free(tmp->value);
+		}
         free(tmp);
     }
 }

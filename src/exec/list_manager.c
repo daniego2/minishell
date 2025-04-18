@@ -40,15 +40,21 @@ t_env *create_node(char *key, char *value)
 
 void add_node(t_env **head, char *key, char *value)
 {
-	t_env *aux;
+    t_env *new_node;
+    t_env *aux;
 
-	if (head == NULL)
-	{
-		create_node(key, value);
-	}
-	aux = *head;
-	while (aux->next)
-		aux = aux->next;
-	aux->next = create_node(key, value);
+    new_node = create_node(key, value);
+    if (!new_node)
+        return;
 
+    if (*head == NULL)
+    {
+        *head = new_node;
+        return;
+    }
+
+    aux = *head;
+    while (aux->next)
+        aux = aux->next;
+    aux->next = new_node;
 }
