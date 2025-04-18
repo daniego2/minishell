@@ -2,6 +2,8 @@
 
 int is_builtin(char *command)
 {
+	if (command == NULL)
+		return (0);
 	if (ft_strcmp(command, "echo") == 0)
 		return (1);
 	else if (ft_strcmp(command, "cd") == 0)
@@ -20,6 +22,8 @@ int is_builtin(char *command)
 }
 int is_builtin_pipeless(char *command)
 {
+	if (command == NULL)
+		return (0);
 	if (ft_strcmp(command, "cd") == 0)
 		return (1);
 	else if (ft_strcmp(command, "export") == 0)
