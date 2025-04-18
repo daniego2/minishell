@@ -17,7 +17,7 @@ int	is_path_to_program(char *command)
 	int	i;
 	
 	i = 0;
-	while (command[i])
+	while (command && command[i])
 	{
 		if (command[0] == '/' || command[0] == '.')
 			return (1);
@@ -55,7 +55,12 @@ int	create_fork(t_cmd *cmd, char *path, t_env **env, int *standard_input, int ex
 		}
 		else
 		{
-			execve(path, cmd->command, assemble_env(*env));
+			if (execve(path, cmd->command, assemble_env(*env)) == -1)
+			{
+				write(2, cmd->command[0], ft_strlen(cmd->command[0]));
+				write(2, ": command not found\n", 20);
+				exit(127);
+			}
 		}
 	}
 	close(fd[1]);
@@ -94,13 +99,11 @@ int	exec(t_env **env, t_cmd *cmd, int exit_status)
 		cmd->in_fd = get_in_fd(cmd);
 		cmd->out_fd = get_out_fd(cmd);
 		path = get_path_to_program(cmd, env);
-
-		if (!path && !is_builtin(cmd->command[0]))
+		if (path == NULL && cmd->command[0] == NULL)
 		{
-			printf("%s: Command not found\n", cmd->command[0]);
-			return (127);
+			if (cmd->next == NULL)
+				return(127);
 		}
-
 		if (is_builtin_pipeless(cmd->command[0]))
 			exit_status = exec_builtin(cmd, env, exit_status);
 		else

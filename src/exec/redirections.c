@@ -7,16 +7,16 @@ int here_doc(char *filename)
 	int temp_fd;
 
 	temp_fd = open(".here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	line = readline("> ");
-	while (line != NULL)
+	while (1)
 	{
+		line = readline("> ");
 		if (strcmp(line, filename) == 0)
 		{
 			break;
 		}
 		write(temp_fd, line, ft_strlen(line));
         write(temp_fd, "\n", 1);
-		line = readline("> ");
+		free(line);
 	}
     close(temp_fd);
 	fd = open(".here_doc", O_RDONLY);
