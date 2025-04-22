@@ -116,6 +116,9 @@ t_cmd	*parse_tokens(t_token *first_token, t_env *env)
 		}
 		else if (token->type == TOKEN_END)
 			continue ;
+		// NOTE: Heredoc case
+		else if (token->type == TOKEN_WORD)
+			continue ;
 		else
 		{
 			printf("minishell: expected pipe, got \"%s\"\n", token->str);

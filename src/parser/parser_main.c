@@ -78,27 +78,29 @@ int	main(int argc, char **argv, char **env)
 	t_cmd		*pipeline;
 	t_env		*environment;
 	int			exit_status;
+	char		*prompt;
 
- 	if (argc != 1 || !argv)
-		return (1); 
+	if (argc != 1 || !argv)
+		return (1);
 	environment = get_env(env);
 	tokenizer = init_tokenizer();
-	exit_status = 0;	
+	exit_status = 0;
 	while (true)
 	{
 		setup_signal_handlers();
 		text = NULL;
-		text = readline(get_prompt(environment, "USER", "PWD"));
+		prompt = get_prompt(environment, "USER", "PWD");
+		text = readline(prompt);
+		free(prompt);
 		add_history(text);
-
 		// Esto no debería considerar los espacios "exit   "
 		if (text == NULL || ft_strcmp(text, "exit") == 0)
 		{
 			printf("exit\n");
-			break;
+			break ;
 		}
 		else if (text[0] == '\0')
-		continue ;
+			continue ;
 		tokenizer->text = text;
 		tokens = tokenize(tokenizer);
 		pipeline = parse_tokens(tokens, environment);
