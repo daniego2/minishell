@@ -25,6 +25,7 @@
 #include <readline/history.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <stdbool.h>
 
 typedef struct s_env
 {
@@ -76,6 +77,7 @@ int		is_builtin(char *command);
 int 	exec_builtin(t_cmd *cmd, t_env **env, int exit_status);
 int 	exec_pwd(void);
 int 	exec_echo(char **argv, int exit_status);
+int 	is_valid_flag(char *argv);
 int 	exec_env(t_env *env);
 int 	exec_export (t_env **env, char **command);
 int 	exec_unset(t_env **env, char **command);
