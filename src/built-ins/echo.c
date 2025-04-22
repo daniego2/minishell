@@ -42,4 +42,3 @@ int exec_echo(char **argv, int exit_status)
 		printf("\n");
 	return (0);
 }
-º
