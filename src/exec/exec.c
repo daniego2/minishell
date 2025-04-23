@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/16 19:21:03 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/23 20:08:47 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ int	exec(t_env **env, t_cmd *cmd, int exit_status)
 	while (cmd != NULL)
 	{
 		cmd->in_fd = get_in_fd(cmd);
+		if (cmd->redir != NULL && cmd->in_fd == -1)
+			return (1);
 		cmd->out_fd = get_out_fd(cmd);
 		path = get_path_to_program(cmd, env);
 		if (path == NULL && cmd->command[0] == NULL)

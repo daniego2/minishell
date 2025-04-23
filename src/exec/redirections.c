@@ -10,8 +10,14 @@ int here_doc(char *filename)
 	while (1)
 	{
 		line = readline("> ");
+		if (line == NULL)  // Handle Control+D (EOF);
+		{
+			printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n", filename);
+			break;
+		}
 		if (strcmp(line, filename) == 0)
 		{
+			free(line);
 			break;
 		}
 		write(temp_fd, line, ft_strlen(line));
@@ -52,7 +58,15 @@ int get_in_fd(t_cmd *cmd)
 	while (redir != NULL)
 	{
 		if (redir->type == REDIR_IN)
+		{
 			fd = open(redir->filename, O_RDONLY);
+			if (fd == -1)
+			{
+				printf("minishell: %s: No such file or directory\n", redir->filename);
+				return (1);
+			}
+		}
+
 		if (redir->type == REDIR_HEREDOC)
 		{
 			here_doc_fd = here_doc(redir->filename);
