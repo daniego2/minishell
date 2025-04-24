@@ -22,6 +22,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+int g_signal = 0;
+
 static t_tokenizer	*init_tokenizer(void)
 {
 	t_tokenizer	*tokenizer;
@@ -109,6 +111,11 @@ int	main(int argc, char **argv, char **env)
 			// ISSUE: This makes things crash?
 			// test_parsed_pipeline(pipeline);
 			exit_status = exec(&environment, pipeline, exit_status);
+			unlink("/tmp/.here_doc");
+			// if (g_signal == 130) {
+			// 	exit_status = 130;
+			// 	g_signal = 0;
+			// }
 			// printf("Exit Status B: %d\n", pipeline->exit_status);
 			// WARNING: PIPELINE AND TOKENS CANNOT BE FREED INDEPENDENTLY. ALWAYS KEEP TOGETHER!
 			free_pipeline(pipeline);

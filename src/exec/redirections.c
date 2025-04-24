@@ -6,7 +6,7 @@ int here_doc(char *filename)
 	char *line;
 	int temp_fd;
 
-	temp_fd = open(".here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	temp_fd = open("/tmp/.here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	while (1)
 	{
 		line = readline("> ");
@@ -25,7 +25,7 @@ int here_doc(char *filename)
 		free(line);
 	}
     close(temp_fd);
-	fd = open(".here_doc", O_RDONLY);
+	fd = open("/tmp/.here_doc", O_RDONLY);
     return (fd);
 }
 
@@ -63,7 +63,7 @@ int get_in_fd(t_cmd *cmd)
 			if (fd == -1)
 			{
 				printf("minishell: %s: No such file or directory\n", redir->filename);
-				return (1);
+				return (-69);
 			}
 		}
 
