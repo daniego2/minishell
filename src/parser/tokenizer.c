@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:35:13 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/04/01 15:31:54 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:24:14 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,17 +89,17 @@ void	test_tokens(t_token *tokens)
 	int	i;
 
 	i = 0;
-	//printf("\nTOKENIZER:\n\n");
+	// printf("\nTOKENIZER:\n\n");
 	while (tokens != NULL)
 	{
-		//printf("token %d: %s\n", i, tokens->str);
+		// printf("token %d: %s\n", i, tokens->str);
 		tokens = tokens->next;
 		i++;
 	}
 }
 
 // NOTE: How should I handle unknown tokens?
-t_token	*tokenize(t_tokenizer *tokenizer)
+t_token	*tokenize(t_tokenizer *tokenizer, t_env *environment)
 {
 	t_token	*first_token;
 	t_token	*token;
@@ -113,7 +113,7 @@ t_token	*tokenize(t_tokenizer *tokenizer)
 	// printf("%d: %s\n", token->type, token->str);
 	if (token->type == TOKEN_WORD)
 	{
-		clean_up_quotes(token);
+		clean_up_quotes_and_substitute_vars(token, environment);
 		// printf("(clean) %d: %s\n", token->type, token->str);
 	}
 	while (token->type != TOKEN_END)
@@ -127,7 +127,7 @@ t_token	*tokenize(t_tokenizer *tokenizer)
 		// printf("%d: %s\n", token->type, token->str);
 		if (token->type == TOKEN_WORD)
 		{
-			clean_up_quotes(token);
+			clean_up_quotes_and_substitute_vars(token, environment);
 			// printf("(clean) %d: %s\n", token->type, token->str);
 		}
 	}

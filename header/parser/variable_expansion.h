@@ -15,6 +15,8 @@
 
 # include "minishell.h"
 # include "parser_types.h"
-t_cmd	*expand_variables(t_cmd *pipeline, t_env *env);
+
+bool	is_symbol(char c);
+t_cmd	*expand_pipeline(t_cmd *pipeline, t_env *env);
 
 #endif

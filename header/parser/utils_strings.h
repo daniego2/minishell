@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quote_cleanup.h                                    :+:      :+:    :+:   */
+/*   utils_strings.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 13:30:46 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/04/23 17:21:34 by cargonz2         ###   ########.fr       */
+/*   Created: 2025/04/23 15:50:41 by cargonz2          #+#    #+#             */
+/*   Updated: 2025/04/23 16:24:10 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef QUOTE_CLEANUP_H
-# define QUOTE_CLEANUP_H
+#ifndef UTILS_STRINGS_H
+# define UTILS_STRINGS_H
 
-# include "minishell.h"
-# include "parser_types.h"
-int		find_matching_pair_on_str(char *str);
-t_token	*clean_up_quotes_and_substitute_vars(t_token *token,
-			t_env *environment);
+int		min(int a, int b);
+int		copy_str_n(char *dst, char *src, int n);
+char	*clone_str_n(char *str, int n);
+char	*cat_str_n_m(char *a, int n, char *b, int m);
 
 #endif

@@ -125,6 +125,5 @@ t_cmd	*parse_tokens(t_token *first_token, t_env *env)
 			return (NULL);
 		}
 	}
-	expand_variables(pipeline, env);
 	return (pipeline);
 }

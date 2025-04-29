@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:38:49 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/04/01 13:01:30 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/24 13:26:12 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,26 @@ t_env	*get_environment_variable(t_env *env, char *key)
 			return (env);
 		env = env->next;
 	}
+	return (NULL);
+}
+
+char	*get_environment_variable_value(t_env *env, char *key)
+{
+	while (env != NULL)
+	{
+		// printf("%s=%s\n", env->key, env->value);
+		// printf("key: %s\n", key);
+		// printf("OMEGA\n");
+		if (ft_strmatch(env->key, key))
+		{
+			// printf("AHHHHHHHHHHHHHHHH\n");
+			// printf("%s=%s\n", env->key, env->value);
+			return (env->value);
+		}
+		env = env->next;
+	}
+	// // WARN: DELETE
+	// printf("%s=\n", env->key);
 	return (NULL);
 }
 
