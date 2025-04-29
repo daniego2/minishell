@@ -6,11 +6,13 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/24 13:46:25 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/29 19:18:00 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int g_signal;
 
 int	is_path_to_program(char *command)
 {
@@ -67,10 +69,8 @@ int	create_fork(t_cmd *cmd, char *path, t_env **env, int *standard_input, int ex
 	if (*standard_input != STDIN_FILENO)
 		close(*standard_input);
 	waitpid(pid, &exit_status, 0);
-	if (WIFEXITED(exit_status))
-		exit_status = WEXITSTATUS(exit_status);
-	else if (WIFSIGNALED(exit_status))
-		exit_status = 128 + WTERMSIG(exit_status);
+	if (g_signal == SIGINT || g_signal == SIGQUIT)
+		exit_status = 128 + g_signal;
 	*standard_input = fd[0];
 	return (exit_status);
 }
@@ -101,6 +101,11 @@ int	exec(t_env **env, t_cmd *cmd, int exit_status)
 	while (cmd != NULL)
 	{
 		cmd->in_fd = get_in_fd(cmd);
+		if (g_signal == SIGINT)
+		{
+			g_signal = 0;
+			return (130);
+		}
 		if (cmd->redir != NULL && cmd->in_fd == -69)
 		{
 			cmd = cmd->next;

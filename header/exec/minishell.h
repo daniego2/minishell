@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/16 19:58:13 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:49:22 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,9 @@ int 	here_doc(char *filename);
 int		here_doc_eof(char *line, char *eof);
 
 int run_pipeline(t_env *environment, t_cmd *cmd);
+void setup_signal_handlers_hd(void);
+void	ctrl_quit_handler_hd(int sig);
+void	ctrl_c_handler_hd(int sig);
 
 // 
 
