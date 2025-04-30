@@ -27,7 +27,7 @@ void	ctrl_c_handler_hd(int sig)
 {
 	(void)sig;
 	g_signal = SIGINT;
-	printf("\n");
+	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

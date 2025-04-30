@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego <daniego@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/29 19:18:00 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/30 20:21:03 by daniego          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,53 +28,6 @@ int	is_path_to_program(char *command)
 	return (0);
 }
 
-int	create_fork(t_cmd *cmd, char *path, t_env **env, int *standard_input, int exit_status)
-{
-
-  	int	pid;
-	int fd[2];
-
-	pipe(fd);
-	pid = fork();
-	if (pid == -1)
-		ft_error(cmd, "Error: Fork failed");
-	if (pid == 0)
-	{
-		if (cmd->out_fd != -1)
-			dup2(cmd->out_fd, STDOUT_FILENO);
-		else if (cmd->next != NULL)
-			dup2(fd[1], STDOUT_FILENO);
-		if (cmd->in_fd != -1)
-			dup2(cmd->in_fd, STDIN_FILENO);
-		else if (*standard_input != STDIN_FILENO)
-			dup2(*standard_input, STDIN_FILENO);
-		close(fd[0]);
-		close(fd[1]);
-		if (is_builtin(cmd->command[0]))
-		{
-			exit_status = exec_builtin(cmd, env, exit_status);
-			exit(0);
-		}
-		else
-		{
-			if (execve(path, cmd->command, assemble_env(*env)) == -1)
-			{
-				write(2, cmd->command[0], ft_strlen(cmd->command[0]));
-				write(2, ": command not found\n", 20);
-				exit(127);
-			}
-		}
-	}
-	close(fd[1]);
-	if (*standard_input != STDIN_FILENO)
-		close(*standard_input);
-	waitpid(pid, &exit_status, 0);
-	if (g_signal == SIGINT || g_signal == SIGQUIT)
-		exit_status = 128 + g_signal;
-	*standard_input = fd[0];
-	return (exit_status);
-}
-
 int	check_path(t_cmd *cmd, char **env)
 {
 	if (!env || !*env)
@@ -89,38 +42,63 @@ int	check_path(t_cmd *cmd, char **env)
 	return (1);
 }
 
-int	exec(t_env **env, t_cmd *cmd, int exit_status)
+int	handle_standard_command(t_cmd *cmd, t_env **env, char *path, int *standard_input)
+{
+	int	exit_status;
+
+	exit_status = 0;
+	if (path == NULL && cmd->command[0] == NULL && cmd->next == NULL)
+		return (127);
+	if (is_builtin_pipeless(cmd->command[0]))
+		exit_status = exec_builtin(cmd, env, exit_status);
+	else
+		exit_status = create_fork(cmd, path, env, standard_input);
+	if (path)
+		free(path);
+	return (exit_status);
+}
+
+int	process_command(t_cmd *cmd, t_env **env, int *standard_input, int exit_status)
 {
 	char	*path;
+
+	cmd->in_fd = get_in_fd(cmd);
+	if (g_signal == SIGINT)
+	{
+		g_signal = 0;
+		return (130);
+	}
+	if (cmd->redir != NULL && cmd->in_fd == -69)
+	{
+		printf("minishell: %s: No such file or directory\n", cmd->redir->filename);
+		return (exit_status);
+	}
+	cmd->out_fd = get_out_fd(cmd);
+	path = get_path_to_program(cmd, env);
+	exit_status = handle_standard_command(cmd, env, path, standard_input);
+	return (exit_status);
+}
+
+int	exec(t_env **env, t_cmd *cmd, int exit_status)
+{
 	int		standard_input;
+	int		result;
 
 	standard_input = STDIN_FILENO;
 	if (!exit_status)
 		exit_status = 0;
-
 	while (cmd != NULL)
 	{
-		cmd->in_fd = get_in_fd(cmd);
-		if (g_signal == SIGINT)
-		{
-			g_signal = 0;
-			return (130);
-		}
+		result = process_command(cmd, env, &standard_input, exit_status);
 		if (cmd->redir != NULL && cmd->in_fd == -69)
 		{
 			cmd = cmd->next;
 			continue;
 		}
-		cmd->out_fd = get_out_fd(cmd);
-		path = get_path_to_program(cmd, env);
-		if (path == NULL && cmd->command[0] == NULL && cmd->next == NULL)
-			return(127);
-		if (is_builtin_pipeless(cmd->command[0]))
-			exit_status = exec_builtin(cmd, env, exit_status);
+		if (g_signal == SIGINT)
+			exit_status = result;
 		else
-			exit_status = create_fork(cmd, path, env, &standard_input, exit_status);
-		if (path)
-            free(path);	
+			exit_status = result;
 		cmd = cmd->next;
 	}
 	if (standard_input != STDIN_FILENO)

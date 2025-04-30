@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   assemble_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego <daniego@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 17:04:01 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/10 13:34:51 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:22:37 by daniego          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char **assemble_env(t_env *env)
 	i = 0;
 	while (env != NULL)
 	{
-		//printf("Key: %s Value: %s\n", env->key, env->value);
 		aux = ft_strjoin(env->key, "=");
 		new_env[i] = ft_strjoin(aux, env->value);
 		i++;
