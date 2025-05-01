@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego <daniego@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/30 20:38:06 by daniego          ###   ########.fr       */
+/*   Updated: 2025/05/01 18:29:30 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ void add_node(t_env **head, char *key, char *value);
 void free_env(t_env *env);
 void	ft_free_array(char **array);
 
-static void handle_heredoc_child(int temp_fd, char *delimiter);
+static void handle_heredoc_child(int temp_fd, char *delimiter, t_env *env, bool is_quoted);
 static int handle_heredoc_parent(int pid);
-int here_doc(char *delimiter);
+int here_doc(char *delimiter, t_env *env);
 int get_out_fd(t_cmd *cmd);
-int get_in_fd(t_cmd *cmd);
+int get_in_fd(t_cmd *cmd, t_env *env);
 
 void	ctrl_c_handler(int sig);
 void	ctrl_quit_handler(int sig);
@@ -105,6 +105,7 @@ int exec_pwd(void);
 int exec_unset(t_env **env, char **command);
 
 t_env	*get_environment_variable(t_env *env, char *key);
+char	*expand_heredoc_str(char *str, t_env *environment, int exit_status);
 
 
 #endif
