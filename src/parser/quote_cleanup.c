@@ -155,6 +155,10 @@ t_token	*clean_up_quotes_and_substitute_vars(t_token *token, t_env *environment)
 				s.quote_a = 0;
 				s.quote_b = 0;
 			}
+			else
+			{
+				s.cursor += 1;
+			}
 		}
 		else if (s.str[s.cursor] == '\'')
 		{
