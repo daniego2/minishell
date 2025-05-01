@@ -101,13 +101,6 @@ int	main(int argc, char **argv, char **env)
 			printf("exit\n");
 			break ;
 		}
-		// Hardcoded: equivalente al echo $? para testeo:
-		if (ft_strcmp(text, "status") == 0)
-		{
-			printf("Exit Status: %d\n", exit_status);
-			free(text);
-			continue ;
-		}
 		else if (text[0] == '\0')
 			continue ;
 		tokenizer->text = text;
