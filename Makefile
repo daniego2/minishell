@@ -22,7 +22,7 @@ SRCS        :=     src/exec/get_env.c \
 					src/exec/assemble_env.c \
 					src/exec/exec.c \
 					src/exec/exec_utils.c \
-					src/exec/test_functions.c \
+                    src/exec/exec_fork.c \
                     src/exec/redirections.c \
                     src/exec/signal.c \
 					src/built-ins/builtins_utils.c \
@@ -30,6 +30,7 @@ SRCS        :=     src/exec/get_env.c \
 					src/built-ins/echo.c \
 					src/built-ins/env.c \
 					src/built-ins/export.c \
+                    src/built-ins/export_utils.c \
 					src/built-ins/unset.c \
 					src/built-ins/cd.c \
 					src/parser/exit.c \

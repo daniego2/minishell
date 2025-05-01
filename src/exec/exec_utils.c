@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego <daniego@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:27 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/07 18:04:20 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/30 19:21:42 by daniego          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,36 +49,46 @@ char	**get_path(char **env, char *path)
 	return (path_batch);
 }
 
-char *get_path_to_program(t_cmd *cmd, t_env **env)
+char	*find_env_path(char **env_cpy)
 {
-	char *path;
-	char *env_path;
-	char **env_cpy;
-	char **path_batch;
-	int i;
-
-	i= 0;
-	if (is_path_to_program(cmd->command[0]))
-		return cmd->command[0];
-	env_cpy = assemble_env(*env);
-	env_path = NULL;
+	int	i;
+	
+	i = 0;
 	while (env_cpy[i])
 	{
 		if (ft_strncmp(env_cpy[i], "PATH=", 5) == 0)
-		{
-			env_path = env_cpy[i] + 5;
-			break;
-		}
+			return (env_cpy[i] + 5);
 		i++;
 	}
+	return (NULL);
+}
 
+char	*process_path_directories(char *command, char *env_path)
+{
+	char	**path_batch;
+	char	*path;
+	
 	if (!env_path)
-		return NULL;
+		return (NULL);
 	path_batch = ft_split(env_path, ':');
-	path = path_finder(cmd->command[0], path_batch);
+	path = path_finder(command, path_batch);
 	ft_free_array(path_batch);
+	return (path);
+}
+
+char	*get_path_to_program(t_cmd *cmd, t_env **env)
+{
+	char	*path;
+	char	*env_path;
+	char	**env_cpy;
+
+	if (is_path_to_program(cmd->command[0]))
+		return (cmd->command[0]);
+	env_cpy = assemble_env(*env);
+	env_path = find_env_path(env_cpy);
+	path = process_path_directories(cmd->command[0], env_path);
 	ft_free_array(env_cpy);
-	return path;
+	return (path);
 }
 
 void	ft_error(t_cmd *cmd, char *message)

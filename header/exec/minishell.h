@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego <daniego@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/16 19:58:13 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/04/30 20:38:06 by daniego          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,69 +34,77 @@ typedef struct s_env
 	struct s_env *next;
 }	t_env;
 
-void			print_env (t_env *env);
-void			free_env(t_env *env);
-t_env			*create_node(char *key, char *value);
-void			add_node(t_env **head, char *key, char *value);
-int				envsize(t_env *env);
-char			**assemble_env(t_env *env);
-t_env 			*get_env(char **env);
-void	ctrl_c_handler(int sig);
-void	ctrl_quit_handler(int sig);
-void	setup_signal_handlers();
-void	free_list(t_env *env);
+typedef struct s_io
+{
+    int *standard_input;
+    int fd[2];
+} t_io;
 
+char **assemble_env(t_env *env);
 
-// PIPEX.C:
-int		create_fork(t_cmd *cmd, char *path, t_env **env, int *standard_input, int exit_status);
-int		check_path(t_cmd *cmd, char **env);
-int 	exec(t_env **env, t_cmd *cmd, int exit_status);
-
-
-// PIPEX_UTILS.C:
+void	handle_child_process(t_cmd *cmd, char *path, t_env **env, t_io io);
+int	handle_parent_process(int pid, int *standard_input, int *fd, int exit_status);
+int	create_fork(t_cmd *cmd, char *path, t_env **env, int *standard_input);
 
 char	*path_finder(char *target, char **path_batch);
 char	**get_path(char **env, char *path);
+char	*find_env_path(char **env_cpy);
+char	*process_path_directories(char *command, char *env_path);
+char	*get_path_to_program(t_cmd *cmd, t_env **env);
 void	ft_error(t_cmd *cmd, char *message);
+
+int	is_path_to_program(char *command);
+int	check_path(t_cmd *cmd, char **env);
+int	handle_standard_command(t_cmd *cmd, t_env **env, char *path, int *standard_input);
+int	process_command(t_cmd *cmd, t_env **env, int *standard_input, int exit_status);
+int	exec(t_env **env, t_cmd *cmd, int exit_status);
+
+static char **allocate_no_delimiter(char *str);
+static char **allocate_with_delimiter(char *str, char *delimiter_pos, char delimiter);
+char **ft_split_first(char *str, char delimiter);
+t_env *get_env(char **env);
+
+int	envsize(t_env *env);
+t_env *create_node(char *key, char *value);
+void add_node(t_env **head, char *key, char *value);
+
+void free_env(t_env *env);
 void	ft_free_array(char **array);
-char 	*get_path_to_program(t_cmd *cmd, t_env **env);
-int 	is_path_to_program(char *command);
 
+static void handle_heredoc_child(int temp_fd, char *delimiter);
+static int handle_heredoc_parent(int pid);
+int here_doc(char *delimiter);
+int get_out_fd(t_cmd *cmd);
+int get_in_fd(t_cmd *cmd);
 
+void	ctrl_c_handler(int sig);
+void	ctrl_quit_handler(int sig);
+void	ctrl_quit_handler_hd(int sig);
+void	ctrl_c_handler_hd(int sig);
+void setup_signal_handlers(void);
+void setup_signal_handlers_hd(void);
 
+int is_builtin(char *command);
+int is_builtin_pipeless(char *command);
+int exec_builtin(t_cmd *cmd, t_env **env, int exit_status);
 
-// TEST_FUNCTIONS.C:
-void	print_env (t_env *environment);
-void	print_assembled_env(char **env);
-void 	init_cmd(t_cmd **cmd);
+void update_pwd(t_env **env, char *newpwd);
+int exec_cd(t_env **env, char **argv);
+int is_valid_flag(char *argv);
+int exec_echo(char **argv, int exit_status);
+int exec_env(t_env *env);
+int update_existing_env(t_env *env, char *key, char *value);
+void swap_env(t_env *a, t_env *b);
+void sort_env(t_env **env);
+t_env *copy_env(t_env *env);
+void print_sorted_env(t_env *env);
+char *get_key(char *command);
+char *get_value(char *command);
+int exec_export(t_env **env, char **command);
+int exec_pwd(void);
+int exec_unset(t_env **env, char **command);
 
-
-// BUILT-INS:
-int 	is_builtin_pipeless(char *command);
-int		is_builtin(char *command);
-int 	exec_builtin(t_cmd *cmd, t_env **env, int exit_status);
-int 	exec_pwd(void);
-int 	exec_echo(char **argv, int exit_status);
-int 	is_valid_flag(char *argv);
-int 	exec_env(t_env *env);
-int 	exec_export (t_env **env, char **command);
-int 	exec_unset(t_env **env, char **command);
-int 	exec_cd(t_env **env, char **argv);
-void change_current_directory(t_env **env, char *new_dir);
 t_env	*get_environment_variable(t_env *env, char *key);
-void print_export(t_env *env);
-t_env *copy_env_list(t_env *env);
 
-
-
-// REDIRECTIONS.C:
-int		get_out_fd(t_cmd *cmd);
-int 	get_in_fd(t_cmd *cmd);
-int 	here_doc(char *filename);
-int		here_doc_eof(char *line, char *eof);
-
-int run_pipeline(t_env *environment, t_cmd *cmd);
-
-// 
 
 #endif

@@ -1,25 +1,26 @@
 #include "minishell.h"
 
-
-char **ft_split_first(char *str, char delimiter)
+static char **allocate_no_delimiter(char *str)
 {
     char **result;
-    char *delimiter_pos;
-    size_t key_len;
 
-    if (!str)
+    result = malloc(sizeof(char *) * 2);
+    if (!result)
         return (NULL);
-
-    delimiter_pos = ft_strchr(str, delimiter);
-    if (!delimiter_pos)
+    result[0] = ft_strdup(str);
+    if (!result[0])
     {
-        result = malloc(sizeof(char *) * 2);
-        if (!result)
-            return (NULL);
-        result[0] = ft_strdup(str);
-        result[1] = NULL;
-        return (result);
+        free(result);
+        return (NULL);
     }
+    result[1] = NULL;
+    return (result);
+}
+
+static char **allocate_with_delimiter(char *str, char *delimiter_pos, char delimiter)
+{
+    char **result;
+    size_t key_len;
 
     key_len = delimiter_pos - str;
     result = malloc(sizeof(char *) * 3);
@@ -42,6 +43,20 @@ char **ft_split_first(char *str, char delimiter)
     }
     result[2] = NULL;
     return (result);
+}
+
+char **ft_split_first(char *str, char delimiter)
+{
+    char *delimiter_pos;
+    char **line;
+
+    if (!str)
+        return (NULL);
+    delimiter_pos = ft_strchr(str, delimiter);
+    if (!delimiter_pos)
+        return (allocate_no_delimiter(str));
+    line = allocate_with_delimiter(str, delimiter_pos, delimiter);
+    return (line);
 }
 
 t_env *get_env(char **env)
