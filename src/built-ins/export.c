@@ -14,10 +14,10 @@ void print_sorted_env(t_env *env)
 
     while (current)
     {
-        if (current->value && ft_strlen(current->value) > 0)
-            printf("declare -x %s=\"%s\"\n", current->key, current->value);
-        else
+        if (current->value == NULL)
             printf("declare -x %s\n", current->key);
+        else
+            printf("declare -x %s=\"%s\"\n", current->key, current->value);
         current = current->next;
     }
     free_env(copy);
@@ -54,7 +54,9 @@ char *get_value(char *command)
         i++;
 
     if (!command[i])
+	{
         return NULL;
+	}
 
     value = malloc(ft_strlen(command) - i + 1);
     i++;
@@ -73,27 +75,30 @@ int exec_export(t_env **env, char **command)
 {
     char *key;
     char *value;
+    int i;
 
     if (!command[1])
     {
         print_sorted_env(*env);
         return 0;
     }
-
-    key = get_key(command[1]);
-    value = get_value(command[1]);
-
-    if (!value)
+    i = 1;
+    while (command[i])
     {
-        value = malloc(1);
-        value[0] = '\0';
+        key = get_key(command[i]);
+        value = get_value(command[i]);
+        if (!value)
+        {
+            value = malloc(1);
+            value[0] = '\0';
+        }
+        if (!update_existing_env(*env, key, value))
+            add_node(env, key, value);
+
+        free(key);
+        if (value)
+            free(value);
+        i++;
     }
-
-    if (!update_existing_env(*env, key, value))
-        add_node(env, key, value);
-
-    free(key);
-    if (value)
-        free(value);
     return 0;
 }

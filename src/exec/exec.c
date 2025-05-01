@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego <daniego@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/30 20:21:03 by daniego          ###   ########.fr       */
+/*   Updated: 2025/05/01 17:37:04 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	process_command(t_cmd *cmd, t_env **env, int *standard_input, int exit_statu
 {
 	char	*path;
 
-	cmd->in_fd = get_in_fd(cmd);
+	cmd->in_fd = get_in_fd(cmd, *(env));
 	if (g_signal == SIGINT)
 	{
 		g_signal = 0;
