@@ -17,6 +17,7 @@
 #include "utils2.h"
 #include "utils_strings.h"
 #include "variable_expansion.h"
+#include <stdlib.h>
 
 static void	remove_quote_pair(char *str, int idx_a, int idx_b)
 {
@@ -85,7 +86,8 @@ static int	get_key_len(char *str, int key_index)
 	return (i);
 }
 
-static t_string_data	expand_variable(t_string_data s, t_env *environment)
+static t_string_data	expand_variable(t_string_data s, t_env *environment,
+		int exit_status)
 {
 	int		key_len;
 	char	*key;
@@ -98,9 +100,14 @@ static t_string_data	expand_variable(t_string_data s, t_env *environment)
 	// NOTE: Better handling?
 	if (key == NULL)
 		exit(1);
-	value = get_environment_variable_value(environment, key);
-	if (!value)
-		value = "";
+	else if (key[0] == '?' && key[1] == '\0')
+		value = ft_itoa(exit_status);
+	else
+	{
+		value = get_environment_variable_value(environment, key);
+		if (!value)
+			value = "";
+	}
 	// printf("KEY: %s\n", key);
 	// printf("VALUE: %s\n", value);
 	new_str = cat_str_n_m(s.str, s.cursor, value, ft_strlen(value));
@@ -118,7 +125,8 @@ static t_string_data	expand_variable(t_string_data s, t_env *environment)
 	return (s);
 }
 
-t_token	*clean_up_quotes_and_substitute_vars(t_token *token, t_env *environment)
+t_token	*clean_up_quotes_and_substitute_vars(t_token *token, t_env *environment,
+		int exit_status)
 {
 	t_string_data	s;
 
@@ -128,7 +136,7 @@ t_token	*clean_up_quotes_and_substitute_vars(t_token *token, t_env *environment)
 	{
 		if (s.str[s.cursor] == '$')
 		{
-			s = expand_variable(s, environment);
+			s = expand_variable(s, environment, exit_status);
 		}
 		else if (s.str[s.cursor] == '\"')
 		{
@@ -140,7 +148,7 @@ t_token	*clean_up_quotes_and_substitute_vars(t_token *token, t_env *environment)
 				{
 					if (s.str[s.cursor] == '$')
 					{
-						s = expand_variable(s, environment);
+						s = expand_variable(s, environment, exit_status);
 						s.quote_b -= s.key_len;
 						s.quote_b += s.value_len;
 						// printf("CURSOR: %s\n", &s.str[s.cursor]);

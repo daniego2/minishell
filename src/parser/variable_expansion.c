@@ -17,8 +17,7 @@
 
 bool	is_symbol(char c)
 {
-	if (c == '!' || c == '.' || c == ',' || c == '?' || c == '$' || c == '\''
-		|| c == '\"')
+	if (c == '!' || c == '.' || c == ',' || c == '$' || c == '\'' || c == '\"')
 		return (true);
 	else
 		return (false);

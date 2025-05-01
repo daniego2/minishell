@@ -16,6 +16,6 @@
 # include "minishell.h"
 # include "parser_types.h"
 
-t_token	*tokenize(t_tokenizer *tokenizer, t_env *environment);
+t_token	*tokenize(t_tokenizer *tokenizer, t_env *environment, int exit_status);
 
 #endif

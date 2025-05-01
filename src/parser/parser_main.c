@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int g_signal = 0;
+int					g_signal = 0;
 
 static t_tokenizer	*init_tokenizer(void)
 {
@@ -109,7 +109,7 @@ int	main(int argc, char **argv, char **env)
 		if (pipeline != NULL)
 		{
 			// ISSUE: This makes things crash?
-			test_parsed_pipeline(pipeline);
+			// test_parsed_pipeline(pipeline);
 			exit_status = exec(&environment, pipeline, exit_status);
 			unlink("/tmp/.here_doc");
 			// if (g_signal == 130) {

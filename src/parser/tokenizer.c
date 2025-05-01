@@ -99,7 +99,7 @@ void	test_tokens(t_token *tokens)
 }
 
 // NOTE: How should I handle unknown tokens?
-t_token	*tokenize(t_tokenizer *tokenizer, t_env *environment)
+t_token	*tokenize(t_tokenizer *tokenizer, t_env *environment, int exit_status)
 {
 	t_token	*first_token;
 	t_token	*token;
@@ -113,7 +113,7 @@ t_token	*tokenize(t_tokenizer *tokenizer, t_env *environment)
 	// printf("%d: %s\n", token->type, token->str);
 	if (token->type == TOKEN_WORD)
 	{
-		clean_up_quotes_and_substitute_vars(token, environment);
+		clean_up_quotes_and_substitute_vars(token, environment, exit_status);
 		// printf("(clean) %d: %s\n", token->type, token->str);
 	}
 	while (token->type != TOKEN_END)
@@ -127,7 +127,8 @@ t_token	*tokenize(t_tokenizer *tokenizer, t_env *environment)
 		// printf("%d: %s\n", token->type, token->str);
 		if (token->type == TOKEN_WORD)
 		{
-			clean_up_quotes_and_substitute_vars(token, environment);
+			clean_up_quotes_and_substitute_vars(token, environment,
+				exit_status);
 			// printf("(clean) %d: %s\n", token->type, token->str);
 		}
 	}
