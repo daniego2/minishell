@@ -96,10 +96,14 @@ int	main(int argc, char **argv, char **env)
 		free(prompt);
 		add_history(text);
 		// Esto no debería considerar los espacios "exit   "
-		if (text == NULL || ft_strcmp(text, "exit") == 0)
+		if (text == NULL)
 		{
 			printf("exit\n");
 			break ;
+		}
+		if (g_signal == SIGINT) {
+			exit_status = 130; // Update exit status for SIGINT
+			g_signal = 0;     // Reset the signal state
 		}
 		else if (text[0] == '\0')
 			continue ;
@@ -110,13 +114,10 @@ int	main(int argc, char **argv, char **env)
 		{
 			// ISSUE: This makes things crash?
 			// test_parsed_pipeline(pipeline);
+
 			exit_status = exec(&environment, pipeline, exit_status);
 			// printf("exit_status: %d\n", exit_status);
 			unlink("/tmp/.here_doc");
-			// if (g_signal == 130) {
-			// 	exit_status = 130;
-			// 	g_signal = 0;
-			// }
 			// printf("Exit Status B: %d\n", pipeline->exit_status);
 			// WARNING: PIPELINE AND TOKENS CANNOT BE FREED INDEPENDENTLY. ALWAYS KEEP TOGETHER!
 			free_pipeline(pipeline);

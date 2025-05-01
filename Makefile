@@ -33,6 +33,7 @@ SRCS        :=     src/exec/get_env.c \
                     src/built-ins/export_utils.c \
 					src/built-ins/unset.c \
 					src/built-ins/cd.c \
+					src/built-ins/exit.c \
 					src/parser/exit.c \
                     src/parser/free.c \
                     src/parser/parser.c \

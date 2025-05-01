@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/01 18:29:30 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/01 20:28:17 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char *get_value(char *command);
 int exec_export(t_env **env, char **command);
 int exec_pwd(void);
 int exec_unset(t_env **env, char **command);
+int exec_exit(char **command);
 
 t_env	*get_environment_variable(t_env *env, char *key);
 char	*expand_heredoc_str(char *str, t_env *environment, int exit_status);
