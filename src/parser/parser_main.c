@@ -104,12 +104,12 @@ int	main(int argc, char **argv, char **env)
 		else if (text[0] == '\0')
 			continue ;
 		tokenizer->text = text;
-		tokens = tokenize(tokenizer);
+		tokens = tokenize(tokenizer, environment);
 		pipeline = parse_tokens(tokens, environment);
 		if (pipeline != NULL)
 		{
 			// ISSUE: This makes things crash?
-			// test_parsed_pipeline(pipeline);
+			test_parsed_pipeline(pipeline);
 			exit_status = exec(&environment, pipeline, exit_status);
 			unlink("/tmp/.here_doc");
 			// if (g_signal == 130) {

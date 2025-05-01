@@ -181,6 +181,27 @@
       "header/built-ins",
       "-c",
       "-o",
+      "src/exec/signal.o",
+      "src/exec/signal.c"
+    ],
+    "directory": "/home/charlie/projects/minishell",
+    "file": "/home/charlie/projects/minishell/src/exec/signal.c",
+    "output": "/home/charlie/projects/minishell/src/exec/signal.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-I",
+      "libft",
+      "-I",
+      "header/exec",
+      "-I",
+      "header/parser",
+      "-I",
+      "header/built-ins",
+      "-c",
+      "-o",
       "src/built-ins/builtins_utils.o",
       "src/built-ins/builtins_utils.c"
     ],
@@ -544,6 +565,48 @@
     "directory": "/home/charlie/projects/minishell",
     "file": "/home/charlie/projects/minishell/src/parser/utils2.c",
     "output": "/home/charlie/projects/minishell/src/parser/utils2.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-I",
+      "libft",
+      "-I",
+      "header/exec",
+      "-I",
+      "header/parser",
+      "-I",
+      "header/built-ins",
+      "-c",
+      "-o",
+      "src/parser/utils_strings.o",
+      "src/parser/utils_strings.c"
+    ],
+    "directory": "/home/charlie/projects/minishell",
+    "file": "/home/charlie/projects/minishell/src/parser/utils_strings.c",
+    "output": "/home/charlie/projects/minishell/src/parser/utils_strings.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-I",
+      "libft",
+      "-I",
+      "header/exec",
+      "-I",
+      "header/parser",
+      "-I",
+      "header/built-ins",
+      "-c",
+      "-o",
+      "src/parser/variable_expansion.o",
+      "src/parser/variable_expansion.c"
+    ],
+    "directory": "/home/charlie/projects/minishell",
+    "file": "/home/charlie/projects/minishell/src/parser/variable_expansion.c",
+    "output": "/home/charlie/projects/minishell/src/parser/variable_expansion.o"
   },
   {
     "arguments": [
@@ -1336,6 +1399,27 @@
       "header/built-ins",
       "-c",
       "-o",
+      "libft/ft_strcmp.o",
+      "libft/ft_strcmp.c"
+    ],
+    "directory": "/home/charlie/projects/minishell",
+    "file": "/home/charlie/projects/minishell/libft/ft_strcmp.c",
+    "output": "/home/charlie/projects/minishell/libft/ft_strcmp.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-I",
+      "libft",
+      "-I",
+      "header/exec",
+      "-I",
+      "header/parser",
+      "-I",
+      "header/built-ins",
+      "-c",
+      "-o",
       "libft/ft_strnstr.o",
       "libft/ft_strnstr.c"
     ],
@@ -1489,5 +1573,26 @@
     "directory": "/home/charlie/projects/minishell",
     "file": "/home/charlie/projects/minishell/libft/ft_strmatch.c",
     "output": "/home/charlie/projects/minishell/libft/ft_strmatch.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-I",
+      "libft",
+      "-I",
+      "header/exec",
+      "-I",
+      "header/parser",
+      "-I",
+      "header/built-ins",
+      "-c",
+      "-o",
+      "libft/ft_strncpy.o",
+      "libft/ft_strncpy.c"
+    ],
+    "directory": "/home/charlie/projects/minishell",
+    "file": "/home/charlie/projects/minishell/libft/ft_strncpy.c",
+    "output": "/home/charlie/projects/minishell/libft/ft_strncpy.o"
   }
 ]
