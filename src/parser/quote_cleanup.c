@@ -125,6 +125,22 @@ static t_string_data	expand_variable(t_string_data s, t_env *environment,
 	return (s);
 }
 
+char	*expand_heredoc_str(char *str, t_env *environment, int exit_status)
+{
+	t_string_data	s;
+
+	s = (t_string_data){0};
+	s.str = str;
+	while (s.str[s.cursor] != 0)
+	{
+		if (s.str[s.cursor] == '$')
+			s = expand_variable(s, environment, exit_status);
+		else
+			s.cursor++;
+	}
+	return (s.str);
+}
+
 t_token	*clean_up_quotes_and_substitute_vars(t_token *token, t_env *environment,
 		int exit_status)
 {
