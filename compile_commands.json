@@ -139,12 +139,12 @@
       "header/built-ins",
       "-c",
       "-o",
-      "src/exec/test_functions.o",
-      "src/exec/test_functions.c"
+      "src/exec/exec_fork.o",
+      "src/exec/exec_fork.c"
     ],
     "directory": "/home/charlie/projects/minishell",
-    "file": "/home/charlie/projects/minishell/src/exec/test_functions.c",
-    "output": "/home/charlie/projects/minishell/src/exec/test_functions.o"
+    "file": "/home/charlie/projects/minishell/src/exec/exec_fork.c",
+    "output": "/home/charlie/projects/minishell/src/exec/exec_fork.o"
   },
   {
     "arguments": [
@@ -307,6 +307,27 @@
       "header/built-ins",
       "-c",
       "-o",
+      "src/built-ins/export_utils.o",
+      "src/built-ins/export_utils.c"
+    ],
+    "directory": "/home/charlie/projects/minishell",
+    "file": "/home/charlie/projects/minishell/src/built-ins/export_utils.c",
+    "output": "/home/charlie/projects/minishell/src/built-ins/export_utils.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-I",
+      "libft",
+      "-I",
+      "header/exec",
+      "-I",
+      "header/parser",
+      "-I",
+      "header/built-ins",
+      "-c",
+      "-o",
       "src/built-ins/unset.o",
       "src/built-ins/unset.c"
     ],
@@ -334,6 +355,27 @@
     "directory": "/home/charlie/projects/minishell",
     "file": "/home/charlie/projects/minishell/src/built-ins/cd.c",
     "output": "/home/charlie/projects/minishell/src/built-ins/cd.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-g",
+      "-I",
+      "libft",
+      "-I",
+      "header/exec",
+      "-I",
+      "header/parser",
+      "-I",
+      "header/built-ins",
+      "-c",
+      "-o",
+      "src/built-ins/exit.o",
+      "src/built-ins/exit.c"
+    ],
+    "directory": "/home/charlie/projects/minishell",
+    "file": "/home/charlie/projects/minishell/src/built-ins/exit.c",
+    "output": "/home/charlie/projects/minishell/src/built-ins/exit.o"
   },
   {
     "arguments": [

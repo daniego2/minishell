@@ -18,6 +18,7 @@
 int		find_matching_pair_on_str(char *str);
 t_token	*clean_up_quotes_and_substitute_vars(t_token *token, t_env *environment,
 			int exit_status);
+t_token	*clean_up_quotes(t_token *token, t_env *environment, int exit_status);
 char	*expand_heredoc_str(char *str, t_env *environment, int exit_status);
 
 #endif

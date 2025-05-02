@@ -98,7 +98,6 @@ void	test_tokens(t_token *tokens)
 	}
 }
 
-// NOTE: How should I handle unknown tokens?
 t_token	*tokenize(t_tokenizer *tokenizer, t_env *environment, int exit_status)
 {
 	t_token	*first_token;
@@ -107,32 +106,22 @@ t_token	*tokenize(t_tokenizer *tokenizer, t_env *environment, int exit_status)
 	token = get_next_token(tokenizer);
 	first_token = token;
 	if (token == NULL)
-	{
 		free_tokens_tokenizer_and_exit(tokenizer, first_token);
-	}
-	// printf("%d: %s\n", token->type, token->str);
 	if (token->type == TOKEN_WORD)
-	{
 		clean_up_quotes_and_substitute_vars(token, environment, exit_status);
-		// printf("(clean) %d: %s\n", token->type, token->str);
-	}
 	while (token->type != TOKEN_END)
 	{
 		token->next = get_next_token(tokenizer);
-		token = token->next;
-		if (token == NULL)
-		{
+		if (token->next == NULL)
 			free_tokens_tokenizer_and_exit(tokenizer, first_token);
-		}
-		// printf("%d: %s\n", token->type, token->str);
-		if (token->type == TOKEN_WORD)
-		{
-			clean_up_quotes_and_substitute_vars(token, environment,
+		if (token->next->type == TOKEN_WORD && token->type != TOKEN_HEREDOC)
+			clean_up_quotes_and_substitute_vars(token->next, environment,
 				exit_status);
-			// printf("(clean) %d: %s\n", token->type, token->str);
-		}
+		else if (token->next->type == TOKEN_WORD && token->type == TOKEN_HEREDOC)
+			clean_up_quotes(token->next, environment, exit_status);
+		token = token->next;
 	}
-	test_tokens(first_token);
+	// test_tokens(first_token);
 	tokenizer->text = NULL;
 	tokenizer->cursor = 0;
 	return (first_token);

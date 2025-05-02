@@ -204,3 +204,31 @@ t_token	*clean_up_quotes_and_substitute_vars(t_token *token, t_env *environment,
 	token->str = s.str;
 	return (token);
 }
+
+t_token	*clean_up_quotes(t_token *token, t_env *environment, int exit_status)
+{
+	t_string_data	s;
+
+	s = (t_string_data){0};
+	s.str = token->str;
+	while (s.str[s.cursor] != 0)
+	{
+		if (s.str[s.cursor] == '\"' || s.str[s.cursor] == '\'')
+		{
+			s.quote_a = s.cursor;
+			s.quote_b = find_matching_pair_on_str(s.str, s.quote_a);
+			if (s.quote_b != -1)
+			{
+				token->is_quoted = true;
+				remove_quote_pair(s.str, s.quote_a, s.quote_b);
+				s.cursor = s.quote_b - 1;
+			}
+			else
+				s.cursor += 1;
+		}
+		else
+			s.cursor++;
+	}
+	token->str = s.str;
+	return (token);
+}

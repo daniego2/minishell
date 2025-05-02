@@ -43,6 +43,7 @@ typedef struct s_token
 	t_token_type	type;
 	char			*str;
 	struct s_token	*next;
+	bool			is_quoted;
 }					t_token;
 
 enum				redir_type
@@ -56,6 +57,7 @@ enum				redir_type
 typedef struct s_redir
 {
 	char			*filename;
+	bool			is_quoted;
 	enum redir_type	type;
 	struct s_redir	*next;
 }					t_redir;
@@ -64,10 +66,10 @@ typedef struct s_cmd
 {
 	char **command; // NOTE: program_name + args + NULL
 	struct s_cmd	*next;
-	int		in_fd;
-	int		out_fd;
-	int		exit_status;
-	t_redir					*redir;
-}							t_cmd;
+	int				in_fd;
+	int				out_fd;
+	int				exit_status;
+	t_redir			*redir;
+}					t_cmd;
 
 #endif

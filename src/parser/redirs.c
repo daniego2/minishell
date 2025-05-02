@@ -84,7 +84,8 @@ t_error	parse_redirections(t_cmd *command_node, t_token **token)
 		}
 		set_redir_type(redir, *token);
 		(*token) = (*token)->next;
-		// printf("redir->type: %d\n", redir->type);
+		// printf("parser token: %d, filename: %s\n", (*token)->is_quoted, (*token)->str);
+		redir->is_quoted = (*token)->is_quoted;
 		error = set_redir_filename(redir, *token);
 		if (error == ERROR_BAD_TOKEN)
 			return (error);
