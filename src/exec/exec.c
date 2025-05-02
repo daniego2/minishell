@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego <daniego@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/02 15:44:41 by daniego          ###   ########.fr       */
+/*   Updated: 2025/05/02 18:18:40 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,6 @@ int	is_path_to_program(char *command)
 		i++;
 	}
 	return (0);
-}
-
-int	check_path(t_cmd *cmd, char **env)
-{
-	if (!env || !*env)
-		ft_error(cmd, "Error: Path not found");
-	while (*env)
-	{
-		if (ft_strncmp(*env, "PATH=", 5) == 0)
-			return (0);
-		env++;
-	}
-	ft_error(cmd, "Error: Path not found");
-	return (1);
 }
 
 int	handle_standard_command(t_cmd *cmd, t_env **env, char *path, int *standard_input)
@@ -71,7 +57,7 @@ int	process_command(t_cmd *cmd, t_env **env, int *standard_input, int exit_statu
 	if (cmd->redir != NULL && cmd->in_fd == -69)
 	{
 		printf("minishell: %s: No such file or directory\n", cmd->redir->filename);
-		return (exit_status);
+		return (1);
 	}
 	cmd->out_fd = get_out_fd(cmd);
 	path = get_path_to_program(cmd, env);
@@ -79,29 +65,33 @@ int	process_command(t_cmd *cmd, t_env **env, int *standard_input, int exit_statu
 	return (exit_status);
 }
 
-int	exec(t_env **env, t_cmd *cmd, int exit_status)
+int exec(t_env **env, t_cmd *cmd, int exit_status)
 {
-	int		standard_input;
-	int		result;
+    int standard_input;
+    int result;
+    int status;
 
-	standard_input = STDIN_FILENO;
-	if (!exit_status)
-		exit_status = 0;
-	while (cmd != NULL)
-	{
-		result = process_command(cmd, env, &standard_input, exit_status);
-		if (cmd->redir != NULL && cmd->in_fd == -69)
-		{
-			cmd = cmd->next;
-			continue;
-		}
-		if (g_signal == SIGINT)
+    standard_input = STDIN_FILENO;
+    if (!exit_status)
+        exit_status = 0;
+    while (cmd != NULL)
+    {
+        result = process_command(cmd, env, &standard_input, exit_status);
+        if (cmd->redir != NULL && cmd->in_fd == -69)
+        {
 			exit_status = result;
-		else
-			exit_status = result;
-		cmd = cmd->next;
-	}
-	if (standard_input != STDIN_FILENO)
-		close(standard_input);
-	return (exit_status);
+            cmd = cmd->next;
+            continue;
+        }
+        if (g_signal == SIGINT)
+            exit_status = result;
+        else
+            exit_status = result;
+        if (WIFEXITED(result))
+            exit_status = WEXITSTATUS(result);
+        cmd = cmd->next;
+    }
+    if (standard_input != STDIN_FILENO)
+        close(standard_input);
+    return (exit_status);
 }

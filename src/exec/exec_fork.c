@@ -5,6 +5,7 @@ extern int g_signal;
 void	handle_child_process(t_cmd *cmd, char *path, t_env **env, t_io io)
 {
     int exit_status;
+    char **env_array;
 
     exit_status = 0;
     if (cmd->out_fd != -1)
@@ -22,11 +23,17 @@ void	handle_child_process(t_cmd *cmd, char *path, t_env **env, t_io io)
         exit_status = exec_builtin(cmd, env, exit_status);
         exit(0);
     }
-    else if (execve(path, cmd->command, assemble_env(*env)) == -1)
+    else
     {
-        write(2, cmd->command[0], ft_strlen(cmd->command[0]));
-        write(2, ": command not found\n", 20);
-        exit(127);
+        env_array = assemble_env(*env);
+        if (!path || execve(path, cmd->command, env_array) == -1)
+        {
+            if (env_array) 
+                ft_free_array(env_array);
+            write(2, cmd->command[0], ft_strlen(cmd->command[0]));
+            write(2, ": command not found\n", 20);
+            exit(127);
+        }
     }
 }
 
@@ -56,7 +63,10 @@ int	create_fork(t_cmd *cmd, char *path, t_env **env, int *standard_input)
     io.fd[1] = fd[1];
     pid = fork();
     if (pid == -1)
-        ft_error(cmd, "Error: Fork failed");
+    {
+        perror("Fork failed");
+        exit(EXIT_FAILURE);
+    }
     if (pid == 0)
         handle_child_process(cmd, path, env, io);
     return (handle_parent_process(pid, standard_input, fd, exit_status));
