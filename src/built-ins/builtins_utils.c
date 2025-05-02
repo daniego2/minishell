@@ -50,6 +50,11 @@ int exec_builtin(t_cmd *cmd, t_env **env, int exit_status)
 	else if (ft_strcmp(cmd->command[0], "env") == 0)
 		exit_status = exec_env(*env);
 	else if (ft_strcmp(cmd->command[0], "exit") == 0)
-		exit_status = exec_exit(cmd->command);
+	{
+		if (cmd->in_fd != STDIN_FILENO && cmd->next != NULL)
+			return (exit_status);
+		else
+			exit_status = exec_exit(cmd->command);
+	}
 	return (exit_status);
 }
