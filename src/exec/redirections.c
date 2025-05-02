@@ -26,8 +26,6 @@ int	delimiter_is_quoted(char *delimiter)
 	return (0);
 }
 
-// Variable expansion logic working. Need to change how im receiving delimiter,
-// as is always unquoted.
 static void	handle_heredoc_child(int temp_fd, char *delimiter, t_env *env,
 		bool is_quoted)
 {
@@ -37,10 +35,8 @@ static void	handle_heredoc_child(int temp_fd, char *delimiter, t_env *env,
 	while (1)
 	{
 		line = readline("> ");
-		if (is_quoted == false)
-		{
+		if (is_quoted == 0)
 			line = expand_heredoc_str(line, env, 0);
-		}
 		if (!line)
 		{
 			printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
@@ -77,18 +73,12 @@ int	here_doc(char *delimiter, bool is_quoted, t_env *env)
 	int	pid;
 
 	temp_fd = open("/tmp/.here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	printf("delimiter: %s\n", delimiter);
-	printf("is_quoted: %d\n", is_quoted);
 	if (delimiter_is_quoted(delimiter) == 1)
 		printf("minishell: WARNING: here-document delimiter delimited by single quote: You can exit here-doc with ( %s )\n", delimiter);
 	pid = fork();
 	if (pid == 0)
 	{
-		if (delimiter_is_quoted(delimiter) == 1
-			|| delimiter_is_quoted(delimiter) == 2)
-			handle_heredoc_child(temp_fd, delimiter, env, true);
-		else
-			handle_heredoc_child(temp_fd, delimiter, env, false);
+		handle_heredoc_child(temp_fd, delimiter, env, is_quoted);
 	}
 	else
 	{
