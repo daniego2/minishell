@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego <daniego@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:27 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/30 19:21:42 by daniego          ###   ########.fr       */
+/*   Updated: 2025/05/02 18:20:21 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,6 @@ char	*get_path_to_program(t_cmd *cmd, t_env **env)
 	path = process_path_directories(cmd->command[0], env_path);
 	ft_free_array(env_cpy);
 	return (path);
-}
-
-void	ft_error(t_cmd *cmd, char *message)
-{
-	ft_putstr_fd(message, 1);
-	free(cmd);
-	exit(2);
 }
 
 

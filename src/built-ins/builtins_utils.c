@@ -54,7 +54,12 @@ int exec_builtin(t_cmd *cmd, t_env **env, int exit_status)
 		if (cmd->in_fd != STDIN_FILENO && cmd->next != NULL)
 			return (exit_status);
 		else
+		{
 			exit_status = exec_exit(cmd->command);
+			free_pipeline(cmd);
+			free_env(*env);
+			exit(exit_status);
+		}
 	}
 	return (exit_status);
 }

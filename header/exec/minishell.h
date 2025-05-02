@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego <daniego@student.42.fr>            +#+  +:+       +#+        */
+/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/02 15:44:44 by daniego          ###   ########.fr       */
+/*   Updated: 2025/05/02 18:19:57 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,8 @@ char				**get_path(char **env, char *path);
 char				*find_env_path(char **env_cpy);
 char				*process_path_directories(char *command, char *env_path);
 char				*get_path_to_program(t_cmd *cmd, t_env **env);
-void				ft_error(t_cmd *cmd, char *message);
 
 int					is_path_to_program(char *command);
-int					check_path(t_cmd *cmd, char **env);
 int					handle_standard_command(t_cmd *cmd, t_env **env, char *path,
 						int *standard_input);
 int					process_command(t_cmd *cmd, t_env **env,
@@ -114,5 +112,5 @@ int					exec_exit(char **command);
 t_env				*get_environment_variable(t_env *env, char *key);
 char				*expand_heredoc_str(char *str, t_env *environment,
 						int exit_status);
-
+void				free_pipeline(t_cmd *command_node);
 #endif
