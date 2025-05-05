@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/05 14:47:22 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:11:48 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int exec(t_env **env, t_cmd *cmd, int exit_status)
 {
     int standard_input;
     int result;
-    int status;
 
     standard_input = STDIN_FILENO;
     if (!exit_status)
@@ -82,10 +81,7 @@ int exec(t_env **env, t_cmd *cmd, int exit_status)
             cmd = cmd->next;
             continue;
         }
-        if (g_signal == SIGINT)
-            exit_status = result;
-        else
-            exit_status = result;
+        exit_status = result;
         if (WIFEXITED(result))
             exit_status = WEXITSTATUS(result);
         cmd = cmd->next;

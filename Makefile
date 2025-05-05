@@ -9,7 +9,7 @@
 
 NAME        := minishell
 CC        := gcc
-FLAGS    := -g -lreadline  #-fsanitize=address #-Wall -Wextra -Werror 
+FLAGS    := -g -lreadline #-Wall -Wextra -Werror 
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
@@ -26,6 +26,7 @@ SRCS        :=     src/exec/get_env.c \
                     src/exec/redirections.c \
                     src/exec/signal.c \
 					src/exec/ascii.c \
+					src/exec/here_doc.c \
 					src/built-ins/builtins_utils.c \
 					src/built-ins/pwd.c \
 					src/built-ins/echo.c \
