@@ -38,7 +38,7 @@ int is_builtin_pipeless(char *command)
 int exec_builtin(t_cmd *cmd, t_env **env, int exit_status)
 {	
 	if (ft_strcmp(cmd->command[0], "echo") == 0)
-		exit_status = exec_echo(cmd->command, exit_status);
+		exit_status = exec_echo(cmd->command);
 	else if (ft_strcmp(cmd->command[0], "cd") == 0)
 		exit_status = exec_cd(env, cmd->command);
 	else if (ft_strcmp(cmd->command[0], "pwd") == 0)
