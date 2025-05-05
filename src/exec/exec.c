@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/02 18:18:40 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:47:22 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ int	handle_standard_command(t_cmd *cmd, t_env **env, char *path, int *standard_i
 		exit_status = exec_builtin(cmd, env, exit_status);
 	else
 		exit_status = create_fork(cmd, path, env, standard_input);
-	if (path)
-		free(path);
+
 	return (exit_status);
 }
 

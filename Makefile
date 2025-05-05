@@ -25,6 +25,7 @@ SRCS        :=     src/exec/get_env.c \
                     src/exec/exec_fork.c \
                     src/exec/redirections.c \
                     src/exec/signal.c \
+					src/exec/ascii.c \
 					src/built-ins/builtins_utils.c \
 					src/built-ins/pwd.c \
 					src/built-ins/echo.c \
