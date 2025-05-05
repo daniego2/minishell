@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:05:47 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/04/01 13:33:34 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:43:02 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	free_tokens(t_token *token)
 	else
 	{
 		free_tokens(token->next);
-		free(token->str);
+		if (token->str)
+			free(token->str);
 		free(token);
 	}
 }

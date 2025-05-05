@@ -58,6 +58,7 @@ int exec_builtin(t_cmd *cmd, t_env **env, int exit_status)
 			exit_status = exec_exit(cmd->command);
 			free_pipeline(cmd);
 			free_env(*env);
+			print_among_us(exit_status);
 			exit(exit_status);
 		}
 	}
