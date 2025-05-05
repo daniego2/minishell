@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/05 17:13:13 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:45:35 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,6 @@ char				*expand_heredoc_str(char *str, t_env *environment,
 void				free_pipeline(t_cmd *command_node);
 void 				print_among_us(int exit_status);
 int					delimiter_is_quoted(char *delimiter);
+void 				print_welcome(void);
 
 #endif

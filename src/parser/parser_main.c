@@ -88,6 +88,7 @@ int	main(int argc, char **argv, char **env)
 	tokenizer = init_tokenizer();
 	exit_status = 0;
 	setup_signal_handlers();
+	print_welcome();
 	while (true)
 	{
 		text = NULL;
