@@ -16,7 +16,7 @@ int is_valid_flag(char *argv)
 	return(true);
 }
 
-int exec_echo(char **argv, int exit_status)
+int exec_echo(char **argv)
 {
 	int i;
 	int newline;

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static char **allocate_no_delimiter(char *str)
+char **allocate_no_delimiter(char *str)
 {
     char **result;
 
@@ -17,7 +17,7 @@ static char **allocate_no_delimiter(char *str)
     return (result);
 }
 
-static char **allocate_with_delimiter(char *str, char *delimiter_pos, char delimiter)
+char **allocate_with_delimiter(char *str, char *delimiter_pos)
 {
     char **result;
     size_t key_len;
@@ -55,7 +55,7 @@ char **ft_split_first(char *str, char delimiter)
     delimiter_pos = ft_strchr(str, delimiter);
     if (!delimiter_pos)
         return (allocate_no_delimiter(str));
-    line = allocate_with_delimiter(str, delimiter_pos, delimiter);
+    line = allocate_with_delimiter(str, delimiter_pos);
     return (line);
 }
 
