@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_main.c                                      :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:39:06 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/05/05 16:37:36 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:00:32 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,63 @@ bool	is_text_only_whitespace(char *text)
 		return (false);
 }
 
-int	main(int argc, char **argv, char **env)
+int check_signal(int exit_status)
+{
+	if (g_signal == SIGINT)
+	{
+		g_signal = 0;
+		exit_status = 130;
+	}
+	return (exit_status);
+}
+
+int run_exec(t_env *env, t_cmd *pipeline, int exit_status)
+{
+	if (pipeline != NULL)
+	{
+		exit_status = exec(&env, pipeline, exit_status);
+		unlink("/tmp/.here_doc");
+		free_pipeline(pipeline);
+	}
+	return (exit_status);
+}
+
+int main_loop(t_env *env, t_tokenizer *tokenizer, t_token *tokens, t_cmd *pipeline)
 {
 	char		*text;
+	char		*prompt;
+	int		exit_status;
+	
+	exit_status = 0;
+	while (true)
+	{
+		text = NULL;
+		prompt = get_prompt(env, "USER", "PWD");
+		text = readline(prompt);
+		free(prompt);
+		add_history(text);
+		if (text == NULL)
+			break ;
+		exit_status = check_signal(exit_status);
+		if (is_text_only_whitespace(text))
+			continue ;
+		tokenizer->text = text;
+		tokens = tokenize(tokenizer, env, exit_status);
+		pipeline = parse_tokens(tokens, env);
+		exit_status = run_exec(env, pipeline, exit_status);
+		free(text);
+		free_tokens(tokens);
+	}
+	return (exit_status);
+}
+
+int	main(int argc, char **argv, char **env)
+{
 	t_tokenizer	*tokenizer;
 	t_token		*tokens;
 	t_cmd		*pipeline;
 	t_env		*environment;
 	int			exit_status;
-	char		*prompt;
 
 	if (argc != 1 || !argv)
 		return (1);
@@ -66,39 +114,11 @@ int	main(int argc, char **argv, char **env)
 	exit_status = 0;
 	setup_signal_handlers();
 	print_welcome();
-	while (true)
-	{
-		text = NULL;
-		prompt = get_prompt(environment, "USER", "PWD");
-		text = readline(prompt);
-		free(prompt);
-		add_history(text);
-		if (text == NULL)
-		{
-			printf("exit\n");
-			break ;
-		}
-		if (g_signal == SIGINT)
-		{
-			exit_status = 130;
-			g_signal = 0;
-		}
-		else if (is_text_only_whitespace(text))
-			continue ;
-		tokenizer->text = text;
-		tokens = tokenize(tokenizer, environment, exit_status);
-		pipeline = parse_tokens(tokens, environment);
-		if (pipeline != NULL)
-		{
-			exit_status = exec(&environment, pipeline, exit_status);
-			unlink("/tmp/.here_doc");
-			// WARNING: PIPELINE AND TOKENS CANNOT BE FREED INDEPENDENTLY. ALWAYS KEEP TOGETHER!
-			free_pipeline(pipeline);
-		}
-		free(text);
-		free_tokens(tokens);
-	}
+
+	exit_status = main_loop(environment, tokenizer, tokens, pipeline);
+	
 	free_env(environment);
 	free(tokenizer);
+	printf("exit\n");
 	return (exit_status);
 }
