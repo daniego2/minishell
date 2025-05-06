@@ -6,32 +6,32 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:24:55 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/06 16:24:56 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:02:44 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_valid_flag(char *argv)
+int	is_valid_flag(char *argv)
 {
-	int j;
+	int	j;
 
 	j = 1;
 	while (argv[j])
 	{
 		if (argv[j] != 'n')
 		{
-			return(false);
+			return (false);
 		}
 		j++;
 	}
-	return(true);
+	return (true);
 }
 
-int exec_echo(char **argv)
+int	exec_echo(char **argv)
 {
-	int i;
-	int newline;
+	int	i;
+	int	newline;
 
 	i = 1;
 	newline = 1;

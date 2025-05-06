@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:27 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/02 18:20:21 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:00:30 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	**get_path(char **env, char *path)
 char	*find_env_path(char **env_cpy)
 {
 	int	i;
-	
+
 	i = 0;
 	while (env_cpy[i])
 	{
@@ -67,7 +67,7 @@ char	*process_path_directories(char *command, char *env_path)
 {
 	char	**path_batch;
 	char	*path;
-	
+
 	if (!env_path)
 		return (NULL);
 	path_batch = ft_split(env_path, ':');
@@ -90,5 +90,3 @@ char	*get_path_to_program(t_cmd *cmd, t_env **env)
 	ft_free_array(env_cpy);
 	return (path);
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 19:08:00 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/05 17:05:02 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:00:47 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,36 +25,34 @@ int	envsize(t_env *env)
 	return (i);
 }
 
-t_env *create_node(char *key, char *value)
+t_env	*create_node(char *key, char *value)
 {
-	t_env *new_node;
-	
-    new_node = malloc(sizeof(t_env));
-    if (!new_node)
-        return NULL;
-    new_node->key = ft_strdup(key);
-    new_node->value = ft_strdup(value);
-    new_node->next = NULL;
-    return new_node;
+	t_env	*new_node;
+
+	new_node = malloc(sizeof(t_env));
+	if (!new_node)
+		return (NULL);
+	new_node->key = ft_strdup(key);
+	new_node->value = ft_strdup(value);
+	new_node->next = NULL;
+	return (new_node);
 }
 
-void add_node(t_env **head, char *key, char *value)
+void	add_node(t_env **head, char *key, char *value)
 {
-    t_env *new_node;
-    t_env *aux;
+	t_env	*new_node;
+	t_env	*aux;
 
-    new_node = create_node(key, value);
-    if (!new_node)
-        return;
-
-    if (*head == NULL)
-    {
-        *head = new_node;
-        return;
-    }
-
-    aux = *head;
-    while (aux->next)
-        aux = aux->next;
-    aux->next = new_node;
+	new_node = create_node(key, value);
+	if (!new_node)
+		return ;
+	if (*head == NULL)
+	{
+		*head = new_node;
+		return ;
+	}
+	aux = *head;
+	while (aux->next)
+		aux = aux->next;
+	aux->next = new_node;
 }

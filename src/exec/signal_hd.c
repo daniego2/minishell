@@ -1,22 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isspace.c                                       :+:      :+:    :+:   */
+/*   signal_hd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 13:06:45 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/06 19:07:43 by daniego2         ###   ########.fr       */
+/*   Created: 2025/05/06 19:01:37 by daniego2          #+#    #+#             */
+/*   Updated: 2025/05/06 19:02:22 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-bool	ft_isspace(char c)
+extern int	g_signal;
+
+void	setup_signal_handlers_hd(void)
 {
-	if (c == ' ' || c == '\t' || c == '\v' || c == '\n' || c == '\r'
-		|| c == '\f')
-		return (true);
-	else
-		return (false);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, ctrl_c_handler_hd);
+}
+
+void	ctrl_quit_handler_hd(int sig)
+{
+	(void)sig;
+}
+
+void	ctrl_c_handler_hd(int sig)
+{
+	if (g_signal < 0)
+	{
+		(void)sig;
+		write(1, "\n", 1);
+		g_signal = SIGINT;
+		exit(250);
+	}
+	return ;
 }

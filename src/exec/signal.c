@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/06 19:20:15 by daniego2          #+#    #+#             */
+/*   Updated: 2025/05/06 19:20:16 by daniego2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-extern int g_signal;
+extern int	g_signal;
 
 void	ctrl_c_handler(int sig)
 {
@@ -14,7 +26,7 @@ void	ctrl_c_handler(int sig)
 		g_signal = 2;
 		rl_replace_line("", 0);
 	}
-	return;
+	return ;
 }
 
 void	ctrl_quit_handler(int sig)
@@ -23,33 +35,8 @@ void	ctrl_quit_handler(int sig)
 	rl_redisplay();
 }
 
-void	ctrl_quit_handler_hd(int sig)
-{
-	(void)sig;
-}
-
-void	ctrl_c_handler_hd(int sig)
-{
-	if (g_signal < 0)
-	{
-		(void)sig;
-		write(1, "\n", 1);
-		g_signal = SIGINT;
-		exit(250);
-	}
-	return;
-	
-}
-
-void setup_signal_handlers(void)
-{
-    signal(SIGQUIT, SIG_IGN);
-    signal(SIGINT, ctrl_c_handler);
-
-}
-
-void setup_signal_handlers_hd(void)
+void	setup_signal_handlers(void)
 {
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, ctrl_c_handler_hd);
+	signal(SIGINT, ctrl_c_handler);
 }

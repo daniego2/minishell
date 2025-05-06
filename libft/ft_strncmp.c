@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 13:16:24 by daniego2          #+#    #+#             */
-/*   Updated: 2025/02/05 17:09:55 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:06:14 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	unsigned int	counter;
 	unsigned char	*p1;
 	unsigned char	*p2;
+
 	p1 = (unsigned char *)s1;
 	p2 = (unsigned char *)s2;
 	counter = 0;

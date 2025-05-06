@@ -6,13 +6,13 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:25:01 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/06 16:25:02 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:22:44 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int is_builtin(char *command)
+int	is_builtin(char *command)
 {
 	if (command == NULL)
 		return (0);
@@ -32,7 +32,8 @@ int is_builtin(char *command)
 		return (1);
 	return (0);
 }
-int is_builtin_pipeless(char *command)
+
+int	is_builtin_pipeless(char *command)
 {
 	if (command == NULL)
 		return (0);
@@ -47,8 +48,8 @@ int is_builtin_pipeless(char *command)
 	return (0);
 }
 
-int exec_builtin(t_cmd *cmd, t_env **env, int exit_status)
-{	
+int	exec_builtin(t_cmd *cmd, t_env **env, int exit_status)
+{
 	if (ft_strcmp(cmd->command[0], "echo") == 0)
 		exit_status = exec_echo(cmd->command);
 	else if (ft_strcmp(cmd->command[0], "cd") == 0)

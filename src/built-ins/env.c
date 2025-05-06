@@ -6,15 +6,15 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:24:53 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/06 16:24:54 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:02:47 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int exec_env(t_env *env)
+int	exec_env(t_env *env)
 {
-	t_env *aux;
+	t_env	*aux;
 
 	aux = env;
 	while (aux != NULL)

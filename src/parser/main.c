@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:39:06 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/05/06 17:58:12 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:04:11 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	is_text_only_whitespace(char *text)
 		return (false);
 }
 
-int check_signal(int exit_status)
+int	check_signal(int exit_status)
 {
 	if (g_signal == SIGINT)
 	{
@@ -59,7 +59,7 @@ int check_signal(int exit_status)
 	return (exit_status);
 }
 
-int run_exec(t_env *env, t_cmd *pipeline, int exit_status)
+int	run_exec(t_env *env, t_cmd *pipeline, int exit_status)
 {
 	if (pipeline != NULL)
 	{
@@ -70,12 +70,13 @@ int run_exec(t_env *env, t_cmd *pipeline, int exit_status)
 	return (exit_status);
 }
 
-int main_loop(t_env *env, t_tokenizer *tokenizer, t_token *tokens, t_cmd *pipeline)
+int	main_loop(t_env *env, t_tokenizer *tokenizer, t_token *tokens,
+		t_cmd *pipeline)
 {
-	char		*text;
-	char		*prompt;
+	char	*text;
+	char	*prompt;
 	int		exit_status;
-	
+
 	exit_status = 0;
 	while (true)
 	{
@@ -114,9 +115,7 @@ int	main(int argc, char **argv, char **env)
 	exit_status = 0;
 	setup_signal_handlers();
 	print_welcome();
-
 	exit_status = main_loop(environment, tokenizer, tokens, pipeline);
-	
 	free_env(environment);
 	free(tokenizer);
 	printf("exit\n");

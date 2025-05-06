@@ -6,44 +6,43 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:24:58 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/06 16:24:59 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:02:40 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void update_pwd(t_env **env)
+void	update_pwd(t_env **env)
 {
-    char *path;
-    t_env *pwd;
+	char	*path;
+	t_env	*pwd;
 
-    path = getcwd(NULL, 0);
-    if (path == NULL)
-        return;
-    pwd = get_environment_variable(*env, "PWD");
-    free(pwd->value);
-    pwd->value = ft_strdup(path);
-    free(path);
+	path = getcwd(NULL, 0);
+	if (path == NULL)
+		return ;
+	pwd = get_environment_variable(*env, "PWD");
+	free(pwd->value);
+	pwd->value = ft_strdup(path);
+	free(path);
 }
 
-int exec_cd(t_env **env, char **argv)
+int	exec_cd(t_env **env, char **argv)
 {
-    t_env *home_node;
+	t_env	*home_node;
 
-    home_node = get_environment_variable(*env, "HOME");
-
-    if (!argv[1])
-    {
-        if (home_node == NULL)
-        {
-            printf("minishell: cd: HOME not set\n");
-            return (1);
-        }
-        else
-            chdir(home_node->value);
-    }
-    else
+	home_node = get_environment_variable(*env, "HOME");
+	if (!argv[1])
+	{
+		if (home_node == NULL)
+		{
+			printf("minishell: cd: HOME not set\n");
+			return (1);
+		}
+		else
+			chdir(home_node->value);
+	}
+	else
 		chdir(argv[1]);
-    update_pwd(env);
-    return (0);
+	update_pwd(env);
+	return (0);
 }

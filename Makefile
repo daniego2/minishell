@@ -25,6 +25,7 @@ SRCS        :=		src/exec/get_env.c \
                     src/exec/exec_fork.c \
                     src/exec/redirections.c \
                     src/exec/signal.c \
+					src/exec/signal_hd.c \
 					src/exec/ascii.c \
 					src/exec/here_doc.c \
 					\

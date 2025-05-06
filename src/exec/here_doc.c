@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:06:09 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/06 18:16:54 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:19:03 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,12 @@ void	handle_heredoc_child(int temp_fd, char *delimiter, t_env *env,
 		if (is_quoted == 0)
 			line = expand_heredoc_str(line, env, 0);
 		if (ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
 			break ;
-		}
 		write(temp_fd, line, ft_strlen(line));
 		write(temp_fd, "\n", 1);
 		free(line);
 	}
+	free(line);
 	close(temp_fd);
 	exit(0);
 }
@@ -72,13 +70,13 @@ void	handle_heredoc_child(int temp_fd, char *delimiter, t_env *env,
 int	handle_heredoc_parent(int pid)
 {
 	int	fd;
-	int result;
+	int	result;
 
 	waitpid(pid, &result, 0);
 	if (WIFEXITED(result))
 		return (6969);
 	if (g_signal == SIGINT)
-	{	
+	{
 		return (1);
 	}
 	fd = open("/tmp/.here_doc", O_RDONLY);
@@ -92,7 +90,8 @@ int	here_doc(char *delimiter, bool is_quoted, t_env *env)
 
 	temp_fd = open("/tmp/.here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (delimiter_is_quoted(delimiter) == 1)
-		printf("minishell: WARNING: here-document delimiter delimited by single quote: You can exit here-doc with ( %s )\n", delimiter);
+		printf("minishell: WARNING: here-document delimiter delimited by "
+			"single quote: You can exit here-doc with (%s )\n", delimiter);
 	pid = fork();
 	if (pid == 0)
 	{

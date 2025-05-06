@@ -6,17 +6,17 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 17:04:01 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/05 17:04:45 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:00:22 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char **assemble_env(t_env *env)
+char	**assemble_env(t_env *env)
 {
-	int i;
-	char **new_env;
-	char *aux;
+	int		i;
+	char	**new_env;
+	char	*aux;
 
 	new_env = malloc(sizeof(char *) * (envsize(env) + 1));
 	i = 0;

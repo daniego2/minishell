@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:08:22 by daniego2          #+#    #+#             */
-/*   Updated: 2025/04/01 13:08:32 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:08:07 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	ft_strmatch(char *a, char *b)
 // Check if the "b" string is a substring of "a" in starting at address of "a".
 bool	ft_substrmatch(char *a, char *b)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (a[i] != 0 && b[i] != 0 && a[i] == b[i])
