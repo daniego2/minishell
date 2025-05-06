@@ -1,10 +1,12 @@
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser2.c                                          :+:      :+:    :+:   */
+/*   parser_main.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/27 12:56:20 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/03/19 13:19:06 by cargonz2         ###   ########.fr       */
+/*   Created: 2025/05/05 15:39:06 by cargonz2          #+#    #+#             */
+/*   Updated: 2025/05/05 16:37:36 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +16,7 @@
 #include "minishell.h"
 #include "parser.h"
 #include "parser_types.h"
+#include "prompt.h"
 #include "testing.h"
 #include "tokenizer.h"
 #include "utils1.h"
@@ -32,44 +35,7 @@ static t_tokenizer	*init_tokenizer(void)
 	if (!tokenizer)
 		exit(EXIT_FAILURE);
 	tokenizer->text = NULL;
-	// printf("Tokenizer text: %s\n", tokenizer->text);
 	return (tokenizer);
-}
-
-int	len(char *s)
-{
-	return (ft_strlen(s));
-}
-
-char	*get_prompt(t_env *env, char *key_a, char *key_b)
-{
-	char	*prompt;
-	t_env	*var_a;
-	t_env	*var_b;
-	char	*sep_a;
-	char	*sep_b;
-	int		prompt_len;
-
-	sep_a = "\033[36m ";
-	sep_b = "\033[31m > \033[0m";
-	var_a = get_environment_variable(env, key_a);
-	var_b = get_environment_variable(env, key_b);
-	prompt_len = len(sep_a) + len(sep_b);
-	if (var_a != NULL)
-		prompt_len += len(var_a->value);
-	if (var_b != NULL)
-		prompt_len += len(var_b->value);
-	prompt = ft_calloc(5 + prompt_len + 1, sizeof(char));
-	ft_memcpy(prompt, "\033[34m", 5);
-	if (var_a != NULL)
-	{
-		ft_memcpy(&prompt[5], var_a->value, len(var_a->value));
-		ft_memcpy(&prompt[len(prompt)], sep_a, len(sep_a));
-	}
-	if (var_b != NULL)
-		ft_memcpy(&prompt[len(prompt)], var_b->value, len(var_b->value));
-	ft_memcpy(&prompt[len(prompt)], sep_b, len(sep_b));
-	return (prompt);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -100,7 +66,7 @@ int	main(int argc, char **argv, char **env)
 			printf("exit\n");
 			break ;
 		}
-		if (g_signal == SIGINT) 
+		if (g_signal == SIGINT)
 		{
 			exit_status = 130;
 			g_signal = 0;

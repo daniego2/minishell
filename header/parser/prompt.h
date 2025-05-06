@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quote_cleanup.h                                    :+:      :+:    :+:   */
+/*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 13:30:46 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/04/23 17:21:34 by cargonz2         ###   ########.fr       */
+/*   Created: 2025/05/05 16:36:44 by cargonz2          #+#    #+#             */
+/*   Updated: 2025/05/05 16:37:09 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef QUOTE_CLEANUP_H
-# define QUOTE_CLEANUP_H
+#ifndef PROMPT_H
+# define PROMPT_H
 
 # include "minishell.h"
-# include "parser_types.h"
-int		find_matching_pair_on_str(char *str);
-t_token	*clean_up_quotes_and_substitute_vars(t_token *token, t_env *environment,
-			int exit_status);
-t_token	*clean_up_quotes(t_token *token, t_env *environment, int exit_status);
-char	*expand_heredoc_str(char *str, t_env *environment, int exit_status);
+
+char	*get_prompt(t_env *env, char *key_a, char *key_b);
 
 #endif

@@ -84,20 +84,6 @@ static t_token	*get_next_token(t_tokenizer *t)
 	return (token);
 }
 
-void	test_tokens(t_token *tokens)
-{
-	int	i;
-
-	i = 0;
-	// printf("\nTOKENIZER:\n\n");
-	while (tokens != NULL)
-	{
-		// printf("token %d: %s\n", i, tokens->str);
-		tokens = tokens->next;
-		i++;
-	}
-}
-
 t_token	*tokenize(t_tokenizer *tokenizer, t_env *environment, int exit_status)
 {
 	t_token	*first_token;
@@ -117,11 +103,11 @@ t_token	*tokenize(t_tokenizer *tokenizer, t_env *environment, int exit_status)
 		if (token->next->type == TOKEN_WORD && token->type != TOKEN_HEREDOC)
 			clean_up_quotes_and_substitute_vars(token->next, environment,
 				exit_status);
-		else if (token->next->type == TOKEN_WORD && token->type == TOKEN_HEREDOC)
+		else if (token->next->type == TOKEN_WORD
+			&& token->type == TOKEN_HEREDOC)
 			clean_up_quotes(token->next, environment, exit_status);
 		token = token->next;
 	}
-	// test_tokens(first_token);
 	tokenizer->text = NULL;
 	tokenizer->cursor = 0;
 	return (first_token);

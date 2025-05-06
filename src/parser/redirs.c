@@ -6,15 +6,15 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:15:40 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/04/01 13:33:34 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:05:01 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "free.h"
 #include "parser_types.h"
 #include "stdio.h"
+#include "stdlib.h"
 #include "utils1.h"
-#include <assert.h> // WARN: Delete.
 
 static t_redir	*append_new_redir(t_cmd *command_node)
 {
@@ -47,7 +47,7 @@ static void	set_redir_type(t_redir *redir, t_token *token)
 	else if (token->type == TOKEN_HEREDOC)
 		redir->type = REDIR_HEREDOC;
 	else
-		assert(0);
+		exit(1);
 }
 
 static enum e_error	set_redir_filename(t_redir *redir, t_token *token)
@@ -55,13 +55,10 @@ static enum e_error	set_redir_filename(t_redir *redir, t_token *token)
 	if (token->type == TOKEN_WORD)
 	{
 		redir->filename = token->str;
-		// NOTE: May be better to copy str.
-		// printf("redir->filename: %s\n", redir->filename);
 		return (ERROR_NONE);
 	}
 	else
 	{
-		// TODO: Handle error case.
 		printf("minishell: expected filename got \"%s\"\n", token->str);
 		return (ERROR_BAD_TOKEN);
 	}
@@ -84,7 +81,6 @@ t_error	parse_redirections(t_cmd *command_node, t_token **token)
 		}
 		set_redir_type(redir, *token);
 		(*token) = (*token)->next;
-		// printf("parser token: %d, filename: %s\n", (*token)->is_quoted, (*token)->str);
 		redir->is_quoted = (*token)->is_quoted;
 		error = set_redir_filename(redir, *token);
 		if (error == ERROR_BAD_TOKEN)

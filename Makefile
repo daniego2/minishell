@@ -38,10 +38,13 @@ SRCS        :=     src/exec/get_env.c \
 					src/parser/exit.c \
                     src/parser/free.c \
                     src/parser/parser.c \
+                    src/parser/parser_helper.c \
                     src/parser/parser_main.c \
-                    src/parser/quote_cleanup.c \
+                    src/parser/prompt.c \
+                    src/parser/quotes_and_expansion.c \
+                    src/parser/quotes_and_expansion_helper.c \
                     src/parser/redirs.c \
-                    src/parser/testing.c \
+                    src/parser/DO_NOT_PRESENT_testing.c \
                     src/parser/tokenizer.c \
                     src/parser/tokenizer_helper.c \
                     src/parser/utils1.c \
