@@ -17,10 +17,8 @@
 #include "parser.h"
 #include "parser_types.h"
 #include "prompt.h"
-#include "testing.h"
 #include "tokenizer.h"
 #include "utils1.h"
-#include "utils2.h"
 #include <assert.h> // WARN: Delete.
 #include <stdlib.h>
 #include <unistd.h>
@@ -54,6 +52,7 @@ int	main(int argc, char **argv, char **env)
 	tokenizer = init_tokenizer();
 	exit_status = 0;
 	setup_signal_handlers();
+	print_welcome();
 	while (true)
 	{
 		text = NULL;

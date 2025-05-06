@@ -2,13 +2,9 @@
 
 extern int g_signal;
 
-void	handle_child_process(t_cmd *cmd, char *path, t_env **env, t_io io)
+void dup_manager(t_cmd *cmd, t_io io)
 {
-    int exit_status;
-    char **env_array;
-
-    exit_status = 0;
-    if (cmd->out_fd != -1)
+	if (cmd->out_fd != -1)
         dup2(cmd->out_fd, STDOUT_FILENO);
     else if (cmd->next != NULL)
         dup2(io.fd[1], STDOUT_FILENO);
@@ -18,6 +14,15 @@ void	handle_child_process(t_cmd *cmd, char *path, t_env **env, t_io io)
         dup2(*(io.standard_input), STDIN_FILENO);
     close(io.fd[0]);
     close(io.fd[1]);
+}
+
+void	handle_child_process(t_cmd *cmd, char *path, t_env **env, t_io io)
+{
+    int exit_status;
+    char **env_array;
+
+    exit_status = 0;
+	dup_manager(cmd, io);
     if (is_builtin(cmd->command[0]))
     {
         exit_status = exec_builtin(cmd, env, exit_status);

@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/05 14:27:26 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:45:35 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,8 @@ int					process_command(t_cmd *cmd, t_env **env,
 						int *standard_input, int exit_status);
 int					exec(t_env **env, t_cmd *cmd, int exit_status);
 
-static char			**allocate_no_delimiter(char *str);
-static char			**allocate_with_delimiter(char *str, char *delimiter_pos,
-						char delimiter);
+char			**allocate_no_delimiter(char *str);
+char			**allocate_with_delimiter(char *str, char *delimiter_pos);
 char				**ft_split_first(char *str, char delimiter);
 t_env				*get_env(char **env);
 
@@ -74,9 +73,9 @@ void				add_node(t_env **head, char *key, char *value);
 void				free_env(t_env *env);
 void				ft_free_array(char **array);
 
-static void			handle_heredoc_child(int temp_fd, char *delimiter,
+void			handle_heredoc_child(int temp_fd, char *delimiter,
 						t_env *env, bool is_quoted);
-static int			handle_heredoc_parent(int pid);
+int			handle_heredoc_parent(int pid);
 int					here_doc(char *delimiter, bool is_quoted, t_env *env);
 int					get_out_fd(t_cmd *cmd);
 int					get_in_fd(t_cmd *cmd, t_env *env);
@@ -92,10 +91,10 @@ int					is_builtin(char *command);
 int					is_builtin_pipeless(char *command);
 int					exec_builtin(t_cmd *cmd, t_env **env, int exit_status);
 
-void				update_pwd(t_env **env, char *newpwd);
+void				update_pwd(t_env **env);
 int					exec_cd(t_env **env, char **argv);
 int					is_valid_flag(char *argv);
-int					exec_echo(char **argv, int exit_status);
+int					exec_echo(char **argv);
 int					exec_env(t_env *env);
 int					update_existing_env(t_env *env, char *key, char *value);
 void				swap_env(t_env *a, t_env *b);
@@ -114,5 +113,7 @@ char				*expand_heredoc_str(char *str, t_env *environment,
 						int exit_status);
 void				free_pipeline(t_cmd *command_node);
 void 				print_among_us(int exit_status);
+int					delimiter_is_quoted(char *delimiter);
+void 				print_welcome(void);
 
 #endif

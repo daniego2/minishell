@@ -1,9 +1,8 @@
 #include "minishell.h"
 
-void update_pwd(t_env **env, char *newpwd)
+void update_pwd(t_env **env)
 {
     char *path;
-    char *temp;
     t_env *pwd;
 
     path = getcwd(NULL, 0);
@@ -34,6 +33,6 @@ int exec_cd(t_env **env, char **argv)
     }
     else
 		chdir(argv[1]);
-    update_pwd(env, argv[1]);
+    update_pwd(env);
     return (0);
 }

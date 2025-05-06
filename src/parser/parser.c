@@ -16,8 +16,6 @@
 #include "parser_types.h"
 #include "redirs.h"
 #include "utils1.h"
-#include "utils2.h"
-#include "variable_expansion.h"
 #include <assert.h>
 #include <stdio.h>
 
