@@ -4,12 +4,17 @@ extern int g_signal;
 
 void	ctrl_c_handler(int sig)
 {
-	(void)sig;
-	g_signal = SIGINT;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (g_signal > 0)
+	{
+		(void)sig;
+		printf("\n");
+		rl_on_new_line();
+		if (g_signal != 4)
+			rl_redisplay();
+		g_signal = 2;
+		rl_replace_line("", 0);
+	}
+	return;
 }
 
 void	ctrl_quit_handler(int sig)
@@ -25,13 +30,15 @@ void	ctrl_quit_handler_hd(int sig)
 
 void	ctrl_c_handler_hd(int sig)
 {
-	(void)sig;
-	g_signal = SIGINT;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	exit(1);
+	if (g_signal < 0)
+	{
+		(void)sig;
+		write(1, "\n", 1);
+		g_signal = SIGINT;
+		exit(250);
+	}
+	return;
+	
 }
 
 void setup_signal_handlers(void)

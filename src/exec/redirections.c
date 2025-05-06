@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:33:43 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/05 17:06:28 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:18:06 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ int	get_in_fd(t_cmd *cmd, t_env *env)
 		else if (redir->type == REDIR_HEREDOC)
 		{
 			fd = here_doc(redir->filename, redir->is_quoted, env);
-			if (fd == 1)
-				g_signal = SIGINT;
 		}
 		redir = redir->next;
 	}

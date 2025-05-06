@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:25:36 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/06 16:25:37 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:23:23 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ int	handle_parent_process(int pid, int *standard_input, int *fd, int exit_status
         close(*standard_input);
     waitpid(pid, &exit_status, 0);
     if (g_signal == SIGINT || g_signal == SIGQUIT)
+	{
         exit_status = 128 + g_signal;
+	}
     *standard_input = fd[0];
     return (exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:39:06 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/05/06 17:00:32 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:58:12 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int					g_signal = 0;
+int					g_signal = 1;
 
 static t_tokenizer	*init_tokenizer(void)
 {

@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:06:09 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/06 16:30:39 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:16:54 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	handle_heredoc_child(int temp_fd, char *delimiter, t_env *env,
 	char	*line;
 
 	setup_signal_handlers_hd();
+	g_signal = -1;
 	while (1)
 	{
 		line = readline("> ");
@@ -71,10 +72,15 @@ void	handle_heredoc_child(int temp_fd, char *delimiter, t_env *env,
 int	handle_heredoc_parent(int pid)
 {
 	int	fd;
+	int result;
 
-	waitpid(pid, NULL, 0);
+	waitpid(pid, &result, 0);
+	if (WIFEXITED(result))
+		return (6969);
 	if (g_signal == SIGINT)
+	{	
 		return (1);
+	}
 	fd = open("/tmp/.here_doc", O_RDONLY);
 	return (fd);
 }
