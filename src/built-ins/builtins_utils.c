@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/06 16:25:01 by daniego2          #+#    #+#             */
+/*   Updated: 2025/05/06 16:25:02 by daniego2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int is_builtin(char *command)
@@ -50,17 +62,6 @@ int exec_builtin(t_cmd *cmd, t_env **env, int exit_status)
 	else if (ft_strcmp(cmd->command[0], "env") == 0)
 		exit_status = exec_env(*env);
 	else if (ft_strcmp(cmd->command[0], "exit") == 0)
-	{
-		if (cmd->in_fd != STDIN_FILENO && cmd->next != NULL)
-			return (exit_status);
-		else
-		{
-			exit_status = exec_exit(cmd->command);
-			free_pipeline(cmd);
-			free_env(*env);
-			print_among_us(exit_status);
-			exit(exit_status);
-		}
-	}
+		exit_status = check_exit(cmd, env, exit_status);
 	return (exit_status);
 }

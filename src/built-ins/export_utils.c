@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/06 16:24:47 by daniego2          #+#    #+#             */
+/*   Updated: 2025/05/06 16:24:48 by daniego2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int update_existing_env(t_env *env, char *key, char *value)
@@ -22,10 +34,8 @@ void swap_env(t_env *a, t_env *b)
 
     temp_key = a->key;
     temp_value = a->value;
-
     a->key = b->key;
     a->value = b->value;
-
     b->key = temp_key;
     b->value = temp_value;
 }
