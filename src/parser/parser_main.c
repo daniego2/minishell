@@ -36,6 +36,19 @@ static t_tokenizer	*init_tokenizer(void)
 	return (tokenizer);
 }
 
+bool	is_text_only_whitespace(char *text)
+{
+	int	i;
+
+	i = 0;
+	while (text[i] != '\0' && ft_isspace(text[i]))
+		i++;
+	if (text[i] == '\0')
+		return (true);
+	else
+		return (false);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char		*text;
@@ -70,7 +83,7 @@ int	main(int argc, char **argv, char **env)
 			exit_status = 130;
 			g_signal = 0;
 		}
-		else if (text[0] == '\0')
+		else if (is_text_only_whitespace(text))
 			continue ;
 		tokenizer->text = text;
 		tokens = tokenize(tokenizer, environment, exit_status);
