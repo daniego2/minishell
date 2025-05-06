@@ -12,6 +12,7 @@
 
 #include "exit.h"
 #include "libft.h"
+#include "minishell.h"
 #include "parser_helper.h"
 #include "parser_types.h"
 #include "redirs.h"

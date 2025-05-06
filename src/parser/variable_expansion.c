@@ -10,9 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "quote_cleanup.h"
-#include "utils2.h"
 #include <stdbool.h>
 
 bool	is_symbol(char c)
