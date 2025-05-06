@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:06:09 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/05 17:12:07 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:30:39 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ void	handle_heredoc_child(int temp_fd, char *delimiter, t_env *env,
 	while (1)
 	{
 		line = readline("> ");
-		if (is_quoted == 0)
-			line = expand_heredoc_str(line, env, 0);
 		if (!line)
 		{
-			printf("minishell: warning: here-document delimited by end-of-file (wanted `%s')\n",
-				delimiter);
+			printf("minishell: warning: here-document delimited by "
+				"end-of-file (wanted `%s')\n", delimiter);
 			break ;
 		}
+		if (is_quoted == 0)
+			line = expand_heredoc_str(line, env, 0);
 		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);

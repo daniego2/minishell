@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/06 16:24:43 by daniego2          #+#    #+#             */
+/*   Updated: 2025/05/06 16:24:44 by daniego2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void print_sorted_env(t_env *env)
@@ -52,12 +64,8 @@ char *get_value(char *command)
     i = 0;
     while (command[i] && command[i] != '=')
         i++;
-
     if (!command[i])
-	{
         return NULL;
-	}
-
     value = malloc(ft_strlen(command) - i + 1);
     i++;
     j = 0;
@@ -71,17 +79,12 @@ char *get_value(char *command)
     return value;
 }
 
-int exec_export(t_env **env, char **command)
+void process_export_commands(t_env **env, char **command)
 {
     char *key;
     char *value;
     int i;
 
-    if (!command[1])
-    {
-        print_sorted_env(*env);
-        return 0;
-    }
     i = 1;
     while (command[i])
     {
@@ -94,11 +97,20 @@ int exec_export(t_env **env, char **command)
         }
         if (!update_existing_env(*env, key, value))
             add_node(env, key, value);
-
         free(key);
         if (value)
             free(value);
         i++;
     }
+}
+
+int exec_export(t_env **env, char **command)
+{
+    if (!command[1])
+    {
+        print_sorted_env(*env);
+        return 0;
+    }
+    process_export_commands(env, command);
     return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/05 18:45:35 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:17:36 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,7 @@ void				free_pipeline(t_cmd *command_node);
 void 				print_among_us(int exit_status);
 int					delimiter_is_quoted(char *delimiter);
 void 				print_welcome(void);
+int 				check_exit(t_cmd *cmd, t_env **env, int exit_status);
+
 
 #endif

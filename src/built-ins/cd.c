@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/06 16:24:58 by daniego2          #+#    #+#             */
+/*   Updated: 2025/05/06 16:24:59 by daniego2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void update_pwd(t_env **env)
@@ -13,7 +25,6 @@ void update_pwd(t_env **env)
     pwd->value = ft_strdup(path);
     free(path);
 }
-
 
 int exec_cd(t_env **env, char **argv)
 {
