@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/06 18:59:21 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:11:42 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,7 @@ int	exec(t_env **env, t_cmd *cmd, int exit_status)
 		}
 		exit_status = result;
 		if (WIFEXITED(result))
-		{
 			exit_status = WEXITSTATUS(result);
-		}
 		cmd = cmd->next;
 	}
 	if (standard_input != STDIN_FILENO)
