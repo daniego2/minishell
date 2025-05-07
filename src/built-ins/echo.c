@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:24:55 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/06 19:02:44 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/07 20:05:51 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	exec_echo(char **argv)
 
 	i = 1;
 	newline = 1;
-	while (ft_strncmp(argv[i], "-n", 2) == 0)
+	while (argv[i] && ft_strncmp(argv[i], "-n", 2) == 0)
 	{
 		if (is_valid_flag(argv[i]))
 			newline = 0;
