@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:06:09 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/06 19:19:03 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:15:18 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ int	handle_heredoc_parent(int pid)
 	int	result;
 
 	waitpid(pid, &result, 0);
-	if (WIFEXITED(result))
-		return (6969);
 	if (g_signal == SIGINT)
 	{
 		return (1);
