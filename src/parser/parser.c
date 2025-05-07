@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:13:30 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/05/05 17:16:39 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/05/07 12:39:20 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_cmd	*parse_after_redirs(t_token **token, t_cmd *command_node,
 	return (command_node);
 }
 
-t_cmd	*parse_tokens(t_token *first_token, t_env *env)
+t_cmd	*parse_tokens(t_token *first_token)
 {
 	t_cmd	*command_node;
 	t_cmd	*pipeline;

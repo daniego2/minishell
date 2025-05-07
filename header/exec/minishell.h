@@ -16,15 +16,15 @@
 # include "../../libft/libft.h"
 # include "parser_types.h"
 # include <fcntl.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdarg.h>
 # include <stdbool.h>
-# include <stdio.h>
 # include <stdlib.h>
-# include <sys/wait.h>
 # include <unistd.h>
+# include <sys/wait.h>
 
 typedef struct s_env
 {

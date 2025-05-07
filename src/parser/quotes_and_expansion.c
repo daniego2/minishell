@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 13:49:54 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/05/06 13:59:32 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/05/07 12:48:09 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ static t_string_data	handle_double_quotes(t_string_data s,
 	return (s);
 }
 
-static t_string_data	handle_single_quotes(t_string_data s,
-		t_env *environment)
+static t_string_data	handle_single_quotes(t_string_data s)
 {
 	s.quote_a = s.cursor;
 	s.quote_b = find_matching_pair_on_str(s.str, s.quote_a);
@@ -71,7 +70,7 @@ t_token	*clean_up_quotes_and_substitute_vars(t_token *token, t_env *environment,
 		else if (s.str[s.cursor] == '\"')
 			s = handle_double_quotes(s, environment, exit_status);
 		else if (s.str[s.cursor] == '\'')
-			s = handle_single_quotes(s, environment);
+			s = handle_single_quotes(s);
 		else
 			s.cursor++;
 	}
@@ -79,7 +78,7 @@ t_token	*clean_up_quotes_and_substitute_vars(t_token *token, t_env *environment,
 	return (token);
 }
 
-t_token	*clean_up_quotes(t_token *token, t_env *environment, int exit_status)
+t_token	*clean_up_quotes(t_token *token)
 {
 	t_string_data	s;
 

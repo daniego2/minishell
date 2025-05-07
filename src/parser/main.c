@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:39:06 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/05/06 19:04:11 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/07 13:21:39 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,9 @@
 #include <assert.h> // WARN: Delete.
 #include <stdlib.h>
 #include <unistd.h>
+#include "main_helper.h"
 
 int					g_signal = 1;
-
-static t_tokenizer	*init_tokenizer(void)
-{
-	t_tokenizer	*tokenizer;
-
-	tokenizer = ft_calloc(1, sizeof(t_tokenizer));
-	if (!tokenizer)
-		exit(EXIT_FAILURE);
-	tokenizer->text = NULL;
-	return (tokenizer);
-}
 
 bool	is_text_only_whitespace(char *text)
 {
@@ -71,7 +61,7 @@ int	run_exec(t_env *env, t_cmd *pipeline, int exit_status)
 }
 
 int	main_loop(t_env *env, t_tokenizer *tokenizer, t_token *tokens,
-		t_cmd *pipeline)
+	t_cmd *pipeline)
 {
 	char	*text;
 	char	*prompt;
@@ -103,10 +93,10 @@ int	main_loop(t_env *env, t_tokenizer *tokenizer, t_token *tokens,
 int	main(int argc, char **argv, char **env)
 {
 	t_tokenizer	*tokenizer;
-	t_token		*tokens;
-	t_cmd		*pipeline;
 	t_env		*environment;
 	int			exit_status;
+	t_token		*tokens;
+	t_cmd		*pipeline;
 
 	if (argc != 1 || !argv)
 		return (1);
@@ -115,6 +105,8 @@ int	main(int argc, char **argv, char **env)
 	exit_status = 0;
 	setup_signal_handlers();
 	print_welcome();
+	tokens = NULL;
+	pipeline = NULL;
 	exit_status = main_loop(environment, tokenizer, tokens, pipeline);
 	free_env(environment);
 	free(tokenizer);

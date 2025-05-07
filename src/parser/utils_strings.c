@@ -6,7 +6,7 @@
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:50:41 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/04/24 13:52:55 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/05/07 12:49:15 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	copy_str_n(char *dst, char *src, int n)
 char	*clone_str_n(char *str, int n)
 {
 	char	*new_str;
-	int		i;
 
 	new_str = ft_calloc(n + 1, sizeof(char));
 	if (!new_str)

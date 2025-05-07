@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quotes_and_expansion.h                             :+:      :+:    :+:   */
+/*   main_helper.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 13:30:46 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/05/07 12:47:51 by cargonz2         ###   ########.fr       */
+/*   Created: 2025/05/07 12:30:33 by cargonz2          #+#    #+#             */
+/*   Updated: 2025/05/07 12:33:17 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef QUOTES_AND_EXPANSION_H
-# define QUOTES_AND_EXPANSION_H
+#include "minishell.h"
 
-# include "minishell.h"
-# include "parser_types.h"
+t_tokenizer	*init_tokenizer(void)
+{
+	t_tokenizer	*tokenizer;
 
-t_token	*clean_up_quotes_and_substitute_vars(t_token *token, t_env *environment,
-			int exit_status);
-t_token	*clean_up_quotes(t_token *token);
-char	*expand_heredoc_str(char *str, t_env *environment, int exit_status);
-
-#endif
+	tokenizer = ft_calloc(1, sizeof(t_tokenizer));
+	if (!tokenizer)
+		exit(EXIT_FAILURE);
+	tokenizer->text = NULL;
+	return (tokenizer);
+}

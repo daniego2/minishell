@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:35:13 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/04/23 17:24:14 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/05/07 12:48:48 by cargonz2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ static t_token	*get_next_token(t_tokenizer *t)
 	substr = &(t->text[t->cursor]);
 	word_len = 0;
 	while (t->text[t->cursor + word_len] != 0 && !ft_isspace(t->text[t->cursor
-			+ word_len]))
+				+ word_len]))
 	{
 		if ((t->text[t->cursor + word_len] == '\'' || t->text[t->cursor
-				+ word_len] == '\"'))
+					+ word_len] == '\"'))
 		{
 			pair = find_matching_pair(t, word_len);
 			word_len += pair;
@@ -105,7 +105,7 @@ t_token	*tokenize(t_tokenizer *tokenizer, t_env *environment, int exit_status)
 				exit_status);
 		else if (token->next->type == TOKEN_WORD
 			&& token->type == TOKEN_HEREDOC)
-			clean_up_quotes(token->next, environment, exit_status);
+			clean_up_quotes(token->next);
 		token = token->next;
 	}
 	tokenizer->text = NULL;
