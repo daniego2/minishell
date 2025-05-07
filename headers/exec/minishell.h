@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/07 20:17:13 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/07 21:54:41 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,7 @@ void				print_among_us(int exit_status);
 int					delimiter_is_quoted(char *delimiter);
 void				print_welcome(void);
 int					check_exit(t_cmd *cmd, t_env **env, int exit_status);
+void				setup_interactive_signals(void);
+void				setup_execution_signals(void);
 
 #endif

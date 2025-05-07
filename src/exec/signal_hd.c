@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 19:01:37 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/07 16:14:47 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/07 22:56:25 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ctrl_c_handler_hd(int sig)
 		(void)sig;
 		write(1, "\n", 1);
 		g_signal = SIGINT;
-		exit(250);
+		exit(130);
 	}
 	return ;
 }

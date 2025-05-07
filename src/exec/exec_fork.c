@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_fork.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:25:36 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/06 19:00:27 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/07 23:03:49 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	handle_child_process(t_cmd *cmd, char *path, t_env **env, t_io io)
 
 	exit_status = 0;
 	dup_manager(cmd, io);
+	setup_execution_signals();
 	if (is_builtin(cmd->command[0]))
 	{
 		exit_status = exec_builtin(cmd, env, exit_status);
@@ -61,9 +62,16 @@ int	handle_parent_process(int pid, int *standard_input, int *fd,
 	if (*standard_input != STDIN_FILENO)
 		close(*standard_input);
 	waitpid(pid, &exit_status, 0);
-	if (g_signal == SIGINT || g_signal == SIGQUIT)
+	setup_interactive_signals();
+	if (WIFSIGNALED(exit_status))
 	{
-		exit_status = 128 + g_signal;
+		if (WTERMSIG(exit_status) == SIGQUIT)
+		{
+			printf("Quit (core dumped)\n");
+			exit_status = 128 + SIGQUIT;
+		}
+		else if (WTERMSIG(exit_status) == SIGINT)
+			exit_status = 128 + SIGINT;
 	}
 	*standard_input = fd[0];
 	return (exit_status);
@@ -89,5 +97,6 @@ int	create_fork(t_cmd *cmd, char *path, t_env **env, int *standard_input)
 	}
 	if (pid == 0)
 		handle_child_process(cmd, path, env, io);
-	return (handle_parent_process(pid, standard_input, fd, exit_status));
+	exit_status = handle_parent_process(pid, standard_input, fd, exit_status);
+	return (exit_status);
 }

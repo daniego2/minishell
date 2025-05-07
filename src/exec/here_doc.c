@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:06:09 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/07 16:15:18 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/07 23:07:29 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,18 @@ int	handle_heredoc_parent(int pid)
 	int	result;
 
 	waitpid(pid, &result, 0);
-	if (g_signal == SIGINT)
+	if (WIFSIGNALED(result))
 	{
-		return (1);
+		if (WTERMSIG(result) == SIGINT)
+		{
+			g_signal = SIGINT;
+			return (6969);
+		}
+	}
+	else if (WIFEXITED(result) && WEXITSTATUS(result) == 130)
+	{
+		g_signal = SIGINT;
+		return (6969);
 	}
 	fd = open("/tmp/.here_doc", O_RDONLY);
 	return (fd);
@@ -92,9 +101,7 @@ int	here_doc(char *delimiter, bool is_quoted, t_env *env)
 			"single quote: You can exit here-doc with (%s )\n", delimiter);
 	pid = fork();
 	if (pid == 0)
-	{
 		handle_heredoc_child(temp_fd, delimiter, env, is_quoted);
-	}
 	else
 	{
 		close(temp_fd);

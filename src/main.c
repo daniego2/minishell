@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:39:06 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/05/07 13:21:39 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/05/07 22:00:39 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	main(int argc, char **argv, char **env)
 	environment = get_env(env);
 	tokenizer = init_tokenizer();
 	exit_status = 0;
-	setup_signal_handlers();
+	setup_interactive_signals();
 	print_welcome();
 	tokens = NULL;
 	pipeline = NULL;
