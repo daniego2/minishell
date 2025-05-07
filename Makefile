@@ -1,18 +1,18 @@
-################################################################################
-#                                     CONFIG                                   #
-################################################################################
+#############
+# VARIABLES #
+#############
 
 NAME := minishell
 CC := gcc
 FLAGS := -g -lreadline -Wall -Wextra -Werror 
+RM := rm -f
 
-################################################################################
-#                                 PROGRAM'S SRCS                               #
-################################################################################
-
-INCLUDES = -I libft -I header/exec -I header/parser -I header/built-ins
+INCLUDES = -I libft -I headers/exec -I headers/parser -I headers/built-ins
 
 SRCS := \
+	src/main.c \
+	src/main_helper.c \
+	\
 	src/exec/get_env.c \
 	src/exec/memory_cleaner.c \
 	src/exec/list_manager.c \
@@ -40,8 +40,6 @@ SRCS := \
 	src/parser/free.c \
 	src/parser/parser.c \
 	src/parser/parser_helper.c \
-	src/parser/main.c \
-	src/parser/main_helper.c \
 	src/parser/prompt.c \
 	src/parser/quotes_and_expansion.c \
 	src/parser/quotes_and_expansion_helper.c \
@@ -103,18 +101,17 @@ SRCS := \
 
 OBJS := $(SRCS:.c=.o)
 
-ESC := $(shell printf '\033')
-CLR_RMV		:= $(ESC)[0m
+ESC         := $(shell printf '\033')
 RED		    := $(ESC)[1;31m
 GREEN		:= $(ESC)[1;32m
 YELLOW		:= $(ESC)[1;33m
 BLUE		:= $(ESC)[1;34m
 CYAN 		:= $(ESC)[1;36m
-RM		    := rm -f
+CLR_RMV		:= $(ESC)[0m
 
-################################################################################
-#                                  Makefile  objs                              #
-################################################################################
+#########
+# RULES #
+#########
 
 .c.o:
 	@${CC} ${FLAGS} $(INCLUDES) -c $< -o ${<:.c=.o}
