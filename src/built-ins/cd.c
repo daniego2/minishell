@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:24:58 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/06 19:02:40 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/07 21:42:11 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,13 @@ int	exec_cd(t_env **env, char **argv)
 			chdir(home_node->value);
 	}
 	else
-		chdir(argv[1]);
+	{
+		if (chdir(argv[1]) == -1)
+		{
+			printf("minishell: cd: %s: No such file or directory\n", argv[1]);
+			return (1);
+		}
+	}
 	update_pwd(env);
 	return (0);
 }
