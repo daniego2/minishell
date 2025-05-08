@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 20:24:45 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/08 13:02:41 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/08 18:56:55 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,7 @@ int	exec_exit(char **command)
 	printf("exit\n");
 	if (!command[1])
 		return (0);
-	if (!ft_strisnum(command[1]))
-	{
-		printf("minishell: exit: %s: numeric argument required\n", command[1]);
-		return (255);
-	}
-	if (is_overflow(command[1]))
+	if (!ft_strisnum(command[1]) || is_overflow(command[1]))
 	{
 		printf("minishell: exit: %s: numeric argument required\n", command[1]);
 		return (2);
