@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/08 13:15:24 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:31:28 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,8 @@ int	exec(t_env **env, t_cmd *cmd, int exit_status)
 	while (cmd != NULL)
 	{
 		exit_status = process_command(cmd, env, &standard_input, exit_status);
-		if (exit_status == 130 && g_signal == SIGINT)
-			break ;
-		if (cmd->redir != NULL && cmd->in_fd == -69)
+		if ((cmd->redir != NULL && cmd->in_fd == -69)
+			|| (exit_status == 130 && g_signal == SIGINT))
 		{
 			cmd = cmd->next;
 			continue ;
