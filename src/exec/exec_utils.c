@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:27 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/06 19:00:30 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:09:25 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,11 @@ char	*get_path_to_program(t_cmd *cmd, t_env **env)
 	char	*env_path;
 	char	**env_cpy;
 
+	path = NULL;
 	if (is_path_to_program(cmd->command[0]))
+	{
 		return (cmd->command[0]);
+	}
 	env_cpy = assemble_env(*env);
 	env_path = find_env_path(env_cpy);
 	path = process_path_directories(cmd->command[0], env_path);

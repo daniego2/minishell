@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/07 23:07:52 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:15:24 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@ int	process_command(t_cmd *cmd, t_env **env, int *standard_input,
 	cmd->out_fd = get_out_fd(cmd);
 	path = get_path_to_program(cmd, env);
 	exit_status = handle_standard_command(cmd, env, path, standard_input);
+	if (path != NULL && path != cmd->command[0])
+	{
+		free(path);
+	}
 	return (exit_status);
 }
 

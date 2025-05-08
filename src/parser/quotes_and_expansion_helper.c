@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_and_expansion_helper.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cargonz2 <cargonz2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:26:40 by cargonz2          #+#    #+#             */
-/*   Updated: 2025/05/06 13:59:40 by cargonz2         ###   ########.fr       */
+/*   Updated: 2025/05/08 14:25:52 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,9 @@ t_string_data	expand_variable(t_string_data s, t_env *environment,
 	s.value_len = ft_strlen(value);
 	free(key);
 	free(new_str);
+	if (ft_strcmp(key, "?") == 0)
+	{
+		free(value);
+	}
 	return (s);
 }
