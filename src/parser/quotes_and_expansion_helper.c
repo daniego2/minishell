@@ -112,11 +112,10 @@ t_string_data	expand_variable(t_string_data s, t_env *environment,
 	s.cursor = ft_strlen(new_str);
 	s.key_len = 1 + key_len;
 	s.value_len = ft_strlen(value);
+	// TODO: CHECK IF GOOD
+	if (ft_strcmp(key, "?") == 0)
+		free(value);
 	free(key);
 	free(new_str);
-	if (ft_strcmp(key, "?") == 0)
-	{
-		free(value);
-	}
 	return (s);
 }

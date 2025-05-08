@@ -71,17 +71,28 @@ t_cmd	*parse_after_redirs(t_token **token, t_cmd *command_node,
 	return (command_node);
 }
 
-t_cmd	*parse_tokens(t_token *first_token)
+bool check_if_first_token_is_pipe(t_token *first_token)
+{
+	if (first_token->type == TOKEN_PIPE)
+	{
+		printf("minishell: expected pipe, got \"%s\"\n", first_token->str);
+		return (true);
+	}
+	else
+		return (false);
+}
+
+t_cmd	*parse_tokens(t_token *token)
 {
 	t_cmd	*command_node;
 	t_cmd	*pipeline;
-	t_token	*token;
 	t_error	error;
 
-	token = first_token;
+	if (check_if_first_token_is_pipe(token))
+		return (NULL);
 	pipeline = create_pipeline();
 	if (pipeline == NULL)
-		free_tokens_and_exit(first_token);
+		free_tokens_and_exit(token);
 	command_node = pipeline;
 	while (token->type != TOKEN_END)
 	{
@@ -95,7 +106,7 @@ t_cmd	*parse_tokens(t_token *first_token)
 			return (NULL);
 		command_node = parse_after_redirs(&token, command_node, &pipeline);
 		if (command_node == NULL)
-			return (NULL);
+			return (free_pipeline(pipeline), NULL);
 	}
 	return (pipeline);
 }

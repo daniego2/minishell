@@ -22,6 +22,7 @@
 #include <assert.h> // WARN: Delete.
 #include <stdlib.h>
 #include <unistd.h>
+#include "DO_NOT_PRESENT_testing.h" // WARN: Delete.
 #include "main_helper.h"
 
 int					g_signal = 1;

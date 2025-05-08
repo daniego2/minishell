@@ -10,6 +10,7 @@ RM := rm -f
 INCLUDES = -I libft -I headers/exec -I headers/parser -I headers/built-ins
 
 SRCS := \
+	src/parser/DO_NOT_PRESENT_testing.c \
 	src/main.c \
 	src/main_helper.c \
 	\
