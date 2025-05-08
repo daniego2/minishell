@@ -103,7 +103,7 @@ t_cmd	*parse_tokens(t_token *token)
 		if (error == ERROR_BAD_ALLOCATION)
 			free_pipeline_and_exit(pipeline);
 		else if (error == ERROR_BAD_TOKEN)
-			return (NULL);
+			return (free_pipeline(pipeline), NULL);
 		command_node = parse_after_redirs(&token, command_node, &pipeline);
 		if (command_node == NULL)
 			return (free_pipeline(pipeline), NULL);
