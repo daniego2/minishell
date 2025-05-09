@@ -10,7 +10,6 @@ RM := rm -f
 INCLUDES = -I libft -I headers/exec -I headers/parser -I headers/built-ins
 
 SRCS := \
-	src/parser/DO_NOT_PRESENT_testing.c \
 	src/main.c \
 	src/main_helper.c \
 	\
@@ -47,7 +46,6 @@ SRCS := \
 	src/parser/redirs.c \
 	src/parser/tokenizer.c \
 	src/parser/tokenizer_helper.c \
-	src/parser/utils1.c \
 	src/parser/utils2.c \
 	src/parser/utils_strings.c \
 	src/parser/variable_expansion.c \

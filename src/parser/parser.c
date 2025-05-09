@@ -16,11 +16,9 @@
 #include "parser_helper.h"
 #include "parser_types.h"
 #include "redirs.h"
-#include "utils1.h"
 #include <assert.h>
 #include <stdio.h>
 
-// WARN: It's a problem if I free the token's memory. Copy instead if need be.
 static t_error	parse_command(t_cmd *command_node, t_token **token)
 {
 	int	i;

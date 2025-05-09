@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// TODO: Ensure correct handling of every allocation (malloc/calloc).
 #include "free.h"
 #include "libft.h"
 #include "minishell.h"
@@ -18,11 +17,8 @@
 #include "parser_types.h"
 #include "prompt.h"
 #include "tokenizer.h"
-#include "utils1.h"
-#include <assert.h> // WARN: Delete.
 #include <stdlib.h>
 #include <unistd.h>
-#include "DO_NOT_PRESENT_testing.h" // WARN: Delete.
 #include "main_helper.h"
 
 int					g_signal = 1;

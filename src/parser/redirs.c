@@ -14,7 +14,7 @@
 #include "parser_types.h"
 #include "stdio.h"
 #include "stdlib.h"
-#include "utils1.h"
+#include "minishell.h"
 
 static t_redir	*append_new_redir(t_cmd *command_node)
 {
