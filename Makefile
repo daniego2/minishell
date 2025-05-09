@@ -130,7 +130,7 @@ all: compilation_start_message ${NAME}
 bonus: all
 
 clean:
-	@ ${RM} *.o */*.o */*/*.o
+	@ ${RM} $(SRCS:.c=.o)
 	@ echo "$(CYAN)$(NAME) $(BLUE)object files $(RED)deleted ✔️"
 
 fclean: clean
