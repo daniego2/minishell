@@ -6,7 +6,7 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/09 18:15:02 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:40:31 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_path_to_program(char *command)
 	i = 0;
 	while (command && command[i])
 	{
-		if (command[0] == '/' || command[0] == '.')
+		if (command[i] == '/')
 			return (1);
 		i++;
 	}
