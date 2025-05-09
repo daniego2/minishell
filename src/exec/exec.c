@@ -65,7 +65,6 @@ int	process_command(t_cmd *cmd, t_env **env, int *standard_input,
 	cmd->out_fd = get_out_fd(cmd);
 	path = get_path_to_program(cmd, env);
 	exit_status = handle_standard_command(cmd, env, path, standard_input);
-	// TODO: CHECK IF GOOD.
 	if (path != NULL && path != cmd->command[0])
 	{
 		free(path);

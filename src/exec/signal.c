@@ -16,7 +16,6 @@ extern int	g_signal;
 
 void	ctrl_c_handler(int sig)
 {
-
 	(void)sig;
 	rl_replace_line("", 0);
 	rl_on_new_line();
@@ -24,7 +23,6 @@ void	ctrl_c_handler(int sig)
 	if (g_signal != 4)
 		rl_redisplay();
 	g_signal = 2;
-	
 	return ;
 }
 
