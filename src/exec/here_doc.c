@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:06:09 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/07 23:07:29 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:15:28 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern int	g_signal;
 
 int	delimiter_is_quoted(char *delimiter)
 {

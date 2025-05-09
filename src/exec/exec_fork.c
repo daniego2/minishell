@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_fork.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:25:36 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/07 23:03:49 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:14:46 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern int	g_signal;
 
 void	dup_manager(t_cmd *cmd, t_io io)
 {

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal_hd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 19:01:37 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/07 22:56:25 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:14:55 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern int	g_signal;
 
 void	setup_signal_handlers_hd(void)
 {

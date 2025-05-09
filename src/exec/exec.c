@@ -6,13 +6,11 @@
 /*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:59:19 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/08 17:31:28 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:15:02 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern int	g_signal;
 
 int	is_path_to_program(char *command)
 {
