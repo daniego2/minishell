@@ -71,7 +71,7 @@ t_cmd	*parse_after_redirs(t_token **token, t_cmd *command_node,
 	return (command_node);
 }
 
-bool check_if_first_token_is_pipe(t_token *first_token)
+bool	check_if_first_token_is_pipe(t_token *first_token)
 {
 	if (first_token->type == TOKEN_PIPE)
 	{
