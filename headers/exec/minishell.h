@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daniego2 <daniego@student.42.fr>           +#+  +:+       +#+        */
+/*   By: daniego2 <daniego2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 18:45:40 by daniego2          #+#    #+#             */
-/*   Updated: 2025/05/07 21:54:41 by daniego2         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:14:29 by daniego2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_io
 	int				*standard_input;
 	int				fd[2];
 }					t_io;
+
+extern int	g_signal;
 
 char				**assemble_env(t_env *env);
 
