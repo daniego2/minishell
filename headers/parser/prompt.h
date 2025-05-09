@@ -15,6 +15,6 @@
 
 # include "minishell.h"
 
-char	*get_prompt(t_env *env, char *key_a, char *key_b);
+char	*get_prompt(t_env **env, char *key_a, char *key_b);
 
 #endif

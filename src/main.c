@@ -46,18 +46,18 @@ int	check_signal(int exit_status)
 	return (exit_status);
 }
 
-int	run_exec(t_env *env, t_cmd *pipeline, int exit_status)
+int	run_exec(t_env **env, t_cmd *pipeline, int exit_status)
 {
 	if (pipeline != NULL)
 	{
-		exit_status = exec(&env, pipeline, exit_status);
+		exit_status = exec(env, pipeline, exit_status);
 		unlink("/tmp/.here_doc");
 		free_pipeline(pipeline);
 	}
 	return (exit_status);
 }
 
-int	main_loop(t_env *env, t_tokenizer *tokenizer, t_token *tokens,
+int	main_loop(t_env **env, t_tokenizer *tokenizer, t_token *tokens,
 	t_cmd *pipeline)
 {
 	char	*text;
@@ -78,8 +78,8 @@ int	main_loop(t_env *env, t_tokenizer *tokenizer, t_token *tokens,
 		if (is_text_only_whitespace(text))
 			continue ;
 		tokenizer->text = text;
-		tokens = tokenize(tokenizer, env, exit_status);
-		pipeline = parse_tokens(tokens, env);
+		tokens = tokenize(tokenizer, *env, exit_status);
+		pipeline = parse_tokens(tokens, *env);
 		exit_status = run_exec(env, pipeline, exit_status);
 		free(text);
 		free_tokens(tokens);
@@ -104,7 +104,7 @@ int	main(int argc, char **argv, char **env)
 	print_welcome();
 	tokens = NULL;
 	pipeline = NULL;
-	exit_status = main_loop(environment, tokenizer, tokens, pipeline);
+	exit_status = main_loop(&environment, tokenizer, tokens, pipeline);
 	free_env(environment);
 	free(tokenizer);
 	printf("exit\n");

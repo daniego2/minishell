@@ -32,7 +32,7 @@ static void	populate_prompt(char *prompt, t_env *var_a, t_env *var_b,
 	ft_memcpy(&prompt[len(prompt)], s.sep_b, len(s.sep_b));
 }
 
-char	*get_prompt(t_env *env, char *key_a, char *key_b)
+char	*get_prompt(t_env **env, char *key_a, char *key_b)
 {
 	char				*prompt;
 	t_env				*var_a;
@@ -42,8 +42,8 @@ char	*get_prompt(t_env *env, char *key_a, char *key_b)
 
 	s.sep_a = "\033[36m ";
 	s.sep_b = "\033[31m > \033[0m";
-	var_a = get_environment_variable(env, key_a);
-	var_b = get_environment_variable(env, key_b);
+	var_a = get_environment_variable(*env, key_a);
+	var_b = get_environment_variable(*env, key_b);
 	prompt_len = len(s.sep_a) + len(s.sep_b);
 	if (var_a != NULL)
 		prompt_len += len(var_a->value);
